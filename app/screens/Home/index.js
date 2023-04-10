@@ -64,6 +64,7 @@ export default function Home({navigation}) {
         const pop = response1.filter(item => item.type == 'popular');
         const lastadd = response1.filter(item => item.type == 'lastadded');
         const featureds = response1.filter(item => item.type == 'featured');
+        
         setPoularLocations(pop);
         setLastAdded(lastadd);
         setFeatured(featureds);
@@ -171,7 +172,7 @@ export default function Home({navigation}) {
                 width: (Utils.getWidthDevice() - 40) * 0.25,
                 marginBottom: 8,
               }}
-              key={`category${item}`}>
+              key={`category${index}`}>
               <Placeholder Animation={Progressive}>
                 <View style={{alignItems: 'center'}}>
                   <PlaceholderMedia style={styles.serviceCircleIcon} />
@@ -283,83 +284,39 @@ export default function Home({navigation}) {
    * @returns
    */
 
-  const renderFeatured = () => {
-    if (featured.length > 0) {
-      return featured.map((item, index) => {
-        return (
-          <ListItem
-            small
-            key={`recent${item._id}`}
-            image={item.profileImage}
-            title={item.listingTitle}
-            subtitle={item.category}
-            rate={2}
-            style={{marginBottom: 15}}
-            onPress={() => {
-              navigation.navigate('ProductDetail', {
-                item: item,
-              });
-            }}
-          />
-        );
-      });
-    }
+  // const renderFeatured = () => {
+  //   if (featured.length > 0) {
+  //     return featured.map((item, index) => {
+  //       return (
+  //         <ListItem
+  //           small
+  //           key={`recent${index}`}
+  //           image={item.profileImage}
+  //           title={item.listingTitle}
+  //           subtitle={item.category}
+  //           rate={2}
+  //           style={{marginBottom: 15}}
+  //           onPress={() => {
+  //             navigation.navigate('ProductDetail', {
+  //               item: item,
+  //             });
+  //           }}
+  //         />
+  //       );
+  //     });
+  //   }
 
-    return [1, 2, 3].map((item, index) => {
-      return (
-        <ListItem
-          small
-          loading={true}
-          key={`recent${item}`}
-          style={{marginBottom: 15}}
-        />
-      );
-    });
-  };
-  /**
-   * render List recent
-   * @returns
-   */
-  const renderEvents = () => {
-    if (event.length > 0) {
-      return event.map((item, index) => {
-        return (
-          <ListItem
-            small
-            key={`recent${item._id}`}
-            image={item.image}
-            title={item.name}
-            subtitle={item.contactInfo}
-            locationAddress={item.locationAddress}
-            rate={2}
-            startDate={item.startDate}
-            endDate={item.endDate}
-            style={{marginBottom: 15}}
-            onPress={() => {
-              navigation.navigate('EventDetail', {
-                item: item
-              });
-            }}
-          />
-        );
-      });
-    }
-
-    return [1, 2, 3].map((item, index) => {
-      return (
-        <ListItem
-          small
-          loading={true}
-          key={`recent${item}`}
-          style={{marginBottom: 15}}
-        />
-      );
-    });
-  };
-    /**
-   * render List recent
-   * @returns
-   */
+  //   return [1, 2, 3].map((item, index) => {
+  //     return (
+  //       <ListItem
+  //         small
+  //         loading={true}
+  //         key={`recent${item}`}
+  //         style={{marginBottom: 15}}
+  //       />
+  //     );
+  //   });
+  // };
   
 
   return (
@@ -450,11 +407,7 @@ export default function Home({navigation}) {
             <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recent_sologan')}
             </Text>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
               {renderRecent()}
-            </ScrollView>
           </View>
           <View
             style={{
@@ -467,11 +420,7 @@ export default function Home({navigation}) {
             <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recent_sologan')}
             </Text>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              {renderFeatured()}
-            </ScrollView>
+              {/* {renderFeatured()} */}
           </View>
           <View
             style={{
@@ -484,11 +433,6 @@ export default function Home({navigation}) {
             <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recent_sologan')}
             </Text>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              {renderEvents()}
-            </ScrollView>
           </View>
         </ScrollView>
         <TouchableOpacity

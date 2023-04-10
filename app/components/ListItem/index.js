@@ -90,11 +90,7 @@ export default function ListItem(props) {
             />
           )}
           <View style={styles.blockContentRate}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
+            <View>
               <Tag rate onPress={onPressTag}>
                 {rate}
               </Tag>
@@ -235,12 +231,7 @@ export default function ListItem(props) {
               <PlaceholderMedia style={styles.girdImage} />
               <PlaceholderLine style={{width: '30%', marginTop: 8}} />
               <PlaceholderLine style={{width: '50%'}} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 5,
-                }}>
+              <View>
                 <PlaceholderLine style={{width: '20%'}} />
               </View>
               <PlaceholderLine style={{width: '30%'}} />
@@ -285,12 +276,7 @@ export default function ListItem(props) {
         <Text subhead semibold style={{marginTop: 5}} numberOfLines={1}>
           {title}
         </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 5,
-          }}>
+        <View>
           <Tag onPress={onPressTag} rateSmall style={{marginRight: 5}}>
             {rate}
           </Tag>
@@ -398,8 +384,6 @@ ListItem.propTypes = {
   onPressTag: PropTypes.func,
   omPressMore: PropTypes.func,
   locationAddress: PropTypes.string,
-  startDate: PropTypes.number,
-  endDate: PropTypes.number,
 };
 
 ListItem.defaultProps = {
@@ -420,8 +404,6 @@ ListItem.defaultProps = {
   numReviews: 99,
   enableAction: false,
   locationAddress: '',
-  startDate: '',
-  endDate: '',
   onPress: () => {},
   onPressTag: () => {},
   omPressMore: () => {},

@@ -80,7 +80,7 @@ export default function List({navigation, route}) {
      const getAllListings = async () => {
         const request = await fetch('https://adminpanelback.onrender.com/api/listings')
         const response = await request.json()
-        const filter = response.filter(res => res.category == route?.params?.name)
+        const filter = response.filter(res => res.category == route?.params.name)
         console.log(filter);
         setlists(filter)
      }
@@ -778,7 +778,7 @@ export default function List({navigation, route}) {
             return (
               <Marker
                 onPress={e => onSelectLocation(e.nativeEvent.coordinate)}
-                key={item.id}
+                key={item._id}
                 coordinate={{
                   latitude: item.location?.latitude,
                   longitude: item.location.longitude,

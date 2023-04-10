@@ -40,7 +40,7 @@ export default function ProductDetail({navigation, route}) {
   const dispatch = useDispatch();
   const wishlist = useSelector(wishlistSelect);
   const design = useSelector(designSelect);
-  const item = route.params?.item;
+  const item = route?.params.item;
   const user = useSelector(userSelect);
   const deltaY = new Animated.Value(0);
 
@@ -231,7 +231,6 @@ export default function ProductDetail({navigation, route}) {
             position: 'absolute',
             bottom: 15,
             left: 20,
-            flexDirection: 'row',
             opacity: deltaY.interpolate({
               inputRange: [
                 0,
@@ -504,11 +503,7 @@ export default function ProductDetail({navigation, route}) {
           <Text body2 style={{lineHeight: 20}}>
             {item?.description}
           </Text>
-          <View
-            style={{
-              paddingVertical: 20,
-              flexDirection: 'row',
-            }}>
+          <View>
             <View style={{flex: 1}}>
               <Text caption1 grayColor>
                 {t('date_established')}
