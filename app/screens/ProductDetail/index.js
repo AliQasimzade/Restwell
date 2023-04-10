@@ -40,8 +40,7 @@ export default function ProductDetail({navigation, route}) {
   const dispatch = useDispatch();
   const wishlist = useSelector(wishlistSelect);
   const design = useSelector(designSelect);
-  const item = route?.params;
-  console.log(item);
+  const item = route.params?.item;
   const user = useSelector(userSelect);
   const deltaY = new Animated.Value(0);
 
