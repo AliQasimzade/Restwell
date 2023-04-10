@@ -6,7 +6,6 @@ import {
   Animated,
   TouchableOpacity,
   Linking,
-  Alert,
   Platform,
   Dimensions,
 } from 'react-native';
@@ -49,6 +48,7 @@ export default function ProductDetail({navigation, route}) {
   const [like, setLike] = useState(null);
   const [product, setProduct] = useState(null);
   const [collapseHour, setCollapseHour] = useState(false);
+  const [related, setRelated] = useState([])
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
 
@@ -61,6 +61,19 @@ export default function ProductDetail({navigation, route}) {
       }),
     );
   }, [design, dispatch, item.id]);
+
+  useEffect(() => {
+  const getAllListings = async () => {
+    const request = await fetch('https://adminpanelback.onrender.com/api/listings')
+    const response = await request.json()
+
+     const filterByCategory = response.filter(listing => listing.category == item?.category)
+     console.log(filterByCategory);
+    setRelated(filterByCategory)
+
+  }
+  getAllListings()
+  },[])
 
   /**
    * check wishlist state
@@ -127,36 +140,20 @@ export default function ProductDetail({navigation, route}) {
    * @param {*} item
    */
   const onOpen = (type, title, link) => {
-    Alert.alert({
-      title: title,
-      message: `${t('do_you_want_open')} ${title} ?`,
-      action: [
-        {
-          text: t('cancel'),
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {
-          text: t('done'),
-          onPress: () => {
-            switch (type) {
-              case 'web':
-                Linking.openURL(link);
-                break;
-              case 'phone':
-                Linking.openURL('tel://' + link);
-                break;
-              case 'email':
-                Linking.openURL('mailto:' + link);
-                break;
-              case 'address':
-                Linking.openURL(link);
-                break;
-            }
-          },
-        },
-      ],
-    });
+    switch (type) {
+      case 'web':
+        Linking.openURL(link);
+        break;
+      case 'phone':
+        Linking.openURL('tel://' + link);
+        break;
+      case 'email':
+        Linking.openURL('mailto:' + link);
+        break;
+      case 'address':
+        Linking.openURL(link);
+        break;
+    }
   };
 
   /**
@@ -226,7 +223,7 @@ export default function ProductDetail({navigation, route}) {
           },
         ]}>
         <Image
-          source={product?.image?.full}
+          source={{uri: item?.splashscreen}}
           style={{width: '100%', height: '100%'}}
         />
         <Animated.View
@@ -244,13 +241,13 @@ export default function ProductDetail({navigation, route}) {
               outputRange: [1, 0, 0],
             }),
           }}>
-          <Image source={product?.author?.image} style={styles.userIcon} />
+          <Image source={{uri: item?.profileImage}} style={styles.userIcon} />
           <View>
             <Text headline semibold whiteColor>
-              {product?.author?.name}
+              {item?.listingTitle}
             </Text>
             <Text footnote whiteColor>
-              {product?.author?.email}
+              {item?.email}
             </Text>
           </View>
         </Animated.View>
@@ -352,38 +349,38 @@ export default function ProductDetail({navigation, route}) {
           }}>
           <View style={styles.lineSpace}>
             <Text title1 semibold style={{paddingRight: 15}}>
-              {product?.title}
+              {item?.listingTitle}
             </Text>
             {renderLike()}
           </View>
           <View style={styles.lineSpace}>
             <View>
               <Text caption1 grayColor>
-                {product?.category?.title}
+                {item?.category}
               </Text>
               <TouchableOpacity style={styles.rateLine} onPress={onReview}>
                 <Tag rateSmall style={{marginRight: 5}} onPress={onReview}>
-                  {product?.rate}
+                  {3}
                 </Tag>
                 <StarRating
                   disabled={true}
                   starSize={10}
                   maxStars={5}
-                  rating={product?.rate}
+                  rating={3}
                   fullStarColor={BaseColor.yellowColor}
                   on
                 />
                 <Text footnote grayColor style={{marginLeft: 5}}>
-                  ({product?.numRate})
+                  (3)
                 </Text>
               </TouchableOpacity>
             </View>
-            <Tag status>{product?.status}</Tag>
+            <Tag status>{item?.slogan}</Tag>
           </View>
           <TouchableOpacity
             style={styles.line}
             onPress={() => {
-              const location = `${product?.location?.latitude},${product?.location?.longitude}`;
+              const location = `${item?.locationCoords.latitude}, ${item?.locationCoords.longtitude}`;
               const url = Platform.select({
                 ios: `maps:${location}`,
                 android: `geo:${location}?center=${location}&q=${location}&z=16`,
@@ -403,14 +400,14 @@ export default function ProductDetail({navigation, route}) {
                 {t('address')}
               </Text>
               <Text footnote semibold style={{marginTop: 5}}>
-                {product?.address}
+                {item?.address}
               </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.line}
             onPress={() => {
-              onOpen('phone', t('tel'), product?.phone);
+              onOpen('phone', t('tel'), item?.phone);
             }}>
             <View
               style={[styles.contentIcon, {backgroundColor: colors.border}]}>
@@ -421,14 +418,14 @@ export default function ProductDetail({navigation, route}) {
                 {t('tel')}
               </Text>
               <Text footnote semibold style={{marginTop: 5}}>
-                {product?.phone}
+                {item.phone}
               </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.line}
             onPress={() => {
-              onOpen('envelope', t('envelope'), product?.email);
+              onOpen('email', t('envelope'), item?.email);
             }}>
             <View
               style={[styles.contentIcon, {backgroundColor: colors.border}]}>
@@ -439,14 +436,14 @@ export default function ProductDetail({navigation, route}) {
                 {t('email')}
               </Text>
               <Text footnote semibold style={{marginTop: 5}}>
-                {product?.email}
+                {item?.email}
               </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.line}
             onPress={() => {
-              onOpen('web', t('website'), product?.website);
+              onOpen('web', t('website'), item?.website);
             }}>
             <View
               style={[styles.contentIcon, {backgroundColor: colors.border}]}>
@@ -457,7 +454,7 @@ export default function ProductDetail({navigation, route}) {
                 {t('website')}
               </Text>
               <Text footnote semibold style={{marginTop: 5}}>
-                {product?.website}
+                {item?.website}
               </Text>
             </View>
           </TouchableOpacity>
@@ -487,16 +484,16 @@ export default function ProductDetail({navigation, route}) {
               height: collapseHour ? 0 : null,
               overflow: 'hidden',
             }}>
-            {product?.openTime?.map?.(item => {
+            {item?.timeschedule.map((item, index) => {
               return (
                 <View
                   style={[styles.lineWorkHours, {borderColor: colors.border}]}
-                  key={item.label}>
+                  key={index}>
                   <Text body2 grayColor>
-                    {t(item.label)}
+                    {t(index + 1)}
                   </Text>
                   <Text body2 accentColor semibold>
-                    {`${item.start} - ${item.end}`}
+                    {`${item.openingTime} - ${item.closingtime}`}
                   </Text>
                 </View>
               );
@@ -505,7 +502,7 @@ export default function ProductDetail({navigation, route}) {
         </View>
         <View style={[styles.contentDescription, {borderColor: colors.border}]}>
           <Text body2 style={{lineHeight: 20}}>
-            {product?.description}
+            {item?.description}
           </Text>
           <View
             style={{
@@ -517,7 +514,7 @@ export default function ProductDetail({navigation, route}) {
                 {t('date_established')}
               </Text>
               <Text headline style={{marginTop: 5}}>
-                {product?.dateEstablish}
+                {item?.slogan}
               </Text>
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -525,7 +522,7 @@ export default function ProductDetail({navigation, route}) {
                 {t('price_range')}
               </Text>
               <Text headline style={{marginTop: 5}}>
-                {`${product?.priceMin ?? '-'}$ - ${product?.priceMax ?? '-'}$`}
+                {`${item?.previousprice ?? '-'}$ - ${item?.price ?? '-'}$`}
               </Text>
             </View>
           </View>
@@ -538,15 +535,15 @@ export default function ProductDetail({navigation, route}) {
               provider={PROVIDER_GOOGLE}
               style={styles.map}
               region={{
-                latitude: parseFloat(product?.location?.latitude ?? 0.0),
-                longitude: parseFloat(product?.location?.longitude ?? 0.0),
+                latitude: parseFloat(item?.locationCoords.latitude ?? 0.0),
+                longitude: parseFloat(item?.locationCoords.longtitude ?? 0.0),
                 latitudeDelta: 0.009,
                 longitudeDelta: 0.004,
               }}>
               <Marker
                 coordinate={{
-                  latitude: parseFloat(product?.location?.latitude ?? 0.0),
-                  longitude: parseFloat(product?.location?.longitude ?? 0.0),
+                  latitude: parseFloat(item?.locationCoords.latitude ?? 0.0),
+                longitude: parseFloat(item?.locationCoords.longtitude ?? 0.0),
                 }}
               />
             </MapView>
@@ -560,13 +557,13 @@ export default function ProductDetail({navigation, route}) {
             paddingBottom: 5,
             paddingTop: 15,
           }}>
-          {t('facilities')}
+          {t('Tags')}
         </Text>
         <View style={[styles.wrapContent, {borderColor: colors.border}]}>
-          {product?.features?.map?.(item => {
+          {item?.tags.map(item => {
             return (
               <Tag
-                key={item.id.toString()}
+                key={item._id}
                 icon={
                   <Icon
                     name={Utils.iconConvert(item.icon)}
@@ -581,7 +578,7 @@ export default function ProductDetail({navigation, route}) {
                   marginTop: 8,
                   marginRight: 8,
                 }}>
-                {item.title}
+                {item}
               </Tag>
             );
           })}
@@ -593,36 +590,32 @@ export default function ProductDetail({navigation, route}) {
             paddingHorizontal: 20,
             paddingVertical: 15,
           }}>
-          {t('featured')}
+          {t('Features')}
         </Text>
-        <FlatList
-          contentContainerStyle={{paddingLeft: 5, paddingRight: 20}}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          data={product?.related ?? []}
-          keyExtractor={(item, index) => `featured ${index}`}
-          renderItem={({item, index}) => (
-            <ListItem
-              grid
-              image={item.image?.full}
-              title={item.title}
-              subtitle={item.category?.title}
-              location={item.address}
-              phone={item.phone}
-              rate={item.rate}
-              status={item.status}
-              rateStatus={item.rateStatus}
-              numReviews={item.numReviews}
-              favorite={isFavorite(item)}
-              onPress={() => onProductDetail(item)}
-              onPressTag={onReview}
-              style={{
-                marginLeft: 15,
-                width: Dimensions.get('window').width / 2,
-              }}
-            />
-          )}
-        />
+        <View style={[styles.wrapContent, {borderColor: colors.border}]}>
+          {item?.features.map(item => {
+            return (
+              <Tag
+                key={item._id}
+                icon={
+                  <Icon
+                    name={Utils.iconConvert(item.icon)}
+                    size={12}
+                    color={colors.accent}
+                    solid
+                    style={{marginRight: 5}}
+                  />
+                }
+                chip
+                style={{
+                  marginTop: 8,
+                  marginRight: 8,
+                }}>
+                {item}
+              </Tag>
+            );
+          })}
+        </View>
         <Text
           title3
           semibold
@@ -633,15 +626,15 @@ export default function ProductDetail({navigation, route}) {
           {t('related')}
         </Text>
         <View style={{paddingHorizontal: 20}}>
-          {product?.lastest?.map?.(item => {
+          {related.length > 0 && related.map(item => {
             return (
               <ListItem
-                key={item.id.toString()}
+                key={item._id}
                 small
-                image={item.image?.full}
-                title={item.title}
-                subtitle={item.category?.title}
-                rate={item.rate}
+                image={item.profileImage}
+                title={item.listingTitle}
+                subtitle={item.category}
+                rate={3}
                 style={{marginBottom: 15}}
                 onPress={() => onProductDetail(item)}
                 onPressTag={onReview}
@@ -671,7 +664,7 @@ export default function ProductDetail({navigation, route}) {
         }}
         onPressRight={() => {
           navigation.navigate('PreviewImage', {
-            gallery: product?.gallery,
+            gallery: item?.gallery,
           });
         }}
       />

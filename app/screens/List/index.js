@@ -27,6 +27,7 @@ import {listActions} from '@actions';
 export default function List({navigation, route}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
+  const datas = route?.params
   const dispatch = useDispatch();
   const wishlist = useSelector(wishlistSelect);
   const list = useSelector(listSelect);
@@ -50,13 +51,14 @@ export default function List({navigation, route}) {
   );
 
   const sliderRef = useRef(null);
-  const [filter, setFilter] = useState(route.params?.filter);
+  const [filter, setFilter] = useState(route?.params);
   const [active, setActive] = useState(0);
   const [viewportWidth] = useState(Utils.getWidthDevice());
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [modeView, setModeView] = useState(setting.mode);
   const [mapView, setMapView] = useState(false);
+  const [lists, setlists] = useState([])
   const [region, setRegion] = useState({
     latitude: 0.0,
     longitude: 0.0,
@@ -66,13 +68,24 @@ export default function List({navigation, route}) {
 
   useEffect(() => {
     dispatch(
-      listActions.onLoadList(route.params?.filter, design, () => {
+      listActions.onLoadList(route?.params, design, () => {
         setLoading(false);
         setRefreshing(false);
       }),
     );
-  }, [design, dispatch, route.params?.filter]);
+  }, [design, dispatch, route?.params]);
 
+
+  useEffect(() => {
+     const getAllListings = async () => {
+        const request = await fetch('https://adminpanelback.onrender.com/api/listings')
+        const response = await request.json()
+        const filter = response.filter(res => res.category == route?.params?.name)
+        console.log(filter);
+        setlists(filter)
+     }
+     getAllListings()
+  },[])
   /**
    * on Load data
    *
@@ -275,7 +288,7 @@ export default function List({navigation, route}) {
                 {transform: [{translateY: navbarTranslate}]},
               ]}>
               <FilterSort
-                sortSelected={filter?.sort}
+                sortSelected={filter}
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -341,7 +354,7 @@ export default function List({navigation, route}) {
                 },
               ]}>
               <FilterSort
-                sortSelected={filter?.sort}
+                sortSelected={filter}
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -402,7 +415,7 @@ export default function List({navigation, route}) {
                 },
               ]}>
               <FilterSort
-                sortSelected={filter?.sort}
+                sortSelected={filter}
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -450,7 +463,7 @@ export default function List({navigation, route}) {
                 {transform: [{translateY: navbarTranslate}]},
               ]}>
               <FilterSort
-                sortSelected={filter?.sort}
+                sortSelected={filter}
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -503,20 +516,20 @@ export default function List({navigation, route}) {
                 ],
                 {useNativeDriver: true},
               )}
-              data={list.data}
+              data={lists}
               key={'block'}
               keyExtractor={(item, index) => `block ${index}`}
               renderItem={({item, index}) => (
                 <ListItem
                   block
-                  image={item.image?.full}
-                  title={item.title}
-                  subtitle={item.category?.title}
-                  location={item.address}
-                  phone={item.phone}
-                  rate={item.rate}
-                  status={item.status}
-                  numReviews={item.numRate}
+                  image={item?.profileImage}
+                  title={item?.listingTitle}
+                  subtitle={item?.category}
+                  location={item?.address}
+                  phone={item?.phone}
+                  rate={3}
+                  status={item?.slogan}
+                  numReviews={3}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
                   onPressTag={() => onReview(item)}
@@ -529,7 +542,7 @@ export default function List({navigation, route}) {
                 {transform: [{translateY: navbarTranslate}]},
               ]}>
               <FilterSort
-                sortSelected={filter?.sort}
+                sortSelected={filter}
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -573,19 +586,19 @@ export default function List({navigation, route}) {
               )}
               showsVerticalScrollIndicator={false}
               numColumns={2}
-              data={list.data}
+              data={lists}
               key={'gird'}
               keyExtractor={(item, index) => `gird ${index}`}
               renderItem={({item, index}) => (
                 <ListItem
                   grid
-                  image={item.image?.full}
-                  title={item.title}
-                  subtitle={item.category?.title}
-                  location={item.address}
-                  phone={item.phone}
-                  rate={item.rate}
-                  status={item.status}
+                  image={item?.profileImage}
+                  title={item?.listingTitle}
+                  subtitle={item?.category}
+                  location={item?.address}
+                  phone={item?.phone}
+                  rate={3}
+                  status={item?.slogan}
                   numReviews={item.numRate}
                   favorite={isFavorite(item)}
                   style={{
@@ -605,7 +618,7 @@ export default function List({navigation, route}) {
                 },
               ]}>
               <FilterSort
-                sortSelected={filter?.sort}
+                sortSelected={filter}
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -645,20 +658,20 @@ export default function List({navigation, route}) {
                 ],
                 {useNativeDriver: true},
               )}
-              data={list.data}
+              data={lists}
               key={'list'}
               keyExtractor={(item, index) => `list ${index}`}
               renderItem={({item, index}) => (
                 <ListItem
                   list
-                  image={item.image?.full}
-                  title={item.title}
-                  subtitle={item.category?.title}
-                  location={item.address}
-                  phone={item.phone}
-                  rate={item.rate}
-                  status={item.status}
-                  numReviews={item.numRate}
+                  image={item?.profileImage}
+                  title={item?.listingTitle}
+                  subtitle={item?.category}
+                  location={item?.address}
+                  phone={item?.phone}
+                  rate={3}
+                  status={item.slogan}
+                  numReviews={3}
                   favorite={isFavorite(item)}
                   style={{
                     marginBottom: 15,
@@ -676,7 +689,7 @@ export default function List({navigation, route}) {
                 },
               ]}>
               <FilterSort
-                sortSelected={filter?.sort}
+                sortSelected={filter}
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -720,14 +733,14 @@ export default function List({navigation, route}) {
               renderItem={({item, index}) => (
                 <ListItem
                   block
-                  image={item.image?.full}
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  location={item.address}
-                  phone={item.phone}
-                  rate={item.rate}
-                  status={item.status}
-                  numReviews={item.numReviews}
+                  image={item?.profileImage}
+                  title={item?.listingTitle}
+                  subtitle={item?.category}
+                  location={item?.address}
+                  phone={item?.phone}
+                  rate={3}
+                  status={item.slogan}
+                  numReviews={3}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
                   onPressTag={() => onReview(item)}
@@ -740,7 +753,7 @@ export default function List({navigation, route}) {
                 {transform: [{translateY: navbarTranslate}]},
               ]}>
               <FilterSort
-                sortSelected={filter?.sort}
+                sortSelected={filter}
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -794,14 +807,14 @@ export default function List({navigation, route}) {
         <View style={{position: 'absolute', bottom: 0, overflow: 'visible'}}>
           <Carousel
             ref={sliderRef}
-            data={list.data ?? []}
+            data={lists ?? []}
             renderItem={({item, index}) => (
               <ListItem
                 small
-                image={item.image?.full}
-                title={item.title}
-                subtitle={item.category?.title}
-                rate={item.rate}
+                image={item?.profileImage}
+                title={item?.listingTitle}
+                subtitle={item?.category}
+                rate={3}
                 favorite={isFavorite(item)}
                 style={{
                   margin: 3,

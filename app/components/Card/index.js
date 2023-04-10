@@ -13,7 +13,7 @@ export default function Card(props) {
       style={[styles.card, {borderColor: colors.border}, style]}
       onPress={onPress}
       activeOpacity={0.9}>
-      <Image source={image} style={styles.card} />
+      <Image source={{uri: image}} style={styles.card} />
       <View style={[styles.content, styleContent]}>{children}</View>
     </TouchableOpacity>
   );
@@ -31,7 +31,6 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-  image: Images.profile2,
   style: {},
   styleContent: {},
   onPress: () => {},

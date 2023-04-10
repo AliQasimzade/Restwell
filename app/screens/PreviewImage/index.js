@@ -89,7 +89,7 @@ export default function PreviewImage({navigation, route}) {
                 key={`image${key}`}
                 style={{width: '100%', height: '100%'}}
                 resizeMode="contain"
-                source={item.full}
+                source={{uri: item}}
               />
             );
           })}
@@ -132,7 +132,7 @@ export default function PreviewImage({navigation, route}) {
                         : BaseColor.grayColor,
                     borderWidth: 1,
                   }}
-                  source={item.full}
+                  source={{uri: item}}
                 />
               </TouchableOpacity>
             )}
