@@ -7,17 +7,11 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 250,
+    height: 250,
   },
   loading: {
-    position: 'absolute',
-    top: 260,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: 'none',
   },
   title: {
     fontSize: 28,

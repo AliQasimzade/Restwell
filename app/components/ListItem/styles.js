@@ -78,8 +78,10 @@ export default StyleSheet.create({
     right: 5,
   },
   contain: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'col',
+    alignItems: 'start',
+    borderRadius: 8,
+    marginRight: 15,
   },
   smallContentRate: {
     flexDirection: 'row',
@@ -87,9 +89,10 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   smallImage: {
-    width: Utils.scaleWithPixel(80),
-    height: Utils.scaleWithPixel(80),
+    width: Utils.scaleWithPixel(235),
+    height: Utils.scaleWithPixel(190),
     borderRadius: 8,
+    marginBottom: 10,
   },
   moreButton: {
     width: 24,

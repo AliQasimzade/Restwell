@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Image, Text} from '@components';
 import {designSelect, userSelect} from '@selectors';
 import * as Font from 'expo-font';
+import Logo from '../../assets/images/restwelllogo.png';
 
 import styles from './styles';
 
@@ -100,7 +101,7 @@ export default function Loading({navigation}) {
   return (
     <View style={styles.container}>
       <View style={{alignItems: 'center'}}>
-        <Image source={Images.logo} style={styles.logo} resizeMode="contain" />
+        <Image source={Logo} style={styles.logo} resizeMode="contain" />
       </View>
       <ActivityIndicator
         size="large"

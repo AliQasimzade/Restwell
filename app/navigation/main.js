@@ -40,6 +40,7 @@ import ProductDetailFood from '@screens/ProductDetailFood';
 import ContactUs from '@screens/ContactUs';
 import Messages from '@screens/Messages';
 import AboutUs from '@screens/AboutUs';
+import EventDetail from '@screens/EventDetail';
 
 const MainStack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -97,8 +98,9 @@ export default function Main() {
       <MainStack.Screen name="Category" component={Category} />
       <MainStack.Screen name="List" component={exportList(design)} />
       <MainStack.Screen name="Walkthrough" component={Walkthrough} />
-      <MainStack.Screen name="Review" component={Review} />
+      <MainStack.Screen name="Review" component={Review} /> 
       <MainStack.Screen name="Feedback" component={Feedback} />
+      <MainStack.Screen name="EventDetail" component={EventDetail} />
       <MainStack.Screen name="ChangePassword" component={ChangePassword} />
       <MainStack.Screen name="ProfileEdit" component={ProfileEdit} />
       <MainStack.Screen name="ChangeLanguage" component={ChangeLanguage} />
@@ -182,6 +184,16 @@ function BottomTabNavigator() {
           },
         }}
       />
+      <BottomTab.Screen
+        name="Category"
+        component={Category}
+        options={{
+          title: t('category'),
+          tabBarIcon: ({color}) => {
+            return <Icon color={color} name="clipboard-list" size={20} solid />;
+          },
+        }}
+      />
 
       <BottomTab.Screen
         name="Wishlist"
@@ -193,26 +205,7 @@ function BottomTabNavigator() {
           },
         }}
       />
-      <BottomTab.Screen
-        name="Category"
-        component={Category}
-        options={{
-          title: t('category'),
-          tabBarIcon: ({color}) => {
-            return <Icon color={color} name="clipboard-list" size={20} solid />;
-          },
-        }}
-      />
-      <BottomTab.Screen
-        name="Messenger"
-        component={user ? Messenger : Walkthrough}
-        options={{
-          title: t('messenger'),
-          tabBarIcon: ({color}) => {
-            return <Icon color={color} name="envelope" size={20} solid />;
-          },
-        }}
-      />
+
       <BottomTab.Screen
         name="Profile"
         component={user ? Profile : Walkthrough}

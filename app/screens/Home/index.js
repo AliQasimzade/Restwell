@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -22,7 +22,7 @@ import {useSelector} from 'react-redux';
 import {homeSelect} from '@selectors';
 import {useTranslation} from 'react-i18next';
 import {FilterModel} from '@models';
-import { pointerEvents } from 'deprecated-react-native-prop-types/DeprecatedViewPropTypes';
+import {pointerEvents} from 'deprecated-react-native-prop-types/DeprecatedViewPropTypes';
 
 const deltaY = new Animated.Value(0);
 
@@ -33,7 +33,6 @@ export default function Home({navigation}) {
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const heightImageBanner = Utils.scaleWithPixel(180);
   const marginTopBanner = heightImageBanner - heightHeader + 10;
-
 
   const [poularLocations, setPoularLocations] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -58,29 +57,18 @@ export default function Home({navigation}) {
       res => res.json(),
     );
 
-    Promise.all([
-      listings,
-      categories,
-      banners,
-      events,
-    ])
+    Promise.all([listings, categories, banners, events])
       .then(responses => {
-        const [
-          response1,
-          response2,
-          response3,
-          response4,
-        ] = responses;
+        const [response1, response2, response3, response4] = responses;
         setCategories(response2);
-        const pop = response1.filter(item => item.type == 'popular')
-        const lastadd = response1.filter(item => item.type == 'lastadded')
-        const featureds = response1.filter(item => item.type == 'featured')
-        setPoularLocations(pop)
-        setLastAdded(lastadd)
-        setFeatured(featureds)
+        const pop = response1.filter(item => item.type == 'popular');
+        const lastadd = response1.filter(item => item.type == 'lastadded');
+        const featureds = response1.filter(item => item.type == 'featured');
+        setPoularLocations(pop);
+        setLastAdded(lastadd);
+        setFeatured(featureds);
         setBanner(response3);
         setEvent(response4);
-
       })
 
       .catch(error => {
@@ -88,9 +76,6 @@ export default function Home({navigation}) {
         console.error(error);
       });
   }, []);
-
-
-
 
   /**
    *
@@ -140,7 +125,6 @@ export default function Home({navigation}) {
    * @returns
    */
   const renderCategory = () => {
-
     if (categories.length > 0) {
       return (
         <View style={styles.serviceContent}>
@@ -153,7 +137,7 @@ export default function Home({navigation}) {
                   {width: Utils.getWidthDevice() * 0.24},
                 ]}
                 onPress={() => {
-                const name = item.name
+                  const name = item.name;
                   navigation.navigate('List', {name});
                 }}>
                 <View
@@ -222,7 +206,7 @@ export default function Home({navigation}) {
                 style={[styles.popularItem, {marginLeft: 15}]}
                 image={item.splashscreen}
                 onPress={() => {
-                  const name = item.category
+                  const name = item.category;
                   navigation.navigate('List', {name});
                 }}>
                 <Text headline semibold whiteColor>
@@ -294,7 +278,7 @@ export default function Home({navigation}) {
       );
     });
   };
-   /**
+  /**
    * render List recent
    * @returns
    */
@@ -332,6 +316,51 @@ export default function Home({navigation}) {
       );
     });
   };
+  /**
+   * render List recent
+   * @returns
+   */
+  const renderEvents = () => {
+    if (event.length > 0) {
+      return event.map((item, index) => {
+        return (
+          <ListItem
+            small
+            key={`recent${item._id}`}
+            image={item.image}
+            title={item.name}
+            subtitle={item.contactInfo}
+            locationAddress={item.locationAddress}
+            rate={2}
+            startDate={item.startDate}
+            endDate={item.endDate}
+            style={{marginBottom: 15}}
+            onPress={() => {
+              navigation.navigate('EventDetail', {
+                item: item
+              });
+            }}
+          />
+        );
+      });
+    }
+
+    return [1, 2, 3].map((item, index) => {
+      return (
+        <ListItem
+          small
+          loading={true}
+          key={`recent${item}`}
+          style={{marginBottom: 15}}
+        />
+      );
+    });
+  };
+    /**
+   * render List recent
+   * @returns
+   */
+  
 
   return (
     <View style={{flex: 1}}>
@@ -421,9 +450,12 @@ export default function Home({navigation}) {
             <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recent_sologan')}
             </Text>
-            {renderRecent()}
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {renderRecent()}
+            </ScrollView>
           </View>
-
           <View
             style={{
               paddingHorizontal: 20,
@@ -435,7 +467,28 @@ export default function Home({navigation}) {
             <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recent_sologan')}
             </Text>
-            {renderFeatured()}
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {renderFeatured()}
+            </ScrollView>
+          </View>
+          <View
+            style={{
+              paddingHorizontal: 20,
+              paddingTop: 15,
+            }}>
+            <Text title3 semibold>
+              {t('recent_location')}
+            </Text>
+            <Text body2 grayColor style={{marginBottom: 15}}>
+              {t('recent_sologan')}
+            </Text>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {renderEvents()}
+            </ScrollView>
           </View>
         </ScrollView>
         <TouchableOpacity
@@ -446,6 +499,4 @@ export default function Home({navigation}) {
       </SafeAreaView>
     </View>
   );
-
-
 }

@@ -33,6 +33,9 @@ export default function ListItem(props) {
     onPress,
     onPressTag,
     omPressMore,
+    locationAddress,
+    startDate,
+    endDate,
   } = props;
 
   /**
@@ -339,6 +342,12 @@ export default function ListItem(props) {
           <Text footnote semibold grayColor style={{marginTop: 4}}>
             {subtitle}
           </Text>
+          <Text footnote semibold grayColor style={{marginTop: 4}}>
+            {locationAddress}
+          </Text>
+          <Text footnote semibold grayColor style={{marginTop: 4}}>
+            {startDate} - {endDate}
+          </Text>
           <View style={styles.smallContentRate}>
             <Tag onPress={onPressTag} rateSmall style={{marginRight: 4}}>
               {rate}
@@ -388,6 +397,9 @@ ListItem.propTypes = {
   onPress: PropTypes.func,
   onPressTag: PropTypes.func,
   omPressMore: PropTypes.func,
+  locationAddress: PropTypes.string,
+  startDate: PropTypes.number,
+  endDate: PropTypes.number,
 };
 
 ListItem.defaultProps = {
@@ -407,6 +419,9 @@ ListItem.defaultProps = {
   status: '',
   numReviews: 99,
   enableAction: false,
+  locationAddress: '',
+  startDate: '',
+  endDate: '',
   onPress: () => {},
   onPressTag: () => {},
   omPressMore: () => {},
