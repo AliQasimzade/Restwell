@@ -320,6 +320,9 @@ export default function ListItem(props) {
     return (
       <TouchableOpacity style={[styles.contain, style]} onPress={onPress}>
         <Image source={{uri: image}} style={styles.smallImage} />
+        <Tag status style={styles.tagGirdStatus}>
+            {t(status)}
+          </Tag>
         <View
           style={{paddingHorizontal: 10, justifyContent: 'center', flex: 1}}>
           <Text headline semibold numberOfLines={1}>
@@ -327,12 +330,6 @@ export default function ListItem(props) {
           </Text>
           <Text footnote semibold grayColor style={{marginTop: 4}}>
             {subtitle}
-          </Text>
-          <Text footnote semibold grayColor style={{marginTop: 4}}>
-            {locationAddress}
-          </Text>
-          <Text footnote semibold grayColor style={{marginTop: 4}}>
-            {startDate} - {endDate}
           </Text>
           <View style={styles.smallContentRate}>
             <Tag onPress={onPressTag} rateSmall style={{marginRight: 4}}>

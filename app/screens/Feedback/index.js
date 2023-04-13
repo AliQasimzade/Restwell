@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   ScrollView,
@@ -6,7 +6,7 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
+import { BaseStyle, BaseColor, useTheme } from '@config';
 import {
   Image,
   Header,
@@ -16,14 +16,17 @@ import {
   StarRating,
   TextInput,
 } from '@components';
-import {useTranslation} from 'react-i18next';
-import {useSelector} from 'react-redux';
-import {userSelect} from '@selectors';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { userInfo } from '@selectors';
+import { Alert } from 'react-native';
 
-export default function Feedback({navigation, route}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
-  const user = useSelector(userSelect);
+export default function Feedback({ navigation, route }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
+  const item = route?.params.item.item
+  const user = useSelector(userInfo);
+  console.log(user,"FeedBack Page !");
   const offsetKeyboard = Platform.select({
     ios: 0,
     android: 20,
@@ -41,22 +44,50 @@ export default function Feedback({navigation, route}) {
    * @author Passion UI <passionui.com>
    * @date 2019-08-03
    */
-  const onSubmit = () => {
-    if (review == '') {
-      setSuccess({
-        ...success,
-        review: review != '' ? true : false,
-      });
-    } else {
-      setLoading(true);
-      setTimeout(() => {
-        navigation.goBack();
-      }, 500);
+  const onSubmit = async () => {
+    try {
+      if (review == '') {
+        setSuccess({
+          ...success,
+          review: review != '' ? true : false,
+        });
+      } else {
+        setLoading(true);
+        const newReview = {
+          message: review,
+          rating_count: rate,
+          user_name: user.name,
+          user_image:'image6',  
+          publish_date: new Date().toLocaleDateString()
+        }
+        console.log(newReview);
+        const request = await fetch(`http://192.168.0.170:3001/api/newreview/${item._id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newReview)
+        })
+        if (!request.ok) {
+          throw new Error("Request is failed !")
+        } else {
+          const response = await request.json()
+
+          Alert.alert({title:'Success', message: 'Added Successfuly '})
+          setLoading(false)
+          setTimeout(() => {
+            navigation.goBack();
+          }, 500);
+        }
+
+      }
+    }catch(err) {
+      Alert.alert({title:'Xeta', message: err.message})
     }
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('feedback')}
         renderLeft={() => {
@@ -90,18 +121,18 @@ export default function Feedback({navigation, route}) {
         <KeyboardAvoidingView
           behavior={Platform.OS == 'android' ? 'height' : 'padding'}
           keyboardVerticalOffset={offsetKeyboard}
-          style={{flex: 1}}>
+          style={{ flex: 1 }}>
           <ScrollView
-            contentContainerStyle={{alignItems: 'center', padding: 20}}>
-            <Image
+            contentContainerStyle={{ alignItems: 'center', padding: 20 }}>
+            {/* <Image
               source={user.image}
               style={{
                 width: 62,
                 height: 62,
                 borderRadius: 31,
               }}
-            />
-            <View style={{width: 160}}>
+            /> */}
+            <View style={{ width: 160 }}>
               <StarRating
                 starSize={26}
                 maxStars={5}
@@ -110,14 +141,14 @@ export default function Feedback({navigation, route}) {
                   setRate(rating);
                 }}
                 fullStarColor={BaseColor.yellowColor}
-                containerStyle={{padding: 5}}
+                containerStyle={{ padding: 5 }}
               />
-              <Text caption1 grayColor style={{textAlign: 'center'}}>
+              <Text caption1 grayColor style={{ textAlign: 'center' }}>
                 {t('tap_to_rate')}
               </Text>
             </View>
             <TextInput
-              style={{marginTop: 10, height: 150}}
+              style={{ marginTop: 10, height: 150 }}
               onChangeText={text => setReview(text)}
               textAlignVertical="top"
               multiline={true}

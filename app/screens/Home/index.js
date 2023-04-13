@@ -21,6 +21,7 @@ import Swiper from 'react-native-swiper';
 import {useSelector} from 'react-redux';
 import {homeSelect} from '@selectors';
 import {useTranslation} from 'react-i18next';
+import Story from '../../components/Story';
 import {FilterModel} from '@models';
 import {pointerEvents} from 'deprecated-react-native-prop-types/DeprecatedViewPropTypes';
 
@@ -41,35 +42,39 @@ export default function Home({navigation}) {
   const [lastAdded, setLastAdded] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [event, setEvent] = useState([]);
+  const [status, setStatus] = useState([])
 
   useEffect(() => {
     // Fetch data from API
     const listings = fetch(
-      'https://adminpanelback.onrender.com/api/listings',
+      'http://192.168.0.170:3001/api/listings',
     ).then(res => res.json());
     const categories = fetch(
-      'https://adminpanelback.onrender.com/api/categories',
+      'http://192.168.0.170:3001/api/categories',
     ).then(res => res.json());
     const banners = fetch(
-      'https://adminpanelback.onrender.com/api/banners',
+      'http://192.168.0.170:3001/api/banners',
     ).then(res => res.json());
-    const events = fetch('https://adminpanelback.onrender.com/api/events').then(
+    const events = fetch('http://192.168.0.170:3001/api/events').then(
       res => res.json(),
     );
+    const statuses = fetch(
+      'http://192.168.0.170:3001/api/status',
+    ).then(res => res.json());
 
-    Promise.all([listings, categories, banners, events])
+    Promise.all([listings, categories, banners, events, statuses])
       .then(responses => {
-        const [response1, response2, response3, response4] = responses;
+        const [response1, response2, response3, response4,response5] = responses;
         setCategories(response2);
         const pop = response1.filter(item => item.type == 'popular');
         const lastadd = response1.filter(item => item.type == 'lastadded');
         const featureds = response1.filter(item => item.type == 'featured');
-        
         setPoularLocations(pop);
         setLastAdded(lastadd);
         setFeatured(featureds);
         setBanner(response3);
         setEvent(response4);
+        setStatus(response5)
       })
 
       .catch(error => {
@@ -172,7 +177,7 @@ export default function Home({navigation}) {
                 width: (Utils.getWidthDevice() - 40) * 0.25,
                 marginBottom: 8,
               }}
-              key={`category${index}`}>
+              key={`category${item}`}>
               <Placeholder Animation={Progressive}>
                 <View style={{alignItems: 'center'}}>
                   <PlaceholderMedia style={styles.serviceCircleIcon} />
@@ -210,8 +215,8 @@ export default function Home({navigation}) {
                   const name = item.category;
                   navigation.navigate('List', {name});
                 }}>
-                <Text headline semibold whiteColor>
-                  {item.listingTitle}
+                <Text headline semibold style={{color:'red'}}>
+                  {item.slogan}
                 </Text>
               </Card>
             );
@@ -256,7 +261,8 @@ export default function Home({navigation}) {
             image={item.profileImage}
             title={item.listingTitle}
             subtitle={item.category}
-            rate={2}
+            status={item.slogan}
+            rate={item.rating_avg}
             style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('ProductDetail', {
@@ -284,39 +290,83 @@ export default function Home({navigation}) {
    * @returns
    */
 
-  // const renderFeatured = () => {
-  //   if (featured.length > 0) {
-  //     return featured.map((item, index) => {
-  //       return (
-  //         <ListItem
-  //           small
-  //           key={`recent${index}`}
-  //           image={item.profileImage}
-  //           title={item.listingTitle}
-  //           subtitle={item.category}
-  //           rate={2}
-  //           style={{marginBottom: 15}}
-  //           onPress={() => {
-  //             navigation.navigate('ProductDetail', {
-  //               item: item,
-  //             });
-  //           }}
-  //         />
-  //       );
-  //     });
-  //   }
+  const renderFeatured = () => {
+    if (featured.length > 0) {
+      return featured.map((item, index) => {
+        return (
+          <ListItem
+            small
+            key={`recent${item._id}`}
+            image={item.profileImage}
+            title={item.listingTitle}
+            subtitle={item.category}
+            rate={item.rating_avg}
+            style={{marginBottom: 15}}
+            onPress={() => {
+              navigation.navigate('ProductDetail', {
+                item: item,
+              });
+            }}
+          />
+        );
+      });
+    }
 
-  //   return [1, 2, 3].map((item, index) => {
-  //     return (
-  //       <ListItem
-  //         small
-  //         loading={true}
-  //         key={`recent${item}`}
-  //         style={{marginBottom: 15}}
-  //       />
-  //     );
-  //   });
-  // };
+    return [1, 2, 3].map((item, index) => {
+      return (
+        <ListItem
+          small
+          loading={true}
+          key={`recent${item}`}
+          style={{marginBottom: 15}}
+        />
+      );
+    });
+  };
+  /**
+   * render List recent
+   * @returns
+   */
+  const renderEvents = () => {
+    if (featured.length > 0) {
+      return featured.map((item, index) => {
+        return (
+          <ListItem
+            small
+            key={`recent${item._id}`}
+            image={item.image}
+            title={item.name}
+            subtitle={item.contactInfo}
+            locationAddress={item.locationAddress}
+            rate={item.rating_avg}
+            startDate={item.startDate}
+            endDate={item.endDate}
+            style={{marginBottom: 15}}
+            onPress={() => {
+              navigation.navigate('EventDetail', {
+                item: item
+              });
+            }}
+          />
+        );
+      });
+    }
+
+    return [1, 2, 3].map((item, index) => {
+      return (
+        <ListItem
+          small
+          loading={true}
+          key={`recent${item}`}
+          style={{marginBottom: 15}}
+        />
+      );
+    });
+  };
+    /**
+   * render List recent
+   * @returns
+   */
   
 
   return (
@@ -386,6 +436,27 @@ export default function Home({navigation}) {
               </View>
             </TouchableOpacity>
           </View>
+          <View style={{paddingLeft: 5}}>
+            {status.length > 0 && (
+              <Story
+                data={status.map((item, index) => {
+                  return {
+                    user_id: index,
+                    user_image: item.userProfilePicture,
+                    user_name: item.sharedBy,
+                    stories: [
+                      {
+                        story_id: index,
+                        story_image: item.image,
+                        swipeText: item.content,
+                        onPress: () => console.log('success'),
+                      },
+                    ],
+                  };
+                })}
+              />
+            )}
+          </View>
           {renderCategory()}
           <View style={styles.contentPopular}>
             <Text title3 semibold>
@@ -407,7 +478,11 @@ export default function Home({navigation}) {
             <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recent_sologan')}
             </Text>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
               {renderRecent()}
+            </ScrollView>
           </View>
           <View
             style={{
@@ -420,7 +495,11 @@ export default function Home({navigation}) {
             <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recent_sologan')}
             </Text>
-              {/* {renderFeatured()} */}
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {renderFeatured()}
+            </ScrollView>
           </View>
           <View
             style={{
@@ -428,18 +507,18 @@ export default function Home({navigation}) {
               paddingTop: 15,
             }}>
             <Text title3 semibold>
-              {t('recent_location')}
+              {t('Events')}
             </Text>
             <Text body2 grayColor style={{marginBottom: 15}}>
-              {t('recent_sologan')}
+              {t('All Events')}
             </Text>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {renderEvents()}
+            </ScrollView>
           </View>
         </ScrollView>
-        <TouchableOpacity
-          onPress={onChooseBusiness}
-          style={[styles.menuIcon, {backgroundColor: colors.primary}]}>
-          <Icon name="plus" size={16} color={BaseColor.whiteColor} solid />
-        </TouchableOpacity>
       </SafeAreaView>
     </View>
   );
