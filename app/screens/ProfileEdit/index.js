@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import UserImage from '../../../assets/userimage.png'
 import {
   View,
   ScrollView,
@@ -17,66 +18,85 @@ import {
   TextInput,
 } from '@components';
 import styles from './styles';
-import {userSelect} from '@selectors';
+import {userInfo} from '@selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {authActions} from '@actions';
+import {changeUserInfo} from '../../actions/user';
 
 export default function ProfileEdit({navigation}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
   const dispatch = useDispatch();
-  const user = useSelector(userSelect);
+  const user = useSelector(userInfo);
   const offsetKeyboard = Platform.select({
     ios: 0,
     android: 20,
   });
 
   const [name, setName] = useState(user.name);
+  const [surname, setSurname] = useState(user.surname);
   const [email, setEmail] = useState(user.email);
-  const [website, setWebsite] = useState(user.link);
-  const [information, setInformation] = useState(user.description);
+  const [password, setPassword] = useState(user.password);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState({
     name: true,
     email: true,
-    website: true,
-    information: true,
+    surname: true,
+    password: true,
   });
 
   /**
    * on Update Profile
    *
    */
-  const onUpdate = () => {
-    if (name == '' || email == '' || website == '' || information == '') {
+  const onUpdate = async () => {
+    setLoading(true);
+   try {
+    if (name == '' || email == '' || password == '' || surname == '' ) {
       setSuccess({
         ...success,
         name: name != '' ? true : false,
         email: email != '' ? true : false,
-        website: website != '' ? true : false,
-        information: information != '' ? true : false,
+        surname: surname != '' ? true : false,
+        password: password != '' ? true : false,
       });
+      setLoading(false)
       return;
+    }else if(name == user.name && surname == user.surname && email == user.email && password == user.password) {
+      Alert.alert({title:"Warning", message:"Please change any input value"})
+      setLoading(false)
+      return;
+    }else {
+      const params = {
+        name,
+        email,
+        surname,
+        password,
+        isAdmin: false
+      };
+      const request = await fetch(`http://192.168.0.170:3001/api/updateuser/${user._id}`, {
+        method:"PUT",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(params)
+      })
+      if(!request.ok) {
+        throw new Error('Request is failed !')
+      }else {
+        const response = await request.json()
+        console.log(response);
+        dispatch(changeUserInfo(response.user))
+        Alert.alert({title:"Success",message:"User is successfully updated"})
+        navigation.goBack()
+        setLoading(false)
+      }
     }
-    const params = {
-      name,
-      email,
-      url: website,
-      description: information,
-    };
-    setLoading(true);
-    dispatch(
-      authActions.onEditProfile(params, response => {
-        Alert.alert({
-          type: 'success',
-          title: t('edit_profile'),
-          message: t('update_success'),
-          action: [{onPress: () => navigation.goBack()}],
-        });
-        setLoading(false);
-      }),
-    );
+   }
+   catch(err) {
+    Alert.alert({title:"Error", message:err.message})
+    setLoading(false)
+   }
   };
 
   return (
@@ -103,7 +123,7 @@ export default function ProfileEdit({navigation}) {
           keyboardVerticalOffset={offsetKeyboard}
           style={{flex: 1}}>
           <ScrollView contentContainerStyle={styles.contain}>
-            <Image source={user.image} style={styles.thumb} />
+            <Image source={ UserImage} style={styles.thumb} />
             <View style={styles.contentTitle}>
               <Text headline semibold>
                 {t('name')}
@@ -111,13 +131,30 @@ export default function ProfileEdit({navigation}) {
             </View>
             <TextInput
               onChangeText={text => setName(text)}
-              placeholder={t('input_name')}
+              placeholder={t('Name')}
               value={name}
               success={success.name}
               onFocus={() => {
                 setSuccess({
                   ...success,
-                  username: true,
+                  name: true,
+                });
+              }}
+            />
+              <View style={styles.contentTitle}>
+              <Text headline semibold>
+                {t('Surname')}
+              </Text>
+            </View>
+            <TextInput
+              onChangeText={text => setSurname(text)}
+              placeholder={t('Surname')}
+              value={surname}
+              success={success.surname}
+              onFocus={() => {
+                setSuccess({
+                  ...success,
+                  surname: true,
                 });
               }}
             />
@@ -128,7 +165,7 @@ export default function ProfileEdit({navigation}) {
             </View>
             <TextInput
               onChangeText={text => setEmail(text)}
-              placeholder={t('input_email')}
+              placeholder={t('Email')}
               value={email}
               success={success.email}
               onFocus={() => {
@@ -140,35 +177,18 @@ export default function ProfileEdit({navigation}) {
             />
             <View style={styles.contentTitle}>
               <Text headline semibold>
-                {t('website')}
+                {t('password')}
               </Text>
             </View>
             <TextInput
-              onChangeText={text => setWebsite(text)}
-              placeholder={t('input_email')}
-              value={website}
-              success={success.website}
+              onChangeText={text => setPassword(text)}
+              placeholder={t('password')}
+              value={password}
+              success={success.password}
               onFocus={() => {
                 setSuccess({
                   ...success,
-                  website: true,
-                });
-              }}
-            />
-            <View style={styles.contentTitle}>
-              <Text headline semibold>
-                {t('information')}
-              </Text>
-            </View>
-            <TextInput
-              onChangeText={text => setInformation(text)}
-              placeholder={t('input_information')}
-              value={information}
-              success={success.information}
-              onFocus={() => {
-                setSuccess({
-                  ...success,
-                  information: true,
+                  password: true,
                 });
               }}
             />

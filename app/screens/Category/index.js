@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {FlatList, RefreshControl, View, TouchableOpacity} from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
+import React, { useState, useEffect } from 'react';
+import { FlatList, RefreshControl, View, TouchableOpacity,Alert,Text } from 'react-native';
+import { BaseStyle, BaseColor, useTheme } from '@config';
 import {
   Header,
   SafeAreaView,
@@ -11,20 +11,24 @@ import {
 } from '@components';
 import * as Utils from '@utils';
 import styles from './styles';
-import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
-import {productActions} from '@actions';
-import {FilterModel} from '@models';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { productActions } from '@actions';
 
-export default function Category({navigation}) {
-  const {t} = useTranslation();
-  const {colors} = useTheme();
+
+export default function Category({ navigation }) {
+  const { t } = useTranslation();
+  const { colors } = useTheme();
   const dispatch = useDispatch();
 
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState('');
   const [modeView, setModeView] = useState('full');
   const [category, setCategory] = useState([]);
+  const [listings, setListings] = useState([])
+  const [result, setResult] = useState([])
+ const [filterBy, setByFilter] = useState(0)
+  const [filter, setFilter] = useState([])
   const [origin, setOrigin] = useState([]);
 
   useEffect(() => {
@@ -37,6 +41,24 @@ export default function Category({navigation}) {
     );
   }, [dispatch]);
 
+  useEffect(() => {
+        const categories =  fetch('http://192.168.0.170:3001/api/categories').then(res => res.json())
+        const allistings =  fetch('http://192.168.0.170:3001/api/listings').then(res => res.json())
+
+        Promise.all([categories,allistings])
+        .then(responses => {
+          const [response1, response2] = responses;
+          setFilter(response1)
+        setListings(response1)
+        setResult(response2)
+        setByFilter(response2.filter(it => it.category == "Bar").length)
+        })
+        .catch(error => {
+          // Handle error here
+          console.error(error);
+        });
+    
+  }, [])
   /**
    * on Refresh category
    */
@@ -73,11 +95,11 @@ export default function Category({navigation}) {
     if (!search) {
       setCategory(origin);
     } else {
-      setCategory(
-        category.filter(item => {
-          return item.title.toUpperCase().includes(search.toUpperCase());
-        }),
-      );
+      const result = listings.filter(item => {
+        return item.name.toUpperCase().includes(search.toUpperCase());
+      })
+      console.log(result);
+       setFilter(result)
     }
   };
 
@@ -94,26 +116,26 @@ export default function Category({navigation}) {
           <CategoryIcon
             icon={Utils.iconConvert(item.icon)}
             color={item.color}
-            title={item.title}
-            subtitle={item.count.toString()}
+            title={item.name}
+            subtitle={item.email}
             onPress={() => {
-              const filter = new FilterModel();
-              navigation.navigate('List', {filter});
+
+              navigation.navigate('List', { item:item.name });
             }}
-            style={[styles.itemIcon, {borderColor: colors.border}]}
+            style={[styles.itemIcon, { borderColor: colors.border }]}
           />
         );
       case 'full':
         return (
           <CategoryFull
-            image={item.image?.full}
+            image={item.image}
             color={item.color}
             icon={Utils.iconConvert(item.icon)}
-            title={item.title}
-            subtitle={item.count.toString()}
+            title={item.name}
+            subtitle={item.email}
+            count={(result.filter(it => it.category == item.name).length)}
             onPress={() => {
-              const filter = new FilterModel();
-              navigation.navigate('List', {filter});
+              navigation.navigate('List', { item:item.name });
             }}
             style={{
               marginBottom: 15,
@@ -131,25 +153,19 @@ export default function Category({navigation}) {
    */
   const renderContent = () => {
     let list = (
-      <FlatList
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-        }}
-        data={[1, 2, 3, 4, 5, 6]}
-        keyExtractor={(item, index) => `Category ${index}`}
-        renderItem={({item, index}) => {
-          return (
-            <CategoryFull
-              loading={true}
-              style={{
-                marginBottom: 15,
-              }}
+      <View >
+          <View style={{alignItems: 'center'}}>
+            <Icon
+              name="frown-open"
+              size={18}
+              color={colors.text}
+              style={{marginBottom: 4}}
             />
-          );
-        }}
-      />
+            <Text style={{color:'white'}}>{t('data_not_found')}</Text>
+          </View>
+        </View>
     );
-    if (category.length > 0) {
+    if (filter.length > 0) {
       list = (
         <FlatList
           contentContainerStyle={{
@@ -163,16 +179,16 @@ export default function Category({navigation}) {
               onRefresh={onRefresh}
             />
           }
-          data={category}
+          data={filter}
           keyExtractor={(item, index) => `Category ${index}`}
-          renderItem={({item, index}) => renderItem(item, index)}
+          renderItem={({ item, index }) => renderItem(item, index)}
         />
       );
     }
 
     return (
-      <View style={{flex: 1}}>
-        <View style={{paddingHorizontal: 20, paddingVertical: 15}}>
+      <View style={{ flex: 1 }}>
+        <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
           <TextInput
             onChangeText={text => setSearch(text)}
             placeholder={t('search')}
@@ -195,7 +211,7 @@ export default function Category({navigation}) {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('category')}
         renderRight={() => {

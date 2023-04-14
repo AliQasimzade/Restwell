@@ -78,8 +78,8 @@ export default StyleSheet.create({
     right: 5,
   },
   contain: {
-    flexDirection: 'col',
-    alignItems: 'start',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     borderRadius: 8,
     marginRight: 15,
   },

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {
   View,
@@ -13,6 +14,8 @@ import styles from './styles';
 import {useTranslation} from 'react-i18next';
 import {authActions} from '@actions';
 import {designSelect} from '@selectors';
+import { useEffect } from 'react';
+import { loginUser } from '../../actions/user';
 
 export default function SignIn({navigation, route}) {
   const {colors} = useTheme();
@@ -21,40 +24,53 @@ export default function SignIn({navigation, route}) {
   const design = useSelector(designSelect);
 
   const [loading, setLoading] = useState(false);
-  const [id, setId] = useState('paul');
-  const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [success, setSuccess] = useState({id: true, password: true});
-
   /**
    * call when action onLogin
    */
-  const onLogin = () => {
-    if (id == '' || password == '') {
-      setSuccess({
-        ...success,
-        id: false,
-        password: false,
-      });
-      return;
-    }
-    const params = {
-      username: id,
-      password,
-    };
-    setLoading(true);
-    dispatch(
-      authActions.onLogin(params, design, response => {
-        if (response?.success) {
-          navigation.goBack();
-          setTimeout(() => {
-            route.params?.success?.();
-          }, 1000);
-          return;
-        }
-        Alert.alert({title: t('sign_in'), message: t(response?.message)});
-        setLoading(false);
-      }),
-    );
+  const onLogin = async () => {
+
+     try {
+      if (email == '' || password == '') {
+        setSuccess({
+          ...success,
+          id: false,
+          password: false,
+        });
+        return;
+      }else {
+        const params = {
+          email,
+          password,
+        };
+    
+        setLoading(true);
+        const request = await fetch('http://192.168.0.170:3001/api/loginuser',{
+          method:"PUT",
+          headers:{
+            "Content-Type": "application/json",
+          },
+          body:JSON.stringify(params)
+        })
+    
+      
+       if(!request.ok) {
+        throw new Error('Request is failed !')
+       }else {
+        const response = await request.json()
+        dispatch(loginUser(response.user))
+        Alert.alert({title: 'Login', message:"Successfuly login !"})
+        navigation.navigate('Profile')
+        setLoading(false)
+       }
+      }
+      
+     
+     }catch(err){
+      Alert.alert({title: t('sign_in'), message: t(err?.message)});
+     }
   };
 
   const offsetKeyboard = Platform.select({
@@ -87,16 +103,16 @@ export default function SignIn({navigation, route}) {
           style={{flex: 1}}>
           <View style={styles.contain}>
             <TextInput
-              onChangeText={setId}
+              onChangeText={setEmail}
               onFocus={() => {
                 setSuccess({
                   ...success,
                   id: true,
                 });
               }}
-              placeholder={t('input_id')}
+              placeholder={t('Email')}
               success={success.id}
-              value={id}
+              value={email}
             />
             <TextInput
               style={{marginTop: 10}}

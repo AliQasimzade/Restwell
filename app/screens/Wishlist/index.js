@@ -8,19 +8,21 @@ import {
 } from 'react-native';
 import {BaseStyle, useTheme} from '@config';
 import {Header, SafeAreaView, ListItem, Text, Icon} from '@components';
-import {wishlistSelect} from '@selectors';
+import {wish} from '@selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {wishListActions} from '@actions';
 import * as Sharing from 'expo-sharing';
 import Modal from 'react-native-modal';
 import styles from './styles';
+import { removeAllWish, removeWish } from '../../actions/wish';
 
 export default function Wishlist({navigation}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
   const dispatch = useDispatch();
-  const wishlist = useSelector(wishlistSelect);
+  const wishlist = useSelector(wish);
+  console.log(wishlist, "WishList Page");
   const [modalVisible, setModalVisible] = useState(false);
 
   const [refreshing, setRefresh] = useState(false);
@@ -37,13 +39,24 @@ export default function Wishlist({navigation}) {
   /**
    * Action Delete/Reset
    */
-  const onDelete = item => {
+  const onDelete = it => {
     setDeleting(true);
+    const id = it._id
+    console.log(it, "See More");
     setTimeout(() => {
-      dispatch(wishListActions.onDelete(item));
+      dispatch(removeWish(id));
       setDeleting(false);
     }, 1000);
   };
+
+  const onDeleteAll = () => {
+    setDeleting(true);
+    setTimeout(() => {
+      dispatch(removeAllWish())
+      setDeleting(false);
+    }, 1000);
+  
+  }
 
   /**
    * Action for share
@@ -116,7 +129,7 @@ export default function Wishlist({navigation}) {
    * @returns
    */
   const renderContent = () => {
-    if (wishlist.list?.length > 0) {
+    if (wishlist.length > 0) {
       return (
         <FlatList
           contentContainerStyle={{paddingTop: 15}}
@@ -129,16 +142,16 @@ export default function Wishlist({navigation}) {
               onRefresh={onRefresh}
             />
           }
-          data={wishlist.list}
+          data={wishlist}
           keyExtractor={(item, index) => `wishlist ${index}`}
           renderItem={({item, index}) => (
             <ListItem
               small
               enableAction={true}
-              image={item.image?.full}
-              title={item.title}
-              subtitle={item.category?.title}
-              rate={item.rate}
+              image={item.splashscreen}
+              title={item.listingTitle}
+              subtitle={item.category}
+              rate={item.rating_avg}
               style={{marginBottom: 15}}
               onPress={() =>
                 navigation.navigate('ProductDetail', {
@@ -154,7 +167,7 @@ export default function Wishlist({navigation}) {
         />
       );
     }
-    if (wishlist.list?.length == 0) {
+    if (wishlist.length == 0) {
       return (
         <View style={styles.loadingContent}>
           <View style={{alignItems: 'center'}}>
@@ -201,7 +214,7 @@ export default function Wishlist({navigation}) {
           }
           return <Icon name="trash-alt" size={16} color={colors.text} />;
         }}
-        onPressRight={() => onDelete()}
+        onPressRight={() => onDeleteAll()}
       />
       <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
         {renderModal()}

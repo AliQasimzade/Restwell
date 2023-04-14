@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
 import {BaseStyle, useTheme} from '@config';
 import {
@@ -10,57 +11,53 @@ import {
   ProfileDetail,
   ProfilePerformance,
 } from '@components';
+import UserImage from '../../../assets/userimage.png'
 import styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {authActions} from '@actions';
-import {userSelect} from '@selectors';
+import {userSelect,userInfo} from '@selectors';
+import { logOutUSer } from '../../actions/user';
 
 export default function Profile({navigation}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
   const dispatch = useDispatch();
-  const user = useSelector(userSelect);
-
+  const userAbout = useSelector(userInfo)
+  const [user, setUser] = useState(null)
+console.log(userAbout, "Profile Page");
   const [loading, setLoading] = useState(false);
 
   /**
    * on Logout
    *
    */
-  const onLogout = () => {
+  const onLogout = async () => {
     setLoading(true);
-    dispatch(authActions.onLogout());
+   dispatch(logOutUSer())
+   navigation.navigate('Home')
   };
 
   /**
    * on onNotification
    *
    */
-  const onNotification = () => {
-    navigation.navigate('Notification');
-  };
+
 
   return (
     <View style={{flex: 1}}>
       <Header
         title={t('profile')}
-        renderRight={() => {
-          return <Icon name="bell" size={16} color={colors.text} />;
-        }}
-        onPressRight={() => onNotification()}
       />
       <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
-        <ScrollView>
+       {userAbout &&  <ScrollView>
           <View style={styles.contain}>
             <ProfileDetail
-              image={user.image}
-              textFirst={user.name}
-              point={user.rate}
-              textSecond={user.description}
-              textThird={user.email}
+              image={userAbout.image ? userAbout.image : UserImage}
+              textFirst={userAbout?.name}
+              textSecond={userAbout?.surname}
+              textThird={userAbout?.email}
             />
-            <ProfilePerformance data={user.value} style={{marginTop: 20}} />
             <TouchableOpacity
               style={[
                 styles.profileItem,
@@ -91,21 +88,6 @@ export default function Profile({navigation}) {
                 navigation.navigate('ChangePassword');
               }}>
               <Text body1>{t('change_password')}</Text>
-              <Icon
-                name="angle-right"
-                size={18}
-                color={colors.primary}
-                style={{marginLeft: 5}}
-                enableRTL={true}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.profileItem,
-                {borderBottomColor: colors.border, borderBottomWidth: 1},
-              ]}
-              onPress={() => navigation.navigate('ContactUs')}>
-              <Text body1>{t('contact_us')}</Text>
               <Icon
                 name="angle-right"
                 size={18}
@@ -152,7 +134,7 @@ export default function Profile({navigation}) {
               />
             </TouchableOpacity>
           </View>
-        </ScrollView>
+        </ScrollView>}
         <View style={{paddingHorizontal: 20, paddingVertical: 15}}>
           <Button full loading={loading} onPress={onLogout}>
             {t('sign_out')}

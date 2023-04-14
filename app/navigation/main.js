@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BaseColor, useTheme, useFont} from '@config';
 import {useTranslation} from 'react-i18next';
 import {Icon} from '@components';
-import {userSelect, designSelect} from '@selectors';
+import {userSelect, designSelect,userInfo} from '@selectors';
 import {useSelector} from 'react-redux';
 
 /* Bottom Screen */
@@ -46,6 +47,7 @@ const MainStack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
 export default function Main() {
+ 
   const design = useSelector(designSelect);
   /**
    * Main follow return  Product detail design you are selected
@@ -119,8 +121,8 @@ function BottomTabNavigator() {
   const {t} = useTranslation();
   const {colors} = useTheme();
   const font = useFont();
-  const user = useSelector(userSelect);
   const design = useSelector(designSelect);
+
 
   /**
    * Main follow return  Home Screen design you are selected
@@ -146,7 +148,7 @@ function BottomTabNavigator() {
    * @returns
    */
   const exportWishlist = value => {
-    if (!user) {
+    if (!userAbout) {
       return Walkthrough;
     }
     switch (value) {
@@ -160,7 +162,8 @@ function BottomTabNavigator() {
         return Wishlist;
     }
   };
-
+const userAbout = useSelector(userInfo)
+console.log(userAbout);
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -208,7 +211,7 @@ function BottomTabNavigator() {
 
       <BottomTab.Screen
         name="Profile"
-        component={user ? Profile : Walkthrough}
+        component={userAbout ? Profile : Walkthrough}
         options={{
           title: t('account'),
           tabBarIcon: ({color}) => {

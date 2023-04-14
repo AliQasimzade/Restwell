@@ -78,10 +78,10 @@ export default function List({navigation, route}) {
 
   useEffect(() => {
      const getAllListings = async () => {
-        const request = await fetch('https://adminpanelback.onrender.com/api/listings')
+        const request = await fetch('http://192.168.0.170:3001/api/listings')
         const response = await request.json()
-        const filter = response.filter(res => res.category == route?.params?.name)
-        console.log(filter);
+        const filter = response.filter(res => res.category == route?.params.item)
+        console.log(filter, "List Page");
         setlists(filter)
      }
      getAllListings()
@@ -175,8 +175,8 @@ export default function List({navigation, route}) {
     Utils.enableExperimental();
     if (!mapView) {
       setRegion({
-        latitude: list?.data?.[0].location.latitude,
-        longitude: list?.data?.[0].location.longitude,
+        latitude: lists[0].locationCoords.latitude,
+        longitude: lists[0].locationCoords.longitude,
         latitudeDelta: 0.009,
         longitudeDelta: 0.004,
       });
@@ -190,11 +190,12 @@ export default function List({navigation, route}) {
    * @returns
    */
   const onSelectLocation = location => {
-    for (let index = 0; index < list?.data?.length; index++) {
-      const element = list?.data[index];
+    console.log(location);
+    for (let index = 0; index < lists.length; index++) {
+      const element = lists[index];
       if (
-        element.location.latitude == location.latitude &&
-        element.location.longitude == location.longitude
+        element.locationCoords.latitude == location.latitude &&
+        element.locationCoords.longitude == location.longitude
       ) {
         sliderRef.current.snapToItem(index);
         return;
@@ -287,14 +288,7 @@ export default function List({navigation, route}) {
                 styles.navbar,
                 {transform: [{translateY: navbarTranslate}]},
               ]}>
-              <FilterSort
-                sortSelected={filter}
-                modeView={modeView}
-                sortOption={setting?.sortOption}
-                onChangeSort={onChangeSort}
-                onChangeView={onChangeView}
-                onFilter={onFilter}
-              />
+            
             </Animated.View>
           </View>
         );
@@ -353,14 +347,6 @@ export default function List({navigation, route}) {
                   transform: [{translateY: navbarTranslate}],
                 },
               ]}>
-              <FilterSort
-                sortSelected={filter}
-                modeView={modeView}
-                sortOption={setting?.sortOption}
-                onChangeSort={onChangeSort}
-                onChangeView={onChangeView}
-                onFilter={onFilter}
-              />
             </Animated.View>
           </View>
         );
@@ -407,22 +393,7 @@ export default function List({navigation, route}) {
                 />
               )}
             />
-            <Animated.View
-              style={[
-                styles.navbar,
-                {
-                  transform: [{translateY: navbarTranslate}],
-                },
-              ]}>
-              <FilterSort
-                sortSelected={filter}
-                modeView={modeView}
-                sortOption={setting?.sortOption}
-                onChangeSort={onChangeSort}
-                onChangeView={onChangeView}
-                onFilter={onFilter}
-              />
-            </Animated.View>
+
           </View>
         );
       default:
@@ -457,20 +428,6 @@ export default function List({navigation, route}) {
               keyExtractor={(item, index) => `block${index}`}
               renderItem={({item, index}) => <ListItem block loading={true} />}
             />
-            <Animated.View
-              style={[
-                styles.navbar,
-                {transform: [{translateY: navbarTranslate}]},
-              ]}>
-              <FilterSort
-                sortSelected={filter}
-                modeView={modeView}
-                sortOption={setting?.sortOption}
-                onChangeSort={onChangeSort}
-                onChangeView={onChangeView}
-                onFilter={onFilter}
-              />
-            </Animated.View>
           </View>
         );
     }
@@ -536,20 +493,7 @@ export default function List({navigation, route}) {
                 />
               )}
             />
-            <Animated.View
-              style={[
-                styles.navbar,
-                {transform: [{translateY: navbarTranslate}]},
-              ]}>
-              <FilterSort
-                sortSelected={filter}
-                modeView={modeView}
-                sortOption={setting?.sortOption}
-                onChangeSort={onChangeSort}
-                onChangeView={onChangeView}
-                onFilter={onFilter}
-              />
-            </Animated.View>
+
           </View>
         );
       case 'grid':
@@ -610,22 +554,7 @@ export default function List({navigation, route}) {
                 />
               )}
             />
-            <Animated.View
-              style={[
-                styles.navbar,
-                {
-                  transform: [{translateY: navbarTranslate}],
-                },
-              ]}>
-              <FilterSort
-                sortSelected={filter}
-                modeView={modeView}
-                sortOption={setting?.sortOption}
-                onChangeSort={onChangeSort}
-                onChangeView={onChangeView}
-                onFilter={onFilter}
-              />
-            </Animated.View>
+
           </View>
         );
 
@@ -681,22 +610,6 @@ export default function List({navigation, route}) {
                 />
               )}
             />
-            <Animated.View
-              style={[
-                styles.navbar,
-                {
-                  transform: [{translateY: navbarTranslate}],
-                },
-              ]}>
-              <FilterSort
-                sortSelected={filter}
-                modeView={modeView}
-                sortOption={setting?.sortOption}
-                onChangeSort={onChangeSort}
-                onChangeView={onChangeView}
-                onFilter={onFilter}
-              />
-            </Animated.View>
           </View>
         );
       default:
@@ -747,20 +660,7 @@ export default function List({navigation, route}) {
                 />
               )}
             />
-            <Animated.View
-              style={[
-                styles.navbar,
-                {transform: [{translateY: navbarTranslate}]},
-              ]}>
-              <FilterSort
-                sortSelected={filter}
-                modeView={modeView}
-                sortOption={setting?.sortOption}
-                onChangeSort={onChangeSort}
-                onChangeView={onChangeView}
-                onFilter={onFilter}
-              />
-            </Animated.View>
+ 
           </View>
         );
     }
@@ -774,15 +674,17 @@ export default function List({navigation, route}) {
     return (
       <View style={{flex: 1}}>
         <MapView provider={PROVIDER_GOOGLE} style={styles.map} region={region}>
-          {list.data?.map?.((item, index) => {
+          {lists.map((item, index) => {
             return (
               <Marker
                 onPress={e => onSelectLocation(e.nativeEvent.coordinate)}
-                key={item.id}
+                key={item._id}        
                 coordinate={{
-                  latitude: item.location?.latitude,
-                  longitude: item.location.longitude,
-                }}>
+                  latitude: item.locationCoords.latitude,
+                  longitude: item.locationCoords.longtitude,
+                }}
+                >
+
                 <View
                   style={[
                     styles.iconLocation,
@@ -848,8 +750,8 @@ export default function List({navigation, route}) {
               setRegion({
                 latitudeDelta: 0.009,
                 longitudeDelta: 0.004,
-                latitude: list.data?.[index]?.location?.latitude,
-                longitude: list.data?.[index]?.location?.longitude,
+                latitude: lists[index].locationCoords.latitude,
+                longitude: lists[index].locationCoords.longtitude,
               });
             }}
           />
@@ -865,7 +767,7 @@ export default function List({navigation, route}) {
     if (loading) {
       return renderLoading();
     }
-    if (list.data?.length == 0) {
+    if (lists.length == 0) {
       return (
         <View style={styles.centerView}>
           <View style={{alignItems: 'center'}}>

@@ -10,11 +10,12 @@ export default function RateDetail(props) {
   const {colors} = useTheme();
   const {t} = useTranslation();
   const {style, point, maxPoint, totalRating, data} = props;
-  const one = (data[1] / totalRating) * 100;
-  const two = (data[2] / totalRating) * 100;
-  const three = (data[3] / totalRating) * 100;
-  const four = (data[4] / totalRating) * 100;
-  const five = (data[5] / totalRating) * 100;
+
+  const one = (data[0] / totalRating) * 100;
+  const two = (data[1] / totalRating) * 100;
+  const three = (data[2] / totalRating) * 100;
+  const four = (data[3] / totalRating) * 100;
+  const five = (data[4] / totalRating) * 100;
   return (
     <View style={[styles.contain, style]}>
       <View style={styles.contentLeft}>

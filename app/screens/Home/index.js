@@ -21,6 +21,7 @@ import Swiper from 'react-native-swiper';
 import {useSelector} from 'react-redux';
 import {homeSelect} from '@selectors';
 import {useTranslation} from 'react-i18next';
+import Story from '../../components/Story';
 import {FilterModel} from '@models';
 import {pointerEvents} from 'deprecated-react-native-prop-types/DeprecatedViewPropTypes';
 
@@ -41,34 +42,41 @@ export default function Home({navigation}) {
   const [lastAdded, setLastAdded] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [event, setEvent] = useState([]);
+  const [status, setStatus] = useState([])
+  const [listings, setListings] = useState([])
 
   useEffect(() => {
     // Fetch data from API
     const listings = fetch(
-      'https://adminpanelback.onrender.com/api/listings',
+      'http://192.168.0.170:3001/api/listings',
     ).then(res => res.json());
     const categories = fetch(
-      'https://adminpanelback.onrender.com/api/categories',
+      'http://192.168.0.170:3001/api/categories',
     ).then(res => res.json());
     const banners = fetch(
-      'https://adminpanelback.onrender.com/api/banners',
+      'http://192.168.0.170:3001/api/banners',
     ).then(res => res.json());
-    const events = fetch('https://adminpanelback.onrender.com/api/events').then(
+    const events = fetch('http://192.168.0.170:3001/api/events').then(
       res => res.json(),
     );
+    const statuses = fetch(
+      'http://192.168.0.170:3001/api/status',
+    ).then(res => res.json());
 
-    Promise.all([listings, categories, banners, events])
+    Promise.all([listings, categories, banners, events, statuses])
       .then(responses => {
-        const [response1, response2, response3, response4] = responses;
+        const [response1, response2, response3, response4,response5] = responses;
         setCategories(response2);
         const pop = response1.filter(item => item.type == 'popular');
         const lastadd = response1.filter(item => item.type == 'lastadded');
         const featureds = response1.filter(item => item.type == 'featured');
+        setListings(response1)
         setPoularLocations(pop);
         setLastAdded(lastadd);
         setFeatured(featureds);
         setBanner(response3);
         setEvent(response4);
+        setStatus(response5)
       })
 
       .catch(error => {
@@ -137,8 +145,7 @@ export default function Home({navigation}) {
                   {width: Utils.getWidthDevice() * 0.24},
                 ]}
                 onPress={() => {
-                  const name = item.name;
-                  navigation.navigate('List', {name});
+                  navigation.navigate('List', {item:item.name});
                 }}>
                 <View
                   style={[
@@ -206,11 +213,11 @@ export default function Home({navigation}) {
                 style={[styles.popularItem, {marginLeft: 15}]}
                 image={item.splashscreen}
                 onPress={() => {
-                  const name = item.category;
-                  navigation.navigate('List', {name});
+
+                  navigation.navigate('List', {item:item.category});
                 }}>
-                <Text headline semibold whiteColor>
-                  {item.listingTitle}
+                <Text headline semibold style={{color:'red'}}>
+                  {item.slogan}
                 </Text>
               </Card>
             );
@@ -252,10 +259,11 @@ export default function Home({navigation}) {
           <ListItem
             small
             key={`recent${item._id}`}
-            image={item.profileImage}
+            image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
-            rate={2}
+            status={item.slogan}
+            rate={item.rating_avg}
             style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('ProductDetail', {
@@ -290,10 +298,10 @@ export default function Home({navigation}) {
           <ListItem
             small
             key={`recent${item._id}`}
-            image={item.profileImage}
+            image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
-            rate={2}
+            rate={item.rating_avg}
             style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('ProductDetail', {
@@ -329,11 +337,6 @@ export default function Home({navigation}) {
             key={`recent${item._id}`}
             image={item.image}
             title={item.name}
-            subtitle={item.contactInfo}
-            locationAddress={item.locationAddress}
-            rate={2}
-            startDate={item.startDate}
-            endDate={item.endDate}
             style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('EventDetail', {
@@ -409,7 +412,7 @@ export default function Home({navigation}) {
               {marginTop: marginTopBanner},
             ]}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SearchHistory')}>
+              onPress={() => navigation.navigate('SearchHistory', {listings})}>
               <View
                 style={[BaseStyle.textInput, {backgroundColor: colors.card}]}>
                 <Text body1 grayColor style={{flex: 1}}>
@@ -428,6 +431,27 @@ export default function Home({navigation}) {
                 />
               </View>
             </TouchableOpacity>
+          </View>
+          <View style={{paddingLeft: 5}}>
+            {status.length > 0 && (
+              <Story
+                data={status.map((item, index) => {
+                  return {
+                    user_id: index,
+                    user_image: item.userProfilePicture,
+                    user_name: item.sharedBy,
+                    stories: [
+                      {
+                        story_id: index,
+                        story_image: item.image,
+                        swipeText: item.content,
+                        onPress: () => console.log('success'),
+                      },
+                    ],
+                  };
+                })}
+              />
+            )}
           </View>
           {renderCategory()}
           <View style={styles.contentPopular}>
@@ -479,10 +503,10 @@ export default function Home({navigation}) {
               paddingTop: 15,
             }}>
             <Text title3 semibold>
-              {t('recent_location')}
+              {t('Events')}
             </Text>
             <Text body2 grayColor style={{marginBottom: 15}}>
-              {t('recent_sologan')}
+              {t('All Events')}
             </Text>
             <ScrollView
               horizontal={true}
@@ -491,11 +515,6 @@ export default function Home({navigation}) {
             </ScrollView>
           </View>
         </ScrollView>
-        <TouchableOpacity
-          onPress={onChooseBusiness}
-          style={[styles.menuIcon, {backgroundColor: colors.primary}]}>
-          <Icon name="plus" size={16} color={BaseColor.whiteColor} solid />
-        </TouchableOpacity>
       </SafeAreaView>
     </View>
   );
