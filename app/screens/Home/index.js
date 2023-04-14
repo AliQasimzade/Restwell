@@ -43,6 +43,7 @@ export default function Home({navigation}) {
   const [featured, setFeatured] = useState([]);
   const [event, setEvent] = useState([]);
   const [status, setStatus] = useState([])
+  const [listings, setListings] = useState([])
 
   useEffect(() => {
     // Fetch data from API
@@ -69,6 +70,7 @@ export default function Home({navigation}) {
         const pop = response1.filter(item => item.type == 'popular');
         const lastadd = response1.filter(item => item.type == 'lastadded');
         const featureds = response1.filter(item => item.type == 'featured');
+        setListings(response1)
         setPoularLocations(pop);
         setLastAdded(lastadd);
         setFeatured(featureds);
@@ -143,8 +145,7 @@ export default function Home({navigation}) {
                   {width: Utils.getWidthDevice() * 0.24},
                 ]}
                 onPress={() => {
-                  const name = item.name;
-                  navigation.navigate('List', {name});
+                  navigation.navigate('List', {item:item.name});
                 }}>
                 <View
                   style={[
@@ -212,8 +213,8 @@ export default function Home({navigation}) {
                 style={[styles.popularItem, {marginLeft: 15}]}
                 image={item.splashscreen}
                 onPress={() => {
-                  const name = item.category;
-                  navigation.navigate('List', {name});
+
+                  navigation.navigate('List', {item:item.category});
                 }}>
                 <Text headline semibold style={{color:'red'}}>
                   {item.slogan}
@@ -258,7 +259,7 @@ export default function Home({navigation}) {
           <ListItem
             small
             key={`recent${item._id}`}
-            image={item.profileImage}
+            image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
             status={item.slogan}
@@ -297,7 +298,7 @@ export default function Home({navigation}) {
           <ListItem
             small
             key={`recent${item._id}`}
-            image={item.profileImage}
+            image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
             rate={item.rating_avg}
@@ -328,19 +329,14 @@ export default function Home({navigation}) {
    * @returns
    */
   const renderEvents = () => {
-    if (featured.length > 0) {
-      return featured.map((item, index) => {
+    if (event.length > 0) {
+      return event.map((item, index) => {
         return (
           <ListItem
             small
             key={`recent${item._id}`}
             image={item.image}
             title={item.name}
-            subtitle={item.contactInfo}
-            locationAddress={item.locationAddress}
-            rate={item.rating_avg}
-            startDate={item.startDate}
-            endDate={item.endDate}
             style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('EventDetail', {
@@ -416,7 +412,7 @@ export default function Home({navigation}) {
               {marginTop: marginTopBanner},
             ]}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SearchHistory')}>
+              onPress={() => navigation.navigate('SearchHistory', {listings})}>
               <View
                 style={[BaseStyle.textInput, {backgroundColor: colors.card}]}>
                 <Text body1 grayColor style={{flex: 1}}>

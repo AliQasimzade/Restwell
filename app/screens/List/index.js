@@ -78,10 +78,10 @@ export default function List({navigation, route}) {
 
   useEffect(() => {
      const getAllListings = async () => {
-        const request = await fetch('https://adminpanelback.onrender.com/api/listings')
+        const request = await fetch('http://192.168.0.170:3001/api/listings')
         const response = await request.json()
-        const filter = response.filter(res => res.category == route?.params.name)
-        console.log(filter);
+        const filter = response.filter(res => res.category == route?.params.item)
+        console.log(filter, "List Page");
         setlists(filter)
      }
      getAllListings()

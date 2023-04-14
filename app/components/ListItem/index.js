@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {Image, Text, Icon, StarRating, Tag} from '@components';
-import {BaseColor, useTheme} from '@config';
+import { View, TouchableOpacity } from 'react-native';
+import { Image, Text, Icon, StarRating, Tag } from '@components';
+import { BaseColor, useTheme } from '@config';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import {
   Placeholder,
   PlaceholderLine,
@@ -12,8 +12,8 @@ import {
   PlaceholderMedia,
 } from 'rn-placeholder';
 export default function ListItem(props) {
-  const {t} = useTranslation();
-  const {colors} = useTheme();
+  const { t } = useTranslation();
+  const { colors } = useTheme();
   const {
     loading,
     grid,
@@ -52,13 +52,13 @@ export default function ListItem(props) {
                 paddingHorizontal: 20,
                 paddingVertical: 15,
               }}>
-              <PlaceholderLine style={{width: '50%'}} />
-              <PlaceholderLine style={{width: '80%'}} />
+              <PlaceholderLine style={{ width: '50%' }} />
+              <PlaceholderLine style={{ width: '80%' }} />
               <View style={styles.blockLineMap}>
-                <PlaceholderLine style={{width: '25%'}} />
+                <PlaceholderLine style={{ width: '25%' }} />
               </View>
               <View style={styles.blockLinePhone}>
-                <PlaceholderLine style={{width: '50%'}} />
+                <PlaceholderLine style={{ width: '50%' }} />
               </View>
             </View>
           </View>
@@ -69,7 +69,7 @@ export default function ListItem(props) {
     return (
       <View style={style}>
         <TouchableOpacity onPress={onPress}>
-          <Image source={{uri: image}} style={styles.blockImage} />
+          <Image source={{ uri: image }} style={styles.blockImage} />
           <Tag status style={styles.tagStatus}>
             {t(status)}
           </Tag>
@@ -94,8 +94,8 @@ export default function ListItem(props) {
               <Tag rate onPress={onPressTag}>
                 {rate}
               </Tag>
-              <View style={{marginLeft: 10}}>
-                <Text caption1 whiteColor semibold style={{marginBottom: 5}}>
+              <View style={{ marginLeft: 10 }}>
+                <Text caption1 whiteColor semibold style={{ marginBottom: 5 }}>
                   {t('rate')}
                 </Text>
                 <StarRating
@@ -108,7 +108,7 @@ export default function ListItem(props) {
                 />
               </View>
             </View>
-            <Text caption1 semibold whiteColor style={{marginTop: 5}}>
+            <Text caption1 semibold whiteColor style={{ marginTop: 5 }}>
               {numReviews} {t('feedback')}
             </Text>
           </View>
@@ -121,18 +121,18 @@ export default function ListItem(props) {
           <Text headline semibold grayColor>
             {subtitle}
           </Text>
-          <Text title2 semibold style={{marginTop: 4}} numberOfLines={1}>
+          <Text title2 semibold style={{ marginTop: 4 }} numberOfLines={1}>
             {title}
           </Text>
           <View style={styles.blockLineMap}>
             <Icon name="map-marker-alt" color={colors.primaryLight} size={12} />
-            <Text caption1 grayColor style={{paddingHorizontal: 4}}>
+            <Text caption1 grayColor style={{ paddingHorizontal: 4 }}>
               {location}
             </Text>
           </View>
           <View style={styles.blockLinePhone}>
             <Icon name="phone" color={colors.primaryLight} size={12} />
-            <Text caption1 grayColor style={{paddingHorizontal: 4}}>
+            <Text caption1 grayColor style={{ paddingHorizontal: 4 }}>
               {phone}
             </Text>
           </View>
@@ -151,13 +151,13 @@ export default function ListItem(props) {
           <View style={[styles.listContent, style]}>
             <PlaceholderMedia style={styles.listImage} />
             <View style={styles.listContentRight}>
-              <PlaceholderLine style={{width: '50%'}} />
-              <PlaceholderLine style={{width: '70%'}} />
+              <PlaceholderLine style={{ width: '50%' }} />
+              <PlaceholderLine style={{ width: '70%' }} />
               <View style={styles.lineRate}>
-                <PlaceholderLine style={{width: '20%'}} />
+                <PlaceholderLine style={{ width: '20%' }} />
               </View>
-              <PlaceholderLine style={{width: '50%'}} />
-              <PlaceholderLine style={{width: '50%'}} />
+              <PlaceholderLine style={{ width: '50%' }} />
+              <PlaceholderLine style={{ width: '50%' }} />
             </View>
           </View>
         </Placeholder>
@@ -167,7 +167,7 @@ export default function ListItem(props) {
     return (
       <TouchableOpacity style={[styles.listContent, style]} onPress={onPress}>
         <View onPress={onPress}>
-          <Image source={{uri: image}} style={styles.listImage} />
+          <Image source={{ uri: image }} style={styles.listImage} />
           <Tag status style={styles.listTagStatus}>
             {t(status)}
           </Tag>
@@ -176,11 +176,11 @@ export default function ListItem(props) {
           <Text headline semibold grayColor numberOfLines={1}>
             {subtitle}
           </Text>
-          <Text title2 semibold style={{marginTop: 5}} numberOfLines={1}>
+          <Text title2 semibold style={{ marginTop: 5 }} numberOfLines={1}>
             {title}
           </Text>
           <View style={styles.lineRate}>
-            <Tag onPress={onPressTag} rateSmall style={{marginRight: 5}}>
+            <Tag onPress={onPressTag} rateSmall style={{ marginRight: 5 }}>
               {rate}
             </Tag>
             <StarRating
@@ -188,32 +188,17 @@ export default function ListItem(props) {
               starSize={10}
               maxStars={5}
               rating={rate}
-              selectedStar={rating => {}}
+              selectedStar={rating => { }}
               fullStarColor={BaseColor.yellowColor}
             />
           </View>
-          <Text caption1 grayColor style={{marginTop: 10}}>
+          <Text caption1 grayColor style={{ marginTop: 10 }}>
             {location}
           </Text>
-          <Text caption1 grayColor style={{marginTop: 5}}>
+          <Text caption1 grayColor style={{ marginTop: 5 }}>
             {phone}
           </Text>
-          {favorite ? (
-            <Icon
-              name="heart"
-              color={colors.primaryLight}
-              solid
-              size={18}
-              style={styles.iconListLike}
-            />
-          ) : (
-            <Icon
-              name="heart"
-              color={colors.primaryLight}
-              size={18}
-              style={styles.iconListLike}
-            />
-          )}
+          
         </View>
       </TouchableOpacity>
     );
@@ -229,12 +214,12 @@ export default function ListItem(props) {
           <Placeholder Animation={Progressive}>
             <View style={[styles.girdContent, style]}>
               <PlaceholderMedia style={styles.girdImage} />
-              <PlaceholderLine style={{width: '30%', marginTop: 8}} />
-              <PlaceholderLine style={{width: '50%'}} />
+              <PlaceholderLine style={{ width: '30%', marginTop: 8 }} />
+              <PlaceholderLine style={{ width: '50%' }} />
               <View>
-                <PlaceholderLine style={{width: '20%'}} />
+                <PlaceholderLine style={{ width: '20%' }} />
               </View>
-              <PlaceholderLine style={{width: '30%'}} />
+              <PlaceholderLine style={{ width: '30%' }} />
             </View>
           </Placeholder>
         </View>
@@ -244,7 +229,7 @@ export default function ListItem(props) {
     return (
       <TouchableOpacity style={[styles.girdContent, style]} onPress={onPress}>
         <View>
-          <Image source={{uri: image}} style={styles.girdImage} />
+          <Image source={{ uri: image }} style={styles.girdImage} />
           <Tag status style={styles.tagGirdStatus}>
             {t(status)}
           </Tag>
@@ -269,15 +254,15 @@ export default function ListItem(props) {
           footnote
           semibold
           grayColor
-          style={{marginTop: 5}}
+          style={{ marginTop: 5 }}
           numberOfLines={1}>
           {subtitle}
         </Text>
-        <Text subhead semibold style={{marginTop: 5}} numberOfLines={1}>
+        <Text subhead semibold style={{ marginTop: 5 }} numberOfLines={1}>
           {title}
         </Text>
         <View>
-          <Tag onPress={onPressTag} rateSmall style={{marginRight: 5}}>
+          <Tag onPress={onPressTag} rateSmall style={{ marginRight: 5 }}>
             {rate}
           </Tag>
           <StarRating
@@ -289,7 +274,7 @@ export default function ListItem(props) {
             fullStarColor={BaseColor.yellowColor}
           />
         </View>
-        <Text caption2 grayColor style={{marginTop: 10}} numberOfLines={1}>
+        <Text caption2 grayColor style={{ marginTop: 10 }} numberOfLines={1}>
           {location}
         </Text>
       </TouchableOpacity>
@@ -308,9 +293,9 @@ export default function ListItem(props) {
                 justifyContent: 'center',
                 flex: 1,
               }}>
-              <PlaceholderLine style={{width: '80%'}} />
-              <PlaceholderLine style={{width: '55%'}} />
-              <PlaceholderLine style={{width: '75%'}} />
+              <PlaceholderLine style={{ width: '80%' }} />
+              <PlaceholderLine style={{ width: '55%' }} />
+              <PlaceholderLine style={{ width: '75%' }} />
             </View>
           </View>
         </Placeholder>
@@ -319,30 +304,30 @@ export default function ListItem(props) {
 
     return (
       <TouchableOpacity style={[styles.contain, style]} onPress={onPress}>
-        <Image source={{uri: image}} style={styles.smallImage} />
+        <Image source={{ uri: image }} style={styles.smallImage} />
         <Tag status style={styles.tagGirdStatus}>
-            {t(status)}
-          </Tag>
+          {t(status)}
+        </Tag>
         <View
-          style={{paddingHorizontal: 10, justifyContent: 'center', flex: 1}}>
+          style={{ paddingHorizontal: 10, justifyContent: 'center', flex: 1 }}>
           <Text headline semibold numberOfLines={1}>
             {title}
           </Text>
-          <Text footnote semibold grayColor style={{marginTop: 4}}>
+          <Text footnote semibold grayColor style={{ marginTop: 4 }}>
             {subtitle}
           </Text>
           <View style={styles.smallContentRate}>
-            <Tag onPress={onPressTag} rateSmall style={{marginRight: 4}}>
+            {rate && <Tag onPress={onPressTag} rateSmall style={{ marginRight: 4 }}>
               {rate}
-            </Tag>
-            <StarRating
+            </Tag>}
+            {rate && <StarRating
               disabled={true}
               starSize={10}
               maxStars={5}
               rating={rate}
               selectedStar={onPressTag}
               fullStarColor={BaseColor.yellowColor}
-            />
+            />}
           </View>
         </View>
         {enableAction && (
@@ -396,12 +381,11 @@ ListItem.defaultProps = {
   subtitle: '',
   location: '',
   phone: '',
-  rate: 4.5,
   status: '',
   numReviews: 99,
   enableAction: false,
   locationAddress: '',
-  onPress: () => {},
-  onPressTag: () => {},
-  omPressMore: () => {},
+  onPress: () => { },
+  onPressTag: () => { },
+  omPressMore: () => { },
 };

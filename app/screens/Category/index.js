@@ -26,6 +26,8 @@ export default function Category({ navigation }) {
   const [modeView, setModeView] = useState('full');
   const [category, setCategory] = useState([]);
   const [listings, setListings] = useState([])
+  const [result, setResult] = useState([])
+ const [filterBy, setByFilter] = useState(0)
   const [filter, setFilter] = useState([])
   const [origin, setOrigin] = useState([]);
 
@@ -40,21 +42,22 @@ export default function Category({ navigation }) {
   }, [dispatch]);
 
   useEffect(() => {
-    const getAllListings = async () => {
-      try {
-        const req = await fetch('http://192.168.0.170:3001/api/categories')
-        if (!req.ok) {
-          throw new Error('Request is failed')
-        } else {
-          const res = await req.json()
-          setListings(res)
-          setFilter(res)
-        }
-      } catch (err) {
-        Alert.alert({ title: "Error", message: err.message })
-      }
-    }
-    getAllListings()
+        const categories =  fetch('http://192.168.0.170:3001/api/categories').then(res => res.json())
+        const allistings =  fetch('http://192.168.0.170:3001/api/listings').then(res => res.json())
+
+        Promise.all([categories,allistings])
+        .then(responses => {
+          const [response1, response2] = responses;
+          setFilter(response1)
+        setListings(response1)
+        setResult(response2)
+        setByFilter(response2.filter(it => it.category == "Bar").length)
+        })
+        .catch(error => {
+          // Handle error here
+          console.error(error);
+        });
+    
   }, [])
   /**
    * on Refresh category
@@ -117,7 +120,7 @@ export default function Category({ navigation }) {
             subtitle={item.email}
             onPress={() => {
 
-              navigation.navigate('List', { listings });
+              navigation.navigate('List', { item:item.name });
             }}
             style={[styles.itemIcon, { borderColor: colors.border }]}
           />
@@ -130,8 +133,9 @@ export default function Category({ navigation }) {
             icon={Utils.iconConvert(item.icon)}
             title={item.name}
             subtitle={item.email}
+            count={(result.filter(it => it.category == item.name).length)}
             onPress={() => {
-              navigation.navigate('List', { listings });
+              navigation.navigate('List', { item:item.name });
             }}
             style={{
               marginBottom: 15,

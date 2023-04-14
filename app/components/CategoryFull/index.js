@@ -9,7 +9,7 @@ import {useTranslation} from 'react-i18next';
 
 export default function CategoryFull(props) {
   const {t} = useTranslation();
-  const {style, loading, image, icon, color, title, subtitle, onPress} = props;
+  const {style, loading, image, icon, color, title, count, onPress} = props;
   if (loading) {
     return (
       <Placeholder Animation={Progressive}>
@@ -34,7 +34,7 @@ export default function CategoryFull(props) {
             {title}
           </Text>
           <Text body2 bold whiteColor>
-            {subtitle} {t('location')}
+            {count}
           </Text>
         </View>
       </View>
