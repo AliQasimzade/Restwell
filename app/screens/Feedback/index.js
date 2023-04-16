@@ -61,7 +61,7 @@ export default function Feedback({ navigation, route }) {
           publish_date: new Date().toLocaleDateString()
         }
         console.log(newReview);
-        const request = await fetch(`http://192.168.0.170:3001/api/newreview/${item._id}`, {
+        const request = await fetch(`http://192.168.31.124:3001/api/newreview/${item._id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

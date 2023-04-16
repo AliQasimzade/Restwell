@@ -19,7 +19,7 @@ import {
   listSelect,
   settingSelect,
   userSelect,
-  wish,
+  wishlistSelect,
   designSelect,
 } from '@selectors';
 import { listActions } from '@actions';
@@ -27,14 +27,12 @@ import { listActions } from '@actions';
 export default function List({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const datas = route?.params
   const dispatch = useDispatch();
-  const wishlist = useSelector(wish);
+  const wishlist = useSelector(wishlistSelect);
   const list = useSelector(listSelect);
   const design = useSelector(designSelect);
   const setting = useSelector(settingSelect);
   const user = useSelector(userSelect);
-
   const scrollAnim = new Animated.Value(0);
   const offsetAnim = new Animated.Value(0);
   const clampedScroll = Animated.diffClamp(
@@ -51,7 +49,7 @@ export default function List({ navigation, route }) {
   );
 
   const sliderRef = useRef(null);
-  const [filter, setFilter] = useState(route?.params);
+  const [filter, setFilter] = useState({ id: 1 });
   const [active, setActive] = useState(0);
   const [viewportWidth] = useState(Utils.getWidthDevice());
   const [loading, setLoading] = useState(true);
@@ -67,25 +65,12 @@ export default function List({ navigation, route }) {
   });
 
   useEffect(() => {
-    dispatch(
-      listActions.onLoadList(route?.params, design, () => {
-        setLoading(false);
-        setRefreshing(false);
-      }),
-    );
-  }, [design, dispatch, route?.params]);
-
-
-  useEffect(() => {
-    const getAllListings = async () => {
-      const request = await fetch('http://192.168.31.124:3001/api/listings')
-      const response = await request.json()
-      const filter = response.filter(res => res.category == route?.params.item)
-      console.log(filter, "List Page");
-      setlists(filter)
-    }
-    getAllListings()
+    setTimeout(() => {
+      setLoading(false)
+      setlists(route?.params.results)
+    }, 1000)
   }, [])
+
   /**
    * on Load data
    *
@@ -190,6 +175,7 @@ export default function List({ navigation, route }) {
    * @returns
    */
 
+
   /**
    * on Review action
    */
@@ -222,7 +208,7 @@ export default function List({ navigation, route }) {
    * UI kit
    */
   const isFavorite = item => {
-    return wishlist.some(i => i._id == item._id);
+    return wishlist.list?.some(i => i.id == item.id);
   };
 
   /**
@@ -398,7 +384,9 @@ export default function List({ navigation, route }) {
             <Animated.View
               style={[
                 styles.navbar,
-                { transform: [{ translateY: navbarTranslate }] },
+                {
+                  transform: [{ translateY: navbarTranslate }],
+                },
               ]}>
               <FilterSort
                 sortSelected={filter}
@@ -502,7 +490,7 @@ export default function List({ navigation, route }) {
                 ],
                 { useNativeDriver: true },
               )}
-              data={lists}
+              data={route?.params.results}
               key={'block'}
               keyExtractor={(item, index) => `block ${index}`}
               renderItem={({ item, index }) => (
@@ -513,7 +501,7 @@ export default function List({ navigation, route }) {
                   subtitle={item?.category}
                   location={item?.address}
                   phone={item?.phone}
-                  rate={3}
+                  rate={item?.rating_avg}
                   status={item?.slogan}
                   numReviews={3}
                   favorite={isFavorite(item)}
@@ -572,7 +560,7 @@ export default function List({ navigation, route }) {
               )}
               showsVerticalScrollIndicator={false}
               numColumns={2}
-              data={lists}
+              data={route?.params.results}
               key={'gird'}
               keyExtractor={(item, index) => `gird ${index}`}
               renderItem={({ item, index }) => (
@@ -583,7 +571,7 @@ export default function List({ navigation, route }) {
                   subtitle={item?.category}
                   location={item?.address}
                   phone={item?.phone}
-                  rate={3}
+                  rate={item?.rating_avg}
                   status={item?.slogan}
                   numReviews={item.numRate}
                   favorite={isFavorite(item)}
@@ -599,7 +587,9 @@ export default function List({ navigation, route }) {
             <Animated.View
               style={[
                 styles.navbar,
-                { transform: [{ translateY: navbarTranslate }] },
+                {
+                  transform: [{ translateY: navbarTranslate }],
+                },
               ]}>
               <FilterSort
                 sortSelected={filter}
@@ -642,7 +632,7 @@ export default function List({ navigation, route }) {
                 ],
                 { useNativeDriver: true },
               )}
-              data={lists}
+              data={route?.params.results}
               key={'list'}
               keyExtractor={(item, index) => `list ${index}`}
               renderItem={({ item, index }) => (
@@ -653,7 +643,7 @@ export default function List({ navigation, route }) {
                   subtitle={item?.category}
                   location={item?.address}
                   phone={item?.phone}
-                  rate={3}
+                  rate={item?.rating_avg}
                   status={item.slogan}
                   numReviews={3}
                   favorite={isFavorite(item)}
@@ -668,10 +658,12 @@ export default function List({ navigation, route }) {
             <Animated.View
               style={[
                 styles.navbar,
-                { transform: [{ translateY: navbarTranslate }] },
+                {
+                  transform: [{ translateY: navbarTranslate }],
+                },
               ]}>
               <FilterSort
-                sortSelected={filter}
+
                 modeView={modeView}
                 sortOption={setting?.sortOption}
                 onChangeSort={onChangeSort}
@@ -720,7 +712,7 @@ export default function List({ navigation, route }) {
                   subtitle={item?.category}
                   location={item?.address}
                   phone={item?.phone}
-                  rate={3}
+                  rate={item?.rating_avg}
                   status={item.slogan}
                   numReviews={3}
                   favorite={isFavorite(item)}
@@ -732,7 +724,9 @@ export default function List({ navigation, route }) {
             <Animated.View
               style={[
                 styles.navbar,
-                { transform: [{ translateY: navbarTranslate }] },
+                {
+                  transform: [{ translateY: navbarTranslate }],
+                },
               ]}>
               <FilterSort
                 sortSelected={filter}
@@ -790,14 +784,14 @@ export default function List({ navigation, route }) {
         <View style={{ position: 'absolute', bottom: 0, overflow: 'visible' }}>
           <Carousel
             ref={sliderRef}
-            data={lists ?? []}
+            data={route?.params.results}
             renderItem={({ item, index }) => (
               <ListItem
                 small
                 image={item?.profileImage}
                 title={item?.listingTitle}
                 subtitle={item?.category}
-                rate={3}
+                rate={item?.rating_avg}
                 favorite={isFavorite(item)}
                 style={{
                   margin: 3,
@@ -831,8 +825,8 @@ export default function List({ navigation, route }) {
               setRegion({
                 latitudeDelta: 0.009,
                 longitudeDelta: 0.004,
-                latitude: lists[index].locationCoords.latitude,
-                longitude: lists[index].locationCoords.longtitude,
+                latitude: route?.params.results[index].locationCoords.latitude,
+                longitude: route?.params.results[index].locationCoords.longtitude,
               });
             }}
           />
@@ -897,7 +891,7 @@ export default function List({ navigation, route }) {
           return <Icon name="search" size={20} color={colors.primary} />;
         }}
         onPressRightSecond={() => {
-          navigation.navigate('SearchHistory', { listings: lists });
+          navigation.navigate('SearchHistory', {listings: route?.params.results});
         }}
         onPressRight={() => {
           onChangeMapView();

@@ -42,6 +42,8 @@ import ContactUs from '@screens/ContactUs';
 import Messages from '@screens/Messages';
 import AboutUs from '@screens/AboutUs';
 import EventDetail from '@screens/EventDetail';
+import LocationList from "@screens/LocationList";
+import FilterSearchList from "@screens/FilterSearchList"
 
 const MainStack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -106,6 +108,8 @@ export default function Main() {
       <MainStack.Screen name="ChangePassword" component={ChangePassword} />
       <MainStack.Screen name="ProfileEdit" component={ProfileEdit} />
       <MainStack.Screen name="ChangeLanguage" component={ChangeLanguage} />
+      <MainStack.Screen name="FilterSearchList" component={FilterSearchList} />
+
       <MainStack.Screen
         name="ProductDetail"
         component={exportProductDetail(design)}
@@ -113,6 +117,7 @@ export default function Main() {
       <MainStack.Screen name="ContactUs" component={ContactUs} />
       <MainStack.Screen name="AboutUs" component={AboutUs} />
       <MainStack.Screen name="Messages" component={Messages} />
+      <MainStack.Screen name="LocationList" component={LocationList} />
     </MainStack.Navigator>
   );
 }
