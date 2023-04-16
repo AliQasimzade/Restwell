@@ -42,8 +42,8 @@ export default function Category({ navigation }) {
   }, [dispatch]);
 
   useEffect(() => {
-        const categories =  fetch('http://192.168.0.170:3001/api/categories').then(res => res.json())
-        const allistings =  fetch('http://192.168.0.170:3001/api/listings').then(res => res.json())
+        const categories =  fetch('http://192.168.31.124:3001/api/categories').then(res => res.json())
+        const allistings =  fetch('http://192.168.31.124:3001/api/listings').then(res => res.json())
 
         Promise.all([categories,allistings])
         .then(responses => {

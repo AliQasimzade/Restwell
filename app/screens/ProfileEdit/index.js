@@ -74,7 +74,7 @@ export default function ProfileEdit({navigation}) {
         password,
         isAdmin: false
       };
-      const request = await fetch(`http://192.168.0.170:3001/api/updateuser/${user._id}`, {
+      const request = await fetch(`http://192.168.31.124:3001/api/updateuser/${user._id}`, {
         method:"PUT",
         headers:{
           "Content-Type":"application/json"

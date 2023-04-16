@@ -86,7 +86,7 @@ export default function FilterSort(props) {
   const {style, modeView, onFilter, onChangeView} = props;
 
   return (
-    <View style={[styles.contain, {backgroundColor: colors.background}, style]}>
+    <View style={[styles.contain, {backgroundColor: colors.background, justifyContent:'flex-end'}, style]}>
       <Modal
         isVisible={modalVisible}
         onSwipeComplete={() => {
@@ -124,19 +124,6 @@ export default function FilterSort(props) {
           </Button>
         </View>
       </Modal>
-      <TouchableOpacity
-        style={{flexDirection: 'row', alignItems: 'center'}}
-        onPress={() => setModalVisible(true)}>
-        <Icon
-          name="sort-amount-up"
-          size={16}
-          color={BaseColor.grayColor}
-          solid
-        />
-        <Text headline grayColor style={{marginLeft: 5}}>
-          {t(sortSelected?.langKey ?? 'sort')}
-        </Text>
-      </TouchableOpacity>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <TouchableOpacity onPress={onChangeView} style={styles.contentModeView}>
           <Icon

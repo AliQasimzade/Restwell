@@ -28,11 +28,11 @@ export default function SearchHistory({ navigation, route }) {
   const { t } = useTranslation();
   const wishlist = useSelector(wishlistSelect);
   console.log(route?.params, "SearchHistory Page");
-  const [history, setHistory] = useState(['bar,Qara']);
+  const [history, setHistory] = useState([]);
   const [result, setResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const [filter, setFilter] = useState([])
+  const [filter, setFilter] = useState(route?.params.listings)
   const [loading, setLoading] = useState(false);
 
   /**
@@ -49,17 +49,18 @@ export default function SearchHistory({ navigation, route }) {
    */
   const onSearch = keyword => {
     setKeyword(keyword);
+    
     if (keyword != '') {
-      console.log(keyword);
       setLoading(true);
-      setHistory([...history, keyword])
       setFilter(
         route?.params.listings.filter(item => {
-          return item.roadorstate.toUpperCase().includes(keyword.toUpperCase());
+          return item.listingTitle.toUpperCase().includes(keyword.toUpperCase());
         }),
       );
       setLoading(false);
       setShowResult(true);
+    }else if(keyword == '') {
+      setFilter(route?.params.listings)
     } else {
       setShowResult(false);
       setFilter([])
@@ -92,7 +93,7 @@ export default function SearchHistory({ navigation, route }) {
       return (
         <FlatList
           contentContainerStyle={{ paddingHorizontal: 20 }}
-          data={filter}
+          data={route?.params.listings}
           keyExtractor={(item, index) => `history ${index}`}
           renderItem={({ item, index }) => (
             <ListItem
@@ -129,34 +130,6 @@ export default function SearchHistory({ navigation, route }) {
         </View>
       )
     }
-    return (
-      <View style={{ paddingVertical: 15, paddingHorizontal: 20 }}>
-        <View style={{ paddingVertical: 15, paddingHorizontal: 20 }}>
-          <View style={styles.rowTitle}>
-            <Text headline>{t('search_history').toUpperCase()}</Text>
-            <TouchableOpacity onPress={onClear}>
-              <Text caption1 accentColor>
-                {t('clear')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-            }}>
-            {history.length > 0 && history.map((item, index) => (
-              <TouchableOpacity
-                style={[styles.itemHistory, { backgroundColor: colors.card }]}
-                onPress={() => onDetail(item)}
-                key={`search ${index}`}>
-                <Text caption2>{item}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-      </View>
-    );
   };
 
   return (

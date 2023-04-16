@@ -9,6 +9,7 @@ import Notch from './Notch';
 import Label from './Label';
 
 import styles from './styles';
+import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
 
 export default function RangeSlider(props) {
   const renderThumb = useCallback(() => <Thumb />, []);
@@ -51,8 +52,6 @@ RangeSlider.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   color: PropTypes.string,
   selectionColor: PropTypes.string,
-  min: PropTypes.number,
-  max: PropTypes.number,
   onValueChanged: PropTypes.func,
 };
 
@@ -61,6 +60,6 @@ RangeSlider.defaultProps = {
   color: '#7f7f7f',
   selectionColor: '#4499ff',
   min: 0,
-  max: 100,
+  max: 1000,
   onValueChanged: (low, hight) => {},
 };

@@ -67,7 +67,7 @@ export default function ProductDetail({navigation, route}) {
 
   useEffect(() => {
   const getAllListings = async () => {
-    const request = await fetch('http://192.168.0.170:3001/api/listings')
+    const request = await fetch('http://192.168.31.124:3001/api/listings')
     const response = await request.json()
 
      const filterByCategory = response.filter(listing => listing.category == item?.category)
