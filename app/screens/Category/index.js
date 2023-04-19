@@ -42,8 +42,8 @@ export default function Category({ navigation }) {
   }, [dispatch]);
 
   useEffect(() => {
-        const categories =  fetch('http://192.168.31.124:3001/api/categories').then(res => res.json())
-        const allistings =  fetch('http://192.168.31.124:3001/api/listings').then(res => res.json())
+        const categories =  fetch('https://restwell.az/api/categories').then(res => res.json())
+        const allistings =  fetch('https://restwell.az/api/listings').then(res => res.json())
 
         Promise.all([categories,allistings])
         .then(responses => {
@@ -93,7 +93,7 @@ export default function Category({ navigation }) {
    */
   const onSearch = search => {
     if (!search) {
-      setCategory(origin);
+      setFilter(listings)
     } else {
       const result = listings.filter(item => {
         return item.name.toUpperCase().includes(search.toUpperCase());
@@ -193,7 +193,7 @@ export default function Category({ navigation }) {
             onChangeText={text => setSearch(text)}
             placeholder={t('search')}
             value={search}
-            onSubmitEditing={() => onSearch(search)}
+            onChange={() => onSearch(search)}
             icon={
               <TouchableOpacity
                 onPress={() => {

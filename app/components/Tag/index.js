@@ -127,7 +127,7 @@ Tag.defaultProps = {
   gray: false,
   chip: false,
   status: false,
-  rate: false,
+  rate: 0,
   rateSmall: false,
   sale: false,
 };

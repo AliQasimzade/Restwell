@@ -152,7 +152,7 @@ export default function SearchHistory({ navigation, route }) {
         <View style={{ flex: 1 }}>
           <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
             <TextInput
-              placeholder={t('search')}
+              placeholder={t('Search location name')}
               value={keyword}
               onChangeText={onSearch}
               icon={

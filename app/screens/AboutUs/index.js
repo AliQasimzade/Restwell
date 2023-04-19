@@ -32,7 +32,7 @@ export default function AboutUs({ navigation }) {
   useEffect(() => {
     const getCompany = async () => {
       try {
-        const request = await fetch('http://192.168.0.170:3001/api/company')
+        const request = await fetch('https://restwell.az/api/company')
         if (!request.ok) {
           throw new Error('Request is Failed !')
         } else {
