@@ -52,22 +52,22 @@ export default function Home({ navigation }) {
     // Fetch data from API
 
     const listings = fetch(
-      'http://192.168.31.124:3001/api/listings',
+      'https://restwell.az/api/listings',
     ).then(res => res.json());
     const categories = fetch(
-      'http://192.168.31.124:3001/api/categories',
+      'https://restwell.az/api/categories',
     ).then(res => res.json());
     const banners = fetch(
-      'http://192.168.31.124:3001/api/banners',
+      'https://restwell.az/api/banners',
     ).then(res => res.json());
-    const events = fetch('http://192.168.31.124:3001/api/events').then(
+    const events = fetch('https://restwell.az/api/events').then(
       res => res.json(),
     );
     const statuses = fetch(
-      'http://192.168.31.124:3001/api/status',
+      'https://restwell.az/api/status',
     ).then(res => res.json());
     const locs = fetch(
-      'http://192.168.31.124:3001/api/locations',
+      'https://restwell.az/api/locations',
     ).then(res => res.json());
 
     Promise.all([listings, categories, banners, events, statuses, locs])
@@ -78,6 +78,7 @@ export default function Home({ navigation }) {
         const pop = response1.filter(item => item.type == 'popular');
         const lastadd = response1.filter(item => item.type == 'lastadded');
         const featureds = response1.filter(item => item.type == 'featured');
+       console.log(featureds, "Home Page !")
         setListings(response1)
         setPoularLocations(pop);
         setLastAdded(lastadd);
@@ -367,6 +368,7 @@ export default function Home({ navigation }) {
             image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
+            status={item.slogan}
             rate={item.rating_avg}
             style={{ marginBottom: 15 }}
             onPress={() => {
@@ -402,6 +404,7 @@ export default function Home({ navigation }) {
             title={item.listingTitle}
             subtitle={item.category}
             rate={item.rating_avg}
+            status={item.slogan}
             style={{ marginBottom: 15 }}
             onPress={() => {
               navigation.navigate('ProductDetail', {
@@ -437,6 +440,7 @@ export default function Home({ navigation }) {
             key={`event${item._id}`}
             image={item.image}
             title={item.name}
+            status={item.locationName}
             style={{ marginBottom: 15 }}
             onPress={() => {
               navigation.navigate('EventDetail', {

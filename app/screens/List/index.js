@@ -78,7 +78,7 @@ export default function List({ navigation, route }) {
 
   useEffect(() => {
     const getAllListings = async () => {
-      const request = await fetch('http://192.168.31.124:3001/api/listings')
+      const request = await fetch('https://restwell.az/api/listings')
       const response = await request.json()
       const filter = response.filter(res => res.category == route?.params.item)
       console.log(filter, "List Page");
@@ -513,7 +513,7 @@ export default function List({ navigation, route }) {
                   subtitle={item?.category}
                   location={item?.address}
                   phone={item?.phone}
-                  rate={3}
+                  rate={item?.rating_avg}
                   status={item?.slogan}
                   numReviews={3}
                   favorite={isFavorite(item)}
@@ -583,7 +583,7 @@ export default function List({ navigation, route }) {
                   subtitle={item?.category}
                   location={item?.address}
                   phone={item?.phone}
-                  rate={3}
+                  rate={item?.rating_avg}
                   status={item?.slogan}
                   numReviews={item.numRate}
                   favorite={isFavorite(item)}
@@ -653,7 +653,7 @@ export default function List({ navigation, route }) {
                   subtitle={item?.category}
                   location={item?.address}
                   phone={item?.phone}
-                  rate={3}
+                  rate={item?.rating_avg}
                   status={item.slogan}
                   numReviews={3}
                   favorite={isFavorite(item)}
@@ -720,7 +720,7 @@ export default function List({ navigation, route }) {
                   subtitle={item?.category}
                   location={item?.address}
                   phone={item?.phone}
-                  rate={3}
+                  rate={item?.rating_avg}
                   status={item.slogan}
                   numReviews={3}
                   favorite={isFavorite(item)}
@@ -797,7 +797,7 @@ export default function List({ navigation, route }) {
                 image={item?.profileImage}
                 title={item?.listingTitle}
                 subtitle={item?.category}
-                rate={3}
+                rate={item?.rating_avg}
                 favorite={isFavorite(item)}
                 style={{
                   margin: 3,

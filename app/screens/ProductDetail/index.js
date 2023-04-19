@@ -56,20 +56,10 @@ export default function ProductDetail({navigation, route}) {
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
 
   useEffect(() => {
-    dispatch(
-      productActions.onLoadProduct(item.id, design, item => {
-        setLoading(false);
-        setProduct(item);
-        setLike(item.favorite);
-      }),
-    );
-  }, [design, dispatch, item.id]);
-
-  useEffect(() => {
   const getAllListings = async () => {
-    const request = await fetch('http://192.168.31.124:3001/api/listings')
+    const request = await fetch('https://restwell.az/api/listings')
     const response = await request.json()
-
+    setLoading(false)
      const filterByCategory = response.filter(listing => listing.category == item?.category)
      console.log(filterByCategory);
     setRelated(filterByCategory)
@@ -121,7 +111,7 @@ export default function ProductDetail({navigation, route}) {
    */
   const onReview = () => {
     if (user) {
-      navigation.navigate('Review', {item});
+      navigation.navigate('Review', {item: item._id});
     } else {
       navigation.navigate({
         name: 'SignIn',
@@ -368,13 +358,13 @@ export default function ProductDetail({navigation, route}) {
               </Text>
               <TouchableOpacity style={styles.rateLine} onPress={onReview}>
                 <Tag rateSmall style={{marginRight: 5}} onPress={onReview}>
-                  {item.rating_avg}
+                  {item?.rating_avg}
                 </Tag>
                 <StarRating
                   disabled={true}
                   starSize={10}
                   maxStars={5}
-                  rating={item.rating_avg}
+                  rating={item?.rating_avg}
                   fullStarColor={BaseColor.yellowColor}
                   on
                 />
@@ -568,15 +558,6 @@ export default function ProductDetail({navigation, route}) {
             return (
               <Tag
                 key={item._id}
-                icon={
-                  <Icon
-                    name={Utils.iconConvert(item.icon)}
-                    size={12}
-                    color={colors.accent}
-                    solid
-                    style={{marginRight: 5}}
-                  />
-                }
                 chip
                 style={{
                   marginTop: 8,
@@ -601,15 +582,6 @@ export default function ProductDetail({navigation, route}) {
             return (
               <Tag
                 key={item._id}
-                icon={
-                  <Icon
-                    name={Utils.iconConvert(item.icon)}
-                    size={12}
-                    color={colors.accent}
-                    solid
-                    style={{marginRight: 5}}
-                  />
-                }
                 chip
                 style={{
                   marginTop: 8,

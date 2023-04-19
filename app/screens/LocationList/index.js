@@ -77,7 +77,7 @@ export default function List({ navigation, route }) {
 
     useEffect(() => {
         const getAllListings = async () => {
-            const request = await fetch('http://192.168.31.124:3001/api/listings')
+            const request = await fetch('https://restwell.az/api/listings')
             const response = await request.json()
             const filter = response.filter(res => {
                 if (res.address.includes(route?.params.item)) {

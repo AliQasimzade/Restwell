@@ -24,9 +24,9 @@ import { Alert } from 'react-native';
 export default function Feedback({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
-  const item = route?.params.item.item
+  const item = route?.params.item.reviews
   const user = useSelector(userInfo);
-  console.log(user,"FeedBack Page !");
+ 
   const offsetKeyboard = Platform.select({
     ios: 0,
     android: 20,
@@ -57,11 +57,10 @@ export default function Feedback({ navigation, route }) {
           message: review,
           rating_count: rate,
           user_name: user.name,
-          user_image:'image6',  
+          user_image: user.image,  
           publish_date: new Date().toLocaleDateString()
         }
-        console.log(newReview);
-        const request = await fetch(`http://192.168.31.124:3001/api/newreview/${item._id}`, {
+        const request = await fetch(`https://restwell.az/api/newreview/${item._id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +71,7 @@ export default function Feedback({ navigation, route }) {
           throw new Error("Request is failed !")
         } else {
           const response = await request.json()
-
+          route?.params.item.setReviews(response.listing)
           Alert.alert({title:'Success', message: 'Added Successfuly '})
           setLoading(false)
           setTimeout(() => {

@@ -12,6 +12,7 @@ import {
   PlaceholderMedia,
 } from 'rn-placeholder';
 export default function ListItem(props) {
+
   const { t } = useTranslation();
   const { colors } = useTheme();
   const {
@@ -316,19 +317,19 @@ export default function ListItem(props) {
           <Text footnote semibold grayColor style={{ marginTop: 4 }}>
             {subtitle}
           </Text>
-          <View style={styles.smallContentRate}>
-            {rate && <Tag onPress={onPressTag} rateSmall style={{ marginRight: 4 }}>
+          {rate !== 0 && <View style={styles.smallContentRate}>
+           <Tag onPress={onPressTag} rateSmall style={{ marginRight: 4 }}>
               {rate}
-            </Tag>}
-            {rate && <StarRating
+            </Tag>
+         <StarRating
               disabled={true}
               starSize={10}
               maxStars={5}
               rating={rate}
               selectedStar={onPressTag}
               fullStarColor={BaseColor.yellowColor}
-            />}
-          </View>
+            />
+          </View>}
         </View>
         {enableAction && (
           <TouchableOpacity onPress={omPressMore} style={styles.moreButton}>
@@ -380,10 +381,11 @@ ListItem.defaultProps = {
   title: '',
   subtitle: '',
   location: '',
-  phone: '',
-  status: '',
+  phone: '787',
+  status: 'slogan',
   numReviews: 99,
   enableAction: false,
+  rate: 0,
   locationAddress: '',
   onPress: () => { },
   onPressTag: () => { },

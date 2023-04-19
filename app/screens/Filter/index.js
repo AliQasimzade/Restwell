@@ -48,9 +48,9 @@ export default function Filter({ navigation, route }) {
 
   console.log(location, "Filter Page")
   useEffect(() => {
-    const cats = fetch('http://192.168.31.124:3001/api/categories').then(res => res.json())
-    const locs = fetch('http://192.168.31.124:3001/api/locations').then(res => res.json())
-    const feat = fetch('http://192.168.31.124:3001/api/properties').then(res => res.json())
+    const cats = fetch('https://restwell.az/api/categories').then(res => res.json())
+    const locs = fetch('https://restwell.az/api/locations').then(res => res.json())
+    const feat = fetch('https://restwell.az/api/properties').then(res => res.json())
 
 
     Promise.all([cats, locs, feat])
@@ -73,7 +73,7 @@ export default function Filter({ navigation, route }) {
    */
   const onApply = async () => {
     try {
-      const request = await fetch('http://192.168.31.124:3001/api/listings')
+      const request = await fetch('https://restwell.az/api/listings')
       if (!request.ok) {
         throw new Error("Request is failed !")
       } else {

@@ -47,7 +47,7 @@ export default function SignIn({navigation, route}) {
         };
     
         setLoading(true);
-        const request = await fetch('http://192.168.31.124:3001/api/loginuser',{
+        const request = await fetch('https://restwell.az/api/loginuser',{
           method:"PUT",
           headers:{
             "Content-Type": "application/json",
