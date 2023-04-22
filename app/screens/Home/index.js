@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as Location from "expo-location"
+
 import {
   View,
   ScrollView,
   Animated,
   TouchableOpacity,
-  FlatList,
+  FlatList
 } from 'react-native';
 import {
   Placeholder,
@@ -19,23 +20,19 @@ import { BaseStyle, BaseColor, useTheme } from '@config';
 import * as Utils from '@utils';
 import styles from './styles';
 import Swiper from 'react-native-swiper';
-import { useSelector } from 'react-redux';
-import { homeSelect } from '@selectors';
 import { useTranslation } from 'react-i18next';
 import Story from '../../components/Story';
-import { FilterModel } from '@models';
-import { pointerEvents } from 'deprecated-react-native-prop-types/DeprecatedViewPropTypes';
+
 
 const deltaY = new Animated.Value(0);
 
 export default function Home({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
-  const home = useSelector(homeSelect);
+  const swiperRef = useRef(null);
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const heightImageBanner = Utils.scaleWithPixel(180);
   const marginTopBanner = heightImageBanner - heightHeader + 10;
-
   const [poularLocations, setPoularLocations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [banner, setBanner] = useState([]);
@@ -47,6 +44,8 @@ export default function Home({ navigation }) {
   const [listings, setListings] = useState([])
   const [nearByMe, setNearByMe] = useState([])
   const [loc, setLoc] = useState()
+
+ 
 
   useEffect(() => {
     // Fetch data from API
@@ -78,7 +77,7 @@ export default function Home({ navigation }) {
         const pop = response1.filter(item => item.type == 'popular');
         const lastadd = response1.filter(item => item.type == 'lastadded');
         const featureds = response1.filter(item => item.type == 'featured');
-       console.log(featureds, "Home Page !")
+        console.log(featureds, "Home Page !")
         setListings(response1)
         setPoularLocations(pop);
         setLastAdded(lastadd);
@@ -163,28 +162,31 @@ export default function Home({ navigation }) {
   /**
    * render banner
    */
+
   const renderBanner = () => {
     if (banner.length > 0) {
       return (
-        <Swiper
-          dotStyle={{
-            backgroundColor: colors.text,
-          }}
-          activeDotColor={colors.primary}
-          paginationStyle={styles.contentPage}
-          removeClippedSubviews={false}
-          autoplay={true}
-          autoplayTimeout={2}>
-          {banner.map((item, index) => {
-            return (
-              <Image
-                key={`slider${index}`}
-                source={{ uri: item.image }}
-                style={{ width: '100%', height: '100%' }}
-              />
-            );
-          })}
-        </Swiper>
+   
+          <Swiper
+            dotStyle={{
+              backgroundColor: colors.text,
+            }}
+            activeDotColor={colors.primary}
+            paginationStyle={styles.contentPage}
+            removeClippedSubviews={false}
+            autoplay={true}
+            loop={true}
+          >
+            {banner.map((item, index) => {
+              return (
+                <Image
+                  key={`slider${index}`}
+                  source={{ uri: item.image }}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              );
+            })}
+          </Swiper>
       );
     }
 
@@ -202,7 +204,8 @@ export default function Home({ navigation }) {
   const renderCategory = () => {
     if (categories.length > 0) {
       return (
-        <View style={styles.serviceContent}>
+        <ScrollView horizontal={true}
+          showsHorizontalScrollIndicator={false} >
           {categories.map((item, index) => {
             return (
               <TouchableOpacity
@@ -232,7 +235,7 @@ export default function Home({ navigation }) {
               </TouchableOpacity>
             );
           })}
-        </View>
+        </ScrollView>
       );
     }
 

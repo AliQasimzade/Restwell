@@ -27,7 +27,6 @@ export default function SearchHistory({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const wishlist = useSelector(wishlistSelect);
-  console.log(route?.params, "SearchHistory Page");
   const [history, setHistory] = useState([]);
   const [result, setResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
@@ -52,6 +51,11 @@ export default function SearchHistory({ navigation, route }) {
     
     if (keyword != '') {
       setLoading(true);
+      console.log('====================================');
+      console.log(route?.params.listings.filter(item => {
+        return item.listingTitle.toUpperCase().includes(keyword.toUpperCase());
+      }));
+      console.log('====================================');
       setFilter(
         route?.params.listings.filter(item => {
           return item.listingTitle.toUpperCase().includes(keyword.toUpperCase());
@@ -93,7 +97,7 @@ export default function SearchHistory({ navigation, route }) {
       return (
         <FlatList
           contentContainerStyle={{ paddingHorizontal: 20 }}
-          data={route?.params.listings}
+          data={filter}
           keyExtractor={(item, index) => `history ${index}`}
           renderItem={({ item, index }) => (
             <ListItem

@@ -4,9 +4,9 @@
     "slug": "RestWell",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/images/iconReswell.png",
+    "icon": "./app/assets/images/IconRestwell.png",
     "splash": {
-      "image": "./app/assets/images/RestWell.png",
+      "image": "./app/assets/images/restwelllogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,11 +25,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package":"com.restwell.android"
+      "package": "com.restwell.android"
     },
-
     "web": {
-      "favicon": "./app/assets/images/iconRestwell.png"
+      "favicon": "./app/assets/images/IconRestwell.png"
     }
   }
 }
