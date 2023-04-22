@@ -15,8 +15,7 @@ import UserImage from '../../../assets/userimage.png'
 import styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {authActions} from '@actions';
-import {userSelect,userInfo} from '@selectors';
+import {userInfo} from '@selectors';
 import { logOutUSer } from '../../actions/user';
 
 export default function Profile({navigation}) {
@@ -53,7 +52,7 @@ console.log(userAbout, "Profile Page");
        {userAbout &&  <ScrollView>
           <View style={styles.contain}>
             <ProfileDetail
-              image={userAbout.image ? userAbout.image : UserImage}
+              // image={userAbout.image ? userAbout.image : UserImage}
               textFirst={userAbout?.name}
               textSecond={userAbout?.surname}
               textThird={userAbout?.email}

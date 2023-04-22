@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/images/IconRestwell.png",
+    "scheme":"com.auth.restwell",
     "splash": {
       "image": "./app/assets/images/restwelllogo.png",
       "resizeMode": "contain",
@@ -18,17 +19,22 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.huynh.listar"
+      "bundleIdentifier": "com.auth.restwell"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./app/assets/images/IconRestwell.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.restwell.android"
+      "package": "com.auth.restwell"
     },
     "web": {
       "favicon": "./app/assets/images/IconRestwell.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "45a5911f-21be-4913-bc21-2257ec248fb5"
+      }
     }
   }
 }
