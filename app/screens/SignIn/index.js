@@ -1,38 +1,41 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+
 import {
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   Alert,
+  Linking
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Button, TextInput} from '@components';
+import { useDispatch, useSelector } from 'react-redux';
+import { BaseStyle, useTheme } from '@config';
+import { Header, SafeAreaView, Icon, Text, Button, TextInput } from '@components';
 import styles from './styles';
-import {useTranslation} from 'react-i18next';
-import {authActions} from '@actions';
-import {designSelect} from '@selectors';
+import { useTranslation } from 'react-i18next';
+import { authActions } from '@actions';
+import { designSelect } from '@selectors';
 import { useEffect } from 'react';
 import { loginUser } from '../../actions/user';
 
-export default function SignIn({navigation, route}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
+export default function SignIn({ navigation, route }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const design = useSelector(designSelect);
-
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [success, setSuccess] = useState({id: true, password: true});
+  const [success, setSuccess] = useState({ id: true, password: true });
+
+
   /**
    * call when action onLogin
    */
   const onLogin = async () => {
 
-     try {
+    try {
       if (email == '' || password == '') {
         setSuccess({
           ...success,
@@ -40,37 +43,37 @@ export default function SignIn({navigation, route}) {
           password: false,
         });
         return;
-      }else {
+      } else {
         const params = {
           email,
           password,
         };
-    
+
         setLoading(true);
-        const request = await fetch('https://restwell.az/api/loginuser',{
-          method:"PUT",
-          headers:{
+        const request = await fetch('https://restwell.az/api/loginuser', {
+          method: "PUT",
+          headers: {
             "Content-Type": "application/json",
           },
-          body:JSON.stringify(params)
+          body: JSON.stringify(params)
         })
-    
-      
-       if(!request.ok) {
-        throw new Error('Request is failed !')
-       }else {
-        const response = await request.json()
-        dispatch(loginUser(response.user))
-        Alert.alert({title: 'Login', message:"Successfuly login !"})
-        navigation.navigate('Profile')
-        setLoading(false)
-       }
+
+
+        if (!request.ok) {
+          throw new Error('Request is failed !')
+        } else {
+          const response = await request.json()
+          dispatch(loginUser(response.user))
+          Alert.alert({ title: 'Login', message: "Successfuly login !" })
+          navigation.navigate('Profile')
+          setLoading(false)
+        }
       }
-      
-     
-     }catch(err){
-      Alert.alert({title: t('sign_in'), message: t(err?.message)});
-     }
+
+
+    } catch (err) {
+      Alert.alert({ title: t('sign_in'), message: t(err?.message) });
+    }
   };
 
   const offsetKeyboard = Platform.select({
@@ -79,7 +82,7 @@ export default function SignIn({navigation, route}) {
   });
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('sign_in')}
         renderLeft={() => {
@@ -100,7 +103,7 @@ export default function SignIn({navigation, route}) {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'android' ? 'height' : 'padding'}
           keyboardVerticalOffset={offsetKeyboard}
-          style={{flex: 1}}>
+          style={{ flex: 1 }}>
           <View style={styles.contain}>
             <TextInput
               onChangeText={setEmail}
@@ -115,7 +118,7 @@ export default function SignIn({navigation, route}) {
               value={email}
             />
             <TextInput
-              style={{marginTop: 10}}
+              style={{ marginTop: 10 }}
               onChangeText={setPassword}
               onFocus={() => {
                 setSuccess({
@@ -129,15 +132,31 @@ export default function SignIn({navigation, route}) {
               value={password}
             />
             <Button
-              style={{marginTop: 20}}
+              style={{ marginTop: 20 }}
               full
               loading={loading}
               onPress={onLogin}>
               {t('sign_in')}
             </Button>
+            <Button
+              style={{ marginTop: 20 }}
+              full
+              loading={loading}
+              disabled={!request}
+             
+            >
+              {t('Sign in Google')}
+            </Button>
+            <Button
+              style={{ marginTop: 20 }}
+              full
+              loading={loading}
+            >
+              {t('Sign in Facebook')}
+            </Button>
             <TouchableOpacity
               onPress={() => navigation.navigate('ResetPassword')}>
-              <Text body1 grayColor style={{marginTop: 25}}>
+              <Text body1 grayColor style={{ marginTop: 25 }}>
                 {t('forgot_your_password')}
               </Text>
             </TouchableOpacity>

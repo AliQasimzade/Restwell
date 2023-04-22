@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import UserImage from '../../../assets/userimage.png'
 import {
   View,
@@ -7,7 +7,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import { BaseStyle, useTheme } from '@config';
 import {
   Image,
   Header,
@@ -18,14 +18,14 @@ import {
   TextInput,
 } from '@components';
 import styles from './styles';
-import {userInfo} from '@selectors';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {changeUserInfo} from '../../actions/user';
+import { userInfo } from '@selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { changeUserInfo } from '../../actions/user';
 
-export default function ProfileEdit({navigation}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
+export default function ProfileEdit({ navigation }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector(userInfo);
   const offsetKeyboard = Platform.select({
@@ -51,56 +51,56 @@ export default function ProfileEdit({navigation}) {
    */
   const onUpdate = async () => {
     setLoading(true);
-   try {
-    if (name == '' || email == '' || password == '' || surname == '' ) {
-      setSuccess({
-        ...success,
-        name: name != '' ? true : false,
-        email: email != '' ? true : false,
-        surname: surname != '' ? true : false,
-        password: password != '' ? true : false,
-      });
-      setLoading(false)
-      return;
-    }else if(name == user.name && surname == user.surname && email == user.email && password == user.password) {
-      Alert.alert({title:"Warning", message:"Please change any input value"})
-      setLoading(false)
-      return;
-    }else {
-      const params = {
-        name,
-        email,
-        surname,
-        password,
-        isAdmin: false
-      };
-      const request = await fetch(`https://restwell.az/api/updateuser/${user._id}`, {
-        method:"PUT",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify(params)
-      })
-      if(!request.ok) {
-        throw new Error('Request is failed !')
-      }else {
-        const response = await request.json()
-        console.log(response);
-        dispatch(changeUserInfo(response.user))
-        Alert.alert({title:"Success",message:"User is successfully updated"})
-        navigation.goBack()
+    try {
+      if (name == '' || email == '' || password == '' || surname == '') {
+        setSuccess({
+          ...success,
+          name: name != '' ? true : false,
+          email: email != '' ? true : false,
+          surname: surname != '' ? true : false,
+          password: password != '' ? true : false,
+        });
         setLoading(false)
+        return;
+      } else if (name == user.name && surname == user.surname && email == user.email && password == user.password) {
+        Alert.alert({ title: "Warning", message: "Please change any input value" })
+        setLoading(false)
+        return;
+      } else {
+        const params = {
+          name,
+          email,
+          surname,
+          password,
+          isAdmin: false
+        };
+        const request = await fetch(`https://restwell.az/api/updateuser/${user._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(params)
+        })
+        if (!request.ok) {
+          throw new Error('Request is failed !')
+        } else {
+          const response = await request.json()
+          console.log(response);
+          dispatch(changeUserInfo(response.user))
+          Alert.alert({ title: "Success", message: "User is successfully updated" })
+          navigation.goBack()
+          setLoading(false)
+        }
       }
     }
-   }
-   catch(err) {
-    Alert.alert({title:"Error", message:err.message})
-    setLoading(false)
-   }
+    catch (err) {
+      Alert.alert({ title: "Error", message: err.message })
+      setLoading(false)
+    }
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('edit_profile')}
         renderLeft={() => {
@@ -121,9 +121,9 @@ export default function ProfileEdit({navigation}) {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'android' ? 'height' : 'padding'}
           keyboardVerticalOffset={offsetKeyboard}
-          style={{flex: 1}}>
+          style={{ flex: 1 }}>
           <ScrollView contentContainerStyle={styles.contain}>
-            <Image source={ UserImage} style={styles.thumb} />
+            {user?.image ? <Image source={{ uri: user?.image }} style={styles.thumb} /> : <Image source={UserImage} style={styles.thumb} />}
             <View style={styles.contentTitle}>
               <Text headline semibold>
                 {t('name')}
@@ -141,7 +141,7 @@ export default function ProfileEdit({navigation}) {
                 });
               }}
             />
-              <View style={styles.contentTitle}>
+            <View style={styles.contentTitle}>
               <Text headline semibold>
                 {t('Surname')}
               </Text>
@@ -193,7 +193,7 @@ export default function ProfileEdit({navigation}) {
               }}
             />
           </ScrollView>
-          <View style={{paddingVertical: 15, paddingHorizontal: 20}}>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 20 }}>
             <Button loading={loading} full onPress={onUpdate}>
               {t('confirm')}
             </Button>
