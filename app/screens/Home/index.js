@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as Location from "expo-location"
+import { LinearGradient } from 'expo-linear-gradient';
 
 import {
   View,
@@ -46,7 +47,7 @@ export default function Home({ navigation }) {
   const [nearByMe, setNearByMe] = useState([])
   const [loc, setLoc] = useState()
 
- 
+
 
   useEffect(() => {
     // Fetch data from API
@@ -154,27 +155,27 @@ export default function Home({ navigation }) {
   const renderBanner = () => {
     if (banner.length > 0) {
       return (
-   
-          <Swiper
-            dotStyle={{
-              backgroundColor: colors.text,
-            }}
-            activeDotColor={colors.primary}
-            paginationStyle={styles.contentPage}
-            removeClippedSubviews={false}
-            autoplay={true}
-            loop={true}
-          >
-            {banner.map((item, index) => {
-              return (
-                <Image
-                  key={`slider${index}`}
-                  source={{ uri: item.image }}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              );
-            })}
-          </Swiper>
+
+        <Swiper
+          dotStyle={{
+            backgroundColor: colors.text,
+          }}
+          activeDotColor={colors.primary}
+          paginationStyle={styles.contentPage}
+          removeClippedSubviews={false}
+          autoplay={true}
+          loop={true}
+        >
+          {banner.map((item, index) => {
+            return (
+              <Image
+                key={`slider${index}`}
+                source={{ uri: item.image }}
+                style={{ width: '100%', height: '100%' }}
+              />
+            );
+          })}
+        </Swiper>
       );
     }
 
@@ -274,9 +275,16 @@ export default function Home({ navigation }) {
 
                   navigation.navigate('LocationList', { item: item.name });
                 }}>
-                <Text headline semibold style={{ color: 'red' }}>
-                  {item.name}
-                </Text>
+                <LinearGradient
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  colors={['#000000a8', 'transparent']}
+                  style={styles.gradient}
+                >
+                  <Text headline semibold style={{ color: 'white' }}>
+                    {item.name}
+                  </Text>
+                </LinearGradient>
               </Card>
             );
           }}
@@ -305,45 +313,45 @@ export default function Home({ navigation }) {
       />
     );
   };
-/**
-   * render List popular
-   * @returns
-   */
+  /**
+     * render List popular
+     * @returns
+     */
 
-const renderPopular = () => {
-  if (popularLocations.length > 0) {
-    return popularLocations.map((item, index) => {
+  const renderPopular = () => {
+    if (popularLocations.length > 0) {
+      return popularLocations.map((item, index) => {
+        return (
+          <ListItem
+            small
+            key={`popular${item._id}`}
+            image={item.splashscreen}
+            title={item.listingTitle}
+            subtitle={item.category}
+            status={item.slogan}
+            rate={item.rating_avg}
+            style={{ marginBottom: 15 }}
+            onPress={() => {
+              navigation.navigate('ProductDetail', {
+                item: item,
+              });
+            }}
+          />
+        );
+      });
+    }
+
+    return [1, 2, 3].map((item, index) => {
       return (
         <ListItem
           small
-          key={`popular${item._id}`}
-          image={item.splashscreen}
-          title={item.listingTitle}
-          subtitle={item.category}
-          status={item.slogan}
-          rate={item.rating_avg}
+          loading={true}
+          key={`recent${item}`}
           style={{ marginBottom: 15 }}
-          onPress={() => {
-            navigation.navigate('ProductDetail', {
-              item: item,
-            });
-          }}
         />
       );
     });
-  }
-
-  return [1, 2, 3].map((item, index) => {
-    return (
-      <ListItem
-        small
-        loading={true}
-        key={`recent${item}`}
-        style={{ marginBottom: 15 }}
-      />
-    );
-  });
-};
+  };
   /**
    * render List recent
    * @returns
@@ -428,6 +436,7 @@ const renderPopular = () => {
         return (
           <ListItem
             small
+            keyExtractor={(item, index) => `nearbyme-${item.id}-${index}`}
             key={`nearbyme ${item._id}`}
             image={item.splashscreen}
             title={item.listingTitle}

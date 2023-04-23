@@ -64,14 +64,7 @@ export default function List({ navigation, route }) {
     longitudeDelta: 0.004,
   });
 
-  useEffect(() => {
-    dispatch(
-      listActions.onLoadList(route?.params, design, () => {
-        setLoading(false);
-        setRefreshing(false);
-      }),
-    );
-  }, [design, dispatch, route?.params]);
+  
 
 
   useEffect(() => {

@@ -10,6 +10,5 @@ export default StyleSheet.create({
     position: 'absolute',
     alignItems: 'flex-start',
     bottom: 0,
-    padding: 10,
   },
 });

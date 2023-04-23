@@ -79,4 +79,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  gradient:{
+    width: Utils.scaleWithPixel(135),
+    height: Utils.scaleWithPixel(160),
+    paddingTop:15,
+    paddingHorizontal:10
+  }
 });
