@@ -85,7 +85,7 @@ console.log(userAbout, "Profile Page");
               onPress={() => {
                 navigation.navigate('AddListings');
               }}>
-              <Text body1>{t('Add Listing')}</Text>
+              <Text body1>{t('Biznesini əlavə et')}</Text>
               <Icon
                 name="angle-right"
                 size={18}

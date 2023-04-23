@@ -40,11 +40,11 @@ export default StyleSheet.create({
     marginTop:35,
   },
   serviceCircleIcon: {
-    width: 36,
-    height: 36,
+    width: 50,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 18,
+    borderRadius: 50,
     marginBottom: 5,
   },
   contentPopular: {

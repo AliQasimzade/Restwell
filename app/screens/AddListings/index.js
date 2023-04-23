@@ -34,8 +34,11 @@ export default function AddListings({ navigation }) {
   const [selectedImages, setSelectedImages] = useState([]);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
   const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [properties, setProperties] = useState([]);
+  const [selectedProperties, setSelectedProperties] = useState([]);
   const [slogan, setSlogan] = useState('');
   const [type, setType] = useState('');
   const [city, setCity] = useState('');
@@ -47,19 +50,14 @@ export default function AddListings({ navigation }) {
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [facebook, setFacebook] = useState('');
-  const [linkedin, setLinkedin] = useState('');
+  const [Instagram, setInstagram] = useState('');
   const [youtube, setYoutube] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [prePrice, setPrePrice] = useState('');
   const [price, setPrice] = useState('');
   const [uploadVideoLink, setUploadVideoLink] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  console.log('====================================');
-  console.log(selectedCategory + "bleeet");
-  console.log('====================================');
 
   useEffect(() => {
-
     const categories = fetch(
       'https://restwell.az/api/categories',
     ).then(res => res.json());
@@ -73,30 +71,31 @@ export default function AddListings({ navigation }) {
     Promise.all([categories, tags, properties]).then(responses => {
       const [res1, res2, res3] = responses;
       setCategory(res1);
-      setTags(res2)
       setProperties(res3)
+
+      const formattedTags = res2.map((tag) => ({
+        label: tag.name,
+        value: tag._id,
+        selected: false,
+      }));
+      setTags(formattedTags);
+
+      const formattedProperties = res3.map((tag) => ({
+        label: tag.name,
+        value: tag._id,
+        selected: false,
+      }));
+      setProperties(formattedProperties);
     })
 
   }, [])
-
-  console.log('====================================');
-  console.log(JSON.stringify(category) + " blet");
-  console.log('====================================');
 
   const handleTitleChange = text => {
     setTitle(text);
   };
 
-  const handleCategoryChange = text => {
-    setCategory(text);
-  };
-
   const handleSloganChange = text => {
     setSlogan(text);
-  };
-
-  const handleTypeChange = text => {
-    setType(text);
   };
 
   const handleCityChange = text => {
@@ -135,8 +134,8 @@ export default function AddListings({ navigation }) {
     setFacebook(text);
   };
 
-  const handleLinkedinChange = text => {
-    setLinkedin(text);
+  const handleInstagramChange = text => {
+    setInstagram(text);
   };
 
   const handleYoutubeChange = text => {
@@ -176,7 +175,7 @@ export default function AddListings({ navigation }) {
         email: email,
         website: website,
         facebook: facebook,
-        linkedin: linkedin,
+        Instagram: Instagram,
         youtube: youtube,
         whatsapp: whatsapp,
         prePrice: prePrice,
@@ -265,7 +264,7 @@ export default function AddListings({ navigation }) {
 
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Type a title'}
+                placeholder={'Məkanın adını daxil edin'}
                 style={styles.formInput}
                 value={title}
                 onChangeText={handleTitleChange}
@@ -273,46 +272,35 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Categories:</Text>
+              <Text style={styles.formLabel}>Kateqoriyasını seçin:</Text>
               <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                 {
                   category.length > 0 &&
                   <Picker
                     selectedValue={selectedCategory}
-                    style={{ width: '100%', backgroundColor: 'white', color: 'white' }}
+                    style={{ width: '100%' }}
+                    itemStyle={styles.pickerItem}
                     onValueChange={(itemValue) => setSelectedCategory(itemValue)}
                   >
                     {category.map((cat) => (
-                      <Picker.Item style={{ color: 'white' }} key={cat._id} label={cat.name} value={cat.name} />
+                      <Picker.Item key={cat._id} label={cat.name} value={cat.name} />
                     ))}
                   </Picker>
                 }
               </View>
             </View>
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Slogan:</Text>
+              <Text style={styles.formLabel}>Şüar:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Type a slogan'}
+                placeholder={'Şüarı yazın'}
                 style={styles.formInput}
                 value={slogan}
                 onChangeText={handleSloganChange}
               />
             </View>
-
-            <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Type:</Text>
-              <TextInput
-                secureTextEntry={false}
-                placeholder={'Type a type'}
-                style={styles.formInput}
-                value={type}
-                onChangeText={handleTypeChange}
-              />
-            </View>
-
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionHeaderText}>Location</Text>
+              <Text style={styles.sectionHeaderText}>Ünvan</Text>
               <Icon
                 style={styles.sectionHeader}
                 name={'location-arrow'}
@@ -322,10 +310,10 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Street:</Text>
+              <Text style={styles.formLabel}>Küçə:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Type a street'}
+                placeholder={'Küçə adını daxil edin'}
                 style={styles.formInput}
                 value={street}
                 onChangeText={handleStreetChange}
@@ -333,10 +321,10 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>City:</Text>
+              <Text style={styles.formLabel}>Şəhər:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Type a city'}
+                placeholder={'Şəhəri daxil edin'}
                 style={styles.formInput}
                 value={city}
                 onChangeText={handleCityChange}
@@ -344,10 +332,10 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Address:</Text>
+              <Text style={styles.formLabel}>Tam ünvan:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Type an address'}
+                placeholder={'Ünvanı daxil edin'}
                 style={styles.formInput}
                 value={address}
                 onChangeText={handleAddressChange}
@@ -355,10 +343,10 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>ZipCode:</Text>
+              <Text style={styles.formLabel}>Poçt kodu:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Type a zipcode'}
+                placeholder={'Poçt kodu daxil edin'}
                 style={styles.formInput}
                 value={zipcode}
                 onChangeText={handleZipCodeChange}
@@ -366,7 +354,7 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionHeaderText}>Details</Text>
+              <Text style={styles.sectionHeaderText}>Detalları</Text>
               <Icon
                 style={styles.sectionHeader}
                 name={'paperclip'}
@@ -376,21 +364,23 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Description:</Text>
+              <Text style={styles.formLabel}>Açıqlama:</Text>
               <TextInput
+                multiline
+                numberOfLines={5}
                 secureTextEntry={false}
                 placeholder={'Type a description'}
                 value={description}
                 onChangeText={handleDescriptionChange}
-                style={styles.formInput}
+                style={styles.textarea}
               />
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Phone:</Text>
+              <Text style={styles.formLabel}>Əlaqə nömrəsi:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'e.g +994 12 345 67 89'}
+                placeholder={'məs +994 12 345 67 89'}
                 style={styles.formInput}
                 value={phone}
                 onChangeText={handlePhoneChange}
@@ -398,10 +388,10 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Email:</Text>
+              <Text style={styles.formLabel}>E-poçt:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Type an email'}
+                placeholder={'E-poçt ünvanını daxil edin'}
                 style={styles.formInput}
                 value={email}
                 onChangeText={handleEmailChange}
@@ -409,10 +399,10 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Website:</Text>
+              <Text style={styles.formLabel}>Vebsayt:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Add a Link'}
+                placeholder={'Vebsaytı daxil edin'}
                 style={styles.formInput}
                 value={website}
                 onChangeText={handleWebsiteChange}
@@ -423,7 +413,7 @@ export default function AddListings({ navigation }) {
               <Text style={styles.formLabel}>Facebook:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Add Facebook link'}
+                placeholder={'Facebook linki'}
                 style={styles.formInput}
                 value={facebook}
                 onChangeText={handleFacebookChange}
@@ -431,13 +421,13 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Linkedin:</Text>
+              <Text style={styles.formLabel}>Instagram:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Add Linkedin link'}
+                placeholder={'Instagram linki'}
                 style={styles.formInput}
-                value={linkedin}
-                onChangeText={handleLinkedinChange}
+                value={Instagram}
+                onChangeText={handleInstagramChange}
               />
             </View>
 
@@ -445,7 +435,7 @@ export default function AddListings({ navigation }) {
               <Text style={styles.formLabel}>Youtube:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Add Youtube link'}
+                placeholder={'Youtube linki'}
                 style={styles.formInput}
                 value={youtube}
                 onChangeText={handleYoutubeChange}
@@ -456,7 +446,7 @@ export default function AddListings({ navigation }) {
               <Text style={styles.formLabel}>Whatsapp:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'Type Whatsapp number'}
+                placeholder={'Whatsapp nömrəsi'}
                 style={styles.formInput}
                 value={whatsapp}
                 onChangeText={handleWhatsappChange}
@@ -464,7 +454,7 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionHeaderText}>Pricing</Text>
+              <Text style={styles.sectionHeaderText}>Qiymətlər</Text>
               <Icon
                 style={styles.sectionHeader}
                 name={'wallet'}
@@ -474,10 +464,10 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Previous price:</Text>
+              <Text style={styles.formLabel}>Ən aşağı qiymət:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'e.g 155 AZN'}
+                placeholder={'məs: 2 AZN'}
                 style={styles.formInput}
                 value={prePrice}
                 onChangeText={handlePrePriceChange}
@@ -488,7 +478,7 @@ export default function AddListings({ navigation }) {
               <Text style={styles.formLabel}>Price:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'e.g 140 AZN'}
+                placeholder={'məs: 100 AZN'}
                 style={styles.formInput}
                 value={price}
                 onChangeText={handlePriceChange}
@@ -496,7 +486,7 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionHeaderText}>Tags</Text>
+              <Text style={styles.sectionHeaderText}>Teqlər</Text>
               <Icon
                 style={styles.sectionHeader}
                 name={'wallet'}
@@ -506,36 +496,37 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <CheckboxGroup
-                callback={selected => {
-                  console.log(selected);
-                }}
-                iconColor={'white'}
-                iconSize={28}
-                checkedIcon="ios-checkbox-outline"
-                uncheckedIcon="ios-square-outline"
-                checkboxes={[
-                  {
-                    label: 'First',
-                    value: 1,
-                    selected: true,
-                  },
-                ]}
-                labelStyle={{
-                  color: 'white',
-                  marginLeft: 8,
-                }}
-                rowStyle={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-                rowDirection={'row'}
-              />
+              <ScrollView>
+                <CheckboxGroup
+                  callback={(selected) => {
+                    console.log(selected);
+                    setSelectedTags(selected);
+                  }}
+                  iconColor={'white'}
+                  iconSize={28}
+                  checkedIcon="ios-checkbox-outline"
+                  uncheckedIcon="ios-square-outline"
+                  checkboxes={tags}
+                  labelStyle={{
+                    color: 'white',
+                    marginLeft: 8,
+                    marginRight: 15,
+                    marginBottom: 10
+                  }}
+                  rowStyle={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    flexWrap: 'wrap'
+                  }}
+                  rowDirection={'column'}
+                />
+              </ScrollView>
             </View>
+
 
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>
-                Media and Attachement
+                Media və görüntülər
               </Text>
               <Icon
                 style={styles.sectionHeader}
@@ -546,10 +537,10 @@ export default function AddListings({ navigation }) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Upload Video Link:</Text>
+              <Text style={styles.formLabel}>Tanıtım videonuzu əlavə edin:</Text>
               <TextInput
                 secureTextEntry={false}
-                placeholder={'e.g www.youtube.com'}
+                placeholder={'məs: www.youtube.com'}
                 style={styles.formInput}
                 value={uploadVideoLink}
                 onChangeText={handleUploadVideoLinkChange}
@@ -559,7 +550,7 @@ export default function AddListings({ navigation }) {
             <TouchableOpacity onPress={pickImages}>
               <View style={{ backgroundColor: 'gray', padding: 20 }}>
                 <Text style={{ color: 'white', fontSize: 16 }}>
-                  Select up to {10 - selectedImages.length} images
+                  Maksimum {10 - selectedImages.length} şəkil seçin
                 </Text>
               </View>
               {selectedImages && selectedImages.length > 0 && (
@@ -581,7 +572,7 @@ export default function AddListings({ navigation }) {
             </TouchableOpacity>
 
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionHeaderText}>Features</Text>
+              <Text style={styles.sectionHeaderText}>Özəlliklər</Text>
               <Icon
                 style={styles.sectionHeader}
                 name={'wine-glass'}
@@ -590,32 +581,33 @@ export default function AddListings({ navigation }) {
               />
             </View>
 
+
             <View style={styles.formItem}>
-              <CheckboxGroup
-                callback={selected => {
-                  console.log(selected);
-                }}
-                iconColor={'white'}
-                iconSize={28}
-                checkedIcon="ios-checkbox-outline"
-                uncheckedIcon="ios-square-outline"
-                checkboxes={[
-                  {
-                    label: 'First',
-                    value: 1,
-                    selected: true,
-                  },
-                ]}
-                labelStyle={{
-                  color: 'white',
-                  marginLeft: 8,
-                }}
-                rowStyle={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-                rowDirection={'row'}
-              />
+              <ScrollView>
+                <CheckboxGroup
+                  callback={(selected) => {
+                    console.log(selected);
+                    setSelectedProperties(selected);
+                  }}
+                  iconColor={'white'}
+                  iconSize={28}
+                  checkedIcon="ios-checkbox-outline"
+                  uncheckedIcon="ios-square-outline"
+                  checkboxes={properties}
+                  labelStyle={{
+                    color: 'white',
+                    marginLeft: 8,
+                    marginRight: 15,
+                    marginBottom: 10
+                  }}
+                  rowStyle={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    flexWrap: 'wrap'
+                  }}
+                  rowDirection={'column'}
+                />
+              </ScrollView>
             </View>
 
             <TouchableOpacity
@@ -636,7 +628,7 @@ export default function AddListings({ navigation }) {
                   color: 'black',
                   fontSize: 18,
                 }}>
-                Add Listing
+                Təsdiqlə
               </Text>
             </TouchableOpacity>
 
@@ -654,6 +646,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
+    flexWrap: 'wrap'
   },
   sectionHeaderText: {
     fontSize: 23,
@@ -666,5 +659,19 @@ const styles = StyleSheet.create({
   formLabel: {
     marginBottom: 5,
     fontSize: 16,
+  },
+  pickerItem: {
+    color: '#000',
+    backgroundColor: "#fff"
+  },
+  textarea: {
+    borderWidth: 1,
+    borderColor: 'grey',
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    textAlignVertical: 'top', 
+    fontSize: 16,
+    height:200,
   },
 });
