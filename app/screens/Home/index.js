@@ -72,15 +72,19 @@ export default function Home({ navigation }) {
     ).then(res => res.json());
 
     Promise.all([listings, categories, banners, events, statuses, locs])
-      .then(responses => {
-        const [response1, response2, response3, response4, response5, response6] = responses;
+    .then(responses => {
+      const [response1, response2, response3, response4, response5, response6] = responses;
+      let mekanlar = response1.map(r=>{
+        if (r.verify) {
+          return r
+        }
+      }).filter(Boolean)
         setCategories(response2);
         setLocations(response6)
-        const pop = response1.filter(item => item.type == 'popular');
-        const lastadd = response1.filter(item => item.type == 'lastadded');
-        const featureds = response1.filter(item => item.type == 'featured');
-
-        setListings(response1)
+        const pop = mekanlar.filter(item => item.type == 'popular');
+        const lastadd = mekanlar.filter(item => item.type == 'lastadded');
+        const featureds = mekanlar.filter(item => item.type == 'featured');
+        setListings(mekanlar)
         setPopularLocations(pop);
         setLastAdded(lastadd);
         setFeatured(featureds);

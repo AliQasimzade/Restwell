@@ -375,11 +375,15 @@ export default function ProductDetail({ navigation, route }) {
           <TouchableOpacity
             style={styles.line}
             onPress={() => {
-              const location = `${item?.locationCoords.latitude}, ${item?.locationCoords.longtitude}`;
+              const loc2 = `${item.address}`
+              const location = `${item?.locationCoords.latitude},${item?.locationCoords.longtitude}`;
               const url = Platform.select({
-                ios: `maps:${location}`,
+                ios: `https://www.google.com/maps/@${location},6z`,
                 android: `geo:${location}?center=${location}&q=${location}&z=16`,
               });
+              console.log('====================================');
+              console.log(loc2 + "blet");
+              console.log('====================================');
               onOpen('address', t('address'), url);
             }}>
             <View

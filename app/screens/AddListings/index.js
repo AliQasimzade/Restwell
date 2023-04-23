@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   ScrollView,
@@ -10,8 +10,8 @@ import {
   Button,
   Image,
 } from 'react-native';
-import {useTranslation} from 'react-i18next';
-import {BaseStyle, Images, useTheme} from '@config';
+import { useTranslation } from 'react-i18next';
+import { BaseStyle, Images, useTheme } from '@config';
 import * as Utils from '@utils';
 import {
   Header,
@@ -22,18 +22,20 @@ import {
   ProfileDescription,
   TextInput,
 } from '@components';
-import {KeyboardAvoidingView} from 'react-native';
-import {StyleSheet} from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import CheckboxGroup from 'react-native-checkbox-group';
 import * as ImagePicker from 'expo-image-picker';
-
-export default function AddListings({navigation}) {
-  const {t} = useTranslation();
-  const {colors} = useTheme();
+import { Picker } from '@react-native-picker/picker';
+export default function AddListings({ navigation }) {
+  const { t } = useTranslation();
+  const { colors } = useTheme();
   const [ourTeam, setOurTeam] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [properties, setProperties] = useState([]);
   const [slogan, setSlogan] = useState('');
   const [type, setType] = useState('');
   const [city, setCity] = useState('');
@@ -51,6 +53,35 @@ export default function AddListings({navigation}) {
   const [prePrice, setPrePrice] = useState('');
   const [price, setPrice] = useState('');
   const [uploadVideoLink, setUploadVideoLink] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  console.log('====================================');
+  console.log(selectedCategory + "bleeet");
+  console.log('====================================');
+
+  useEffect(() => {
+
+    const categories = fetch(
+      'https://restwell.az/api/categories',
+    ).then(res => res.json());
+    const tags = fetch(
+      'https://restwell.az/api/tags',
+    ).then(res => res.json());
+    const properties = fetch(
+      'https://restwell.az/api/properties',
+    ).then(res => res.json());
+
+    Promise.all([categories, tags, properties]).then(responses => {
+      const [res1, res2, res3] = responses;
+      setCategory(res1);
+      setTags(res2)
+      setProperties(res3)
+    })
+
+  }, [])
+
+  console.log('====================================');
+  console.log(JSON.stringify(category) + " blet");
+  console.log('====================================');
 
   const handleTitleChange = text => {
     setTitle(text);
@@ -166,7 +197,7 @@ export default function AddListings({navigation}) {
   };
 
   const pickImages = async () => {
-    const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== 'granted') {
       alert('Permission to access the media library is required!');
@@ -199,10 +230,10 @@ export default function AddListings({navigation}) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{flex: 1}}>
-      <View style={{flex: 1}}>
+      style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <Header
-          title={'Add listings'}
+          title={'Yeni məkan əlavə et'}
           renderLeft={() => {
             return (
               <Icon
@@ -220,7 +251,7 @@ export default function AddListings({navigation}) {
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.formContainer}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionHeaderText}>Basic Information</Text>
+              <Text style={styles.sectionHeaderText}>Əsas məlumatlar</Text>
               <Icon
                 style={styles.sectionHeader}
                 name={'info-circle'}
@@ -230,7 +261,8 @@ export default function AddListings({navigation}) {
             </View>
 
             <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Name:</Text>
+              <Text style={styles.formLabel}>Adı:</Text>
+
               <TextInput
                 secureTextEntry={false}
                 placeholder={'Type a title'}
@@ -242,15 +274,21 @@ export default function AddListings({navigation}) {
 
             <View style={styles.formItem}>
               <Text style={styles.formLabel}>Categories:</Text>
-              <TextInput
-                secureTextEntry={false}
-                placeholder={'Type a category'}
-                style={styles.formInput}
-                value={category}
-                onChangeText={handleCategoryChange}
-              />
+              <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                {
+                  category.length > 0 &&
+                  <Picker
+                    selectedValue={selectedCategory}
+                    style={{ width: '100%', backgroundColor: 'white', color: 'white' }}
+                    onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+                  >
+                    {category.map((cat) => (
+                      <Picker.Item style={{ color: 'white' }} key={cat._id} label={cat.name} value={cat.name} />
+                    ))}
+                  </Picker>
+                }
+              </View>
             </View>
-
             <View style={styles.formItem}>
               <Text style={styles.formLabel}>Slogan:</Text>
               <TextInput
@@ -519,8 +557,8 @@ export default function AddListings({navigation}) {
             </View>
 
             <TouchableOpacity onPress={pickImages}>
-              <View style={{backgroundColor: 'gray', padding: 20}}>
-                <Text style={{color: 'white', fontSize: 16}}>
+              <View style={{ backgroundColor: 'gray', padding: 20 }}>
+                <Text style={{ color: 'white', fontSize: 16 }}>
                   Select up to {10 - selectedImages.length} images
                 </Text>
               </View>
@@ -534,8 +572,8 @@ export default function AddListings({navigation}) {
                   {selectedImages.map(imageUri => (
                     <Image
                       key={selectedImages.length}
-                      source={{uri: imageUri}}
-                      style={{width: 100, height: 100, margin: 5}}
+                      source={{ uri: imageUri }}
+                      style={{ width: 100, height: 100, margin: 5 }}
                     />
                   ))}
                 </View>
@@ -602,7 +640,7 @@ export default function AddListings({navigation}) {
               </Text>
             </TouchableOpacity>
 
-            <View style={{height: 50}} />
+            <View style={{ height: 50 }} />
           </View>
         </ScrollView>
       </View>
