@@ -10,7 +10,7 @@ export default function ProfileDescription(props) {
       style={[styles.contain, style]}
       onPress={onPress}
       activeOpacity={0.9}>
-      <Image source={image} style={[styles.thumb, styleThumb]} />
+      <Image source={{uri: image}} style={[styles.thumb, styleThumb]} />
       <View style={{flex: 1, alignItems: 'flex-start'}}>
         <Text headline semibold numberOfLines={1}>
           {name}

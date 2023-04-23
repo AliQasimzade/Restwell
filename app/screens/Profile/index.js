@@ -83,9 +83,9 @@ console.log(userAbout, "Profile Page");
                 {borderBottomColor: colors.border, borderBottomWidth: 1},
               ]}
               onPress={() => {
-                navigation.navigate('ChangePassword');
+                navigation.navigate('AddListings');
               }}>
-              <Text body1>{t('change_password')}</Text>
+              <Text body1>{t('Add Listing')}</Text>
               <Icon
                 name="angle-right"
                 size={18}

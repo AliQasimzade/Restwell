@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
@@ -109,10 +110,15 @@ export default function SignIn({navigation, route}) {
           throw new Error('Request is failed !');
         } else {
           const response = await request.json();
-          dispatch(loginUser(response.user));
-          Alert.alert({title: 'Login', message: 'Successfuly login !'});
-          navigation.navigate('Profile');
-          setLoading(false);
+          if(response.message == "This user is not registered"){
+            Alert.alert({title:"Warning", message: response.message})
+            setLoading(false);
+          }else{
+            Alert.alert({title:"Login", message: response.message})
+            navigation.navigate('Profile');
+            dispatch(loginUser(response.user));
+            setLoading(false);
+          }         
         }
       }
     } catch (err) {

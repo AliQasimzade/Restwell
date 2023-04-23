@@ -5,10 +5,11 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
   logo: {
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
   },
   loading: {
     display: 'none',

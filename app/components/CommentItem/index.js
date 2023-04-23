@@ -13,7 +13,7 @@ export default function CommentItem(props) {
     <View style={[styles.contain, {backgroundColor: cardColor}, style]}>
       <View style={{flexDirection: 'row', marginBottom: 10}}>
         <View style={styles.contentLeft}>
-          <Image source={image} style={styles.thumb} />
+          <Image source={{uri: image}} style={styles.thumb} />
           <View>
             <Text headline semibold numberOfLines={1}>
               {name}

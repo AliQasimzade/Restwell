@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
+import { BaseStyle, BaseColor, useTheme } from '@config';
 import {
   Header,
   SafeAreaView,
@@ -15,23 +15,21 @@ import {
   ListItem,
 } from '@components';
 import styles from './styles';
-import {useTranslation} from 'react-i18next';
-import {ProductModel} from '@models';
-import {BaseCollection} from '../../api/response/collection';
-import {useSelector} from 'react-redux';
-import {wishlistSelect} from '@selectors';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { wish } from '@selectors';
 
 let timeout;
 
-export default function SearchHistory({navigation}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
-  const wishlist = useSelector(wishlistSelect);
-  const search = BaseCollection.map(item => new ProductModel(item));
-  const [history, setHistory] = useState(search);
+export default function SearchHistory({ navigation, route }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
+  const wishlist = useSelector(wish);
+  const [history, setHistory] = useState([]);
   const [result, setResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [filter, setFilter] = useState(route?.params.listings)
   const [loading, setLoading] = useState(false);
 
   /**
@@ -48,20 +46,26 @@ export default function SearchHistory({navigation}) {
    */
   const onSearch = keyword => {
     setKeyword(keyword);
+    
     if (keyword != '') {
       setLoading(true);
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        setResult(
-          search.filter(item => {
-            return item.title.toUpperCase().includes(keyword.toUpperCase());
-          }),
-        );
-        setLoading(false);
-        setShowResult(true);
-      }, 1000);
+      console.log('====================================');
+      console.log(route?.params.listings.filter(item => {
+        return item.listingTitle.toUpperCase().includes(keyword.toUpperCase());
+      }));
+      console.log('====================================');
+      setFilter(
+        route?.params.listings.filter(item => {
+          return item.listingTitle.toUpperCase().includes(keyword.toUpperCase());
+        }),
+      );
+      setLoading(false);
+      setShowResult(true);
+    }else if(keyword == '') {
+      setFilter(route?.params.listings)
     } else {
       setShowResult(false);
+      setFilter([])
     }
   };
 
@@ -87,23 +91,22 @@ export default function SearchHistory({navigation}) {
    *
    */
   const renderContent = () => {
-    if (showResult) {
+    if (filter.length > 0) {
       return (
         <FlatList
-          contentContainerStyle={{paddingHorizontal: 20}}
-          data={result}
+          contentContainerStyle={{ paddingHorizontal: 20 }}
+          data={filter}
           keyExtractor={(item, index) => `history ${index}`}
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             <ListItem
               small
-              image={item.image?.full}
-              title={item.title}
-              subtitle={item.category?.title}
+              image={item.splashscreen}
+              title={item.listingTitle}
+              subtitle={item.category}
               location={item.address}
               phone={item.phone}
-              rate={item.rate}
-              status={item.status}
-              numReviews={item.numRate}
+              rate={item.rate_avg}
+              status={item.slogan}
               favorite={isFavorite(item)}
               style={{
                 marginBottom: 15,
@@ -114,37 +117,25 @@ export default function SearchHistory({navigation}) {
         />
       );
     }
-
-    return (
-      <View style={{paddingVertical: 15, paddingHorizontal: 20}}>
-        <View style={styles.rowTitle}>
-          <Text headline>{t('search_history').toUpperCase()}</Text>
-          <TouchableOpacity onPress={onClear}>
-            <Text caption1 accentColor>
-              {t('clear')}
-            </Text>
-          </TouchableOpacity>
+    else {
+      return (
+        <View style={styles.loadingContent}>
+          <View style={{ alignItems: 'center' }}>
+            <Icon
+              name="frown-open"
+              size={18}
+              color={colors.text}
+              style={{ marginBottom: 4 }}
+            />
+            <Text>{t('data_not_found')}</Text>
+          </View>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}>
-          {history?.map?.((item, index) => (
-            <TouchableOpacity
-              style={[styles.itemHistory, {backgroundColor: colors.card}]}
-              onPress={() => onDetail(item)}
-              key={`search ${index}`}>
-              <Text caption2>{item.title}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-    );
+      )
+    }
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('search')}
         renderLeft={() => {
@@ -160,14 +151,11 @@ export default function SearchHistory({navigation}) {
         }}
       />
       <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
-        <View style={{flex: 1}}>
-          <View style={{paddingHorizontal: 20, paddingVertical: 15}}>
+        <View style={{ flex: 1 }}>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
             <TextInput
-              placeholder={t('search')}
+              placeholder={t('Search location name')}
               value={keyword}
-              onSubmitEditing={() => {
-                onSearch(keyword);
-              }}
               onChangeText={onSearch}
               icon={
                 <TouchableOpacity

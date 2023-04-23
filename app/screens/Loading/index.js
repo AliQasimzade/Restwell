@@ -4,7 +4,7 @@ import {Images, useTheme, BaseSetting} from '@config';
 import {configActions} from '@actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {Image, Text} from '@components';
-import {designSelect, userSelect} from '@selectors';
+import {designSelect} from '@selectors';
 import * as Font from 'expo-font';
 import Logo from '../../assets/images/restwelllogo.png';
 
@@ -14,7 +14,6 @@ export default function Loading({navigation}) {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const design = useSelector(designSelect);
-  const user = useSelector(userSelect);
 
   /**
    *
@@ -78,16 +77,8 @@ export default function Loading({navigation}) {
       'Roboto-Thin': require('app/assets/fonts/Roboto-Thin.ttf'),
       'Roboto-ThinItalic': require('app/assets/fonts/Roboto-ThinItalic.ttf'),
     });
+    navigation.replace('Main');
 
-    dispatch(
-      configActions.onSetup(
-        design ?? BaseSetting.defaultDesign,
-        user,
-        response => {
-          navigation.replace('Main');
-        },
-      ),
-    );
   };
 
   /**

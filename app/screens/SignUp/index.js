@@ -1,19 +1,19 @@
-import React, {useState,useEffect} from 'react';
-import {View, KeyboardAvoidingView, Platform, Alert} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Button, TextInput} from '@components';
+import React, { useState, useEffect } from 'react';
+import { View, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { BaseStyle, useTheme } from '@config';
+import { Header, SafeAreaView, Icon, Button, TextInput } from '@components';
 import styles from './styles';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import {useTranslation} from 'react-i18next';
-import { useDispatch} from 'react-redux';
-import {loginUser} from '../../actions/user';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../actions/user';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function SignUp({navigation}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
+export default function SignUp({ navigation }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const offsetKeyboard = Platform.select({
     ios: 0,
@@ -42,45 +42,45 @@ export default function SignUp({navigation}) {
   const getUserInfo = async (tok) => {
     try {
       const req = await fetch('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + tok);
-      if(!req.ok) {
+      if (!req.ok) {
         throw new Error("Request is failed");
-      }else {
+      } else {
         const res = await req.json();
 
-        const usEr = {email: res.email,name: res.given_name, surname: res.family_name, image: res.picture}
-         const request = await fetch('https://restwell.az/api/createuser', {
+        const usEr = { email: res.email, name: res.given_name, surname: res.family_name, image: res.picture }
+        const request = await fetch('https://restwell.az/api/createuser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(usEr),
         });
-        
 
-        if(!request.ok) {
+
+        if (!request.ok) {
           throw new Error('Request failed !')
-        }else {
+        } else {
           const response = await request.json()
           console.log('====================================');
           console.log(response);
           console.log('====================================');
-          if(response == "This user already exsist") {
-            Alert.alert({title: "Error" ,message: response})
-          }if(response.message === "User added succesfully") {
-            Alert.alert({title: "Success" ,message: response.message})
+          if (response == "This user already exsist") {
+            Alert.alert({ title: "Error", message: response })
+          } if (response.message === "User added succesfully") {
+            Alert.alert({ title: "Success", message: response.message })
             dispatch(loginUser(response.data))
             navigation.navigate('Profile')
           }
-        
+
         }
       }
-    }catch(err) {
-      Alert.alert({title:"Error", message: err.message})
+    } catch (err) {
+      Alert.alert({ title: "Error", message: err.message })
     }
   }
   useEffect(() => {
     if (response?.type === 'success') {
-      const {authentication} = response;
+      const { authentication } = response;
       getUserInfo(authentication?.accessToken)
     }
   }, [response]);
@@ -119,19 +119,25 @@ export default function SignUp({navigation}) {
           },
         );
 
-        console.log(req, "Sign Up Page !")
+
         if (!req.ok) {
           throw new Error('Request failed !');
         } else {
           const res = await req.json();
-          dispatch(loginUser(res.data));
-          navigation.navigate('Profile')
-         
+          if (res == "This user already exsist") {
+            Alert.alert({type:"error", title: "Warning", message: res })
+          } else {
+            Alert.alert({type:"success", title: "Sign Up", message: res.message })
+            dispatch(loginUser(res.data));
+            navigation.navigate('Profile')
+          }
+
+
         }
       } catch (error) {
         Alert.alert({
           title: t('sign_up'),
-          message:  error.message,
+          message: error.message,
         });
       }
       setLoading(false);
@@ -139,7 +145,7 @@ export default function SignUp({navigation}) {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('sign_up')}
         renderLeft={() => {
@@ -160,7 +166,7 @@ export default function SignUp({navigation}) {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'android' ? 'height' : 'padding'}
           keyboardVerticalOffset={offsetKeyboard}
-          style={{flex: 1}}>
+          style={{ flex: 1 }}>
           <View style={styles.contain}>
             <TextInput
               onChangeText={text => setUsername(text)}
@@ -175,7 +181,7 @@ export default function SignUp({navigation}) {
               }}
             />
             <TextInput
-              style={{marginTop: 10}}
+              style={{ marginTop: 10 }}
               onChangeText={text => setSurname(text)}
               placeholder={t('Surname')}
               success={success.surname}
@@ -188,7 +194,7 @@ export default function SignUp({navigation}) {
               }}
             />
             <TextInput
-              style={{marginTop: 10}}
+              style={{ marginTop: 10 }}
               onChangeText={text => setEmail(text)}
               placeholder={t('input_email')}
               keyboardType="email-address"
@@ -202,7 +208,7 @@ export default function SignUp({navigation}) {
               }}
             />
             <TextInput
-              style={{marginTop: 10}}
+              style={{ marginTop: 10 }}
               onChangeText={text => setPassword(text)}
               secureTextEntry={true}
               placeholder={t('input_password')}
@@ -217,20 +223,20 @@ export default function SignUp({navigation}) {
             />
             <Button
               full
-              style={{marginTop: 20}}
+              style={{ marginTop: 20 }}
               loading={loading}
               onPress={() => onSignUp()}>
               {t('sign_up')}
             </Button>
             <Button
               full
-              style={{marginTop: 20}}
+              style={{ marginTop: 20 }}
               loading={loading}
               disabled={!request}
               onPress={() => {
                 promptAsync();
               }}
-              >
+            >
               {t('Sign up with Google')}
             </Button>
           </View>

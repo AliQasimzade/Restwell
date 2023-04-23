@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {FlatList, RefreshControl, ActivityIndicator, View} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import React, { useState, useEffect } from 'react';
+import { FlatList, RefreshControl, ActivityIndicator, View,Alert } from 'react-native';
+import { BaseStyle, useTheme } from '@config';
 import {
   Header,
   SafeAreaView,
@@ -10,29 +10,75 @@ import {
   CommentItem,
 } from '@components';
 import styles from './styles';
-import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
-import {productActions} from '@actions';
+import { useTranslation } from 'react-i18next';
+import { userInfo } from '@selectors';
+import { useDispatch } from 'react-redux';
+import { productActions } from '@actions';
 
-export default function Review({navigation, route}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
+export default function Review({ navigation, route }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  console.log(route?.params.item, "Review Page")
 
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+  const [totalStars, setTotalStars] = useState([])
+  const [reviews, setReviews] = useState([])
 
+  
   useEffect(() => {
-    dispatch(
-      productActions.onLoadReview({}, item => {
-        setData(item);
-        setLoading(false);
-        setRefreshing(false);
-      }),
-    );
-  }, [dispatch]);
+    const getListings = async () => {
+      try {
+        const req = await fetch('https://restwell.az/api/listings')
+       if(!req.ok) {
+        throw new Error('Request failed !')
+       }else {
+        const res = await req.json()
+        console.log(res, "Review Page !")
+        const findByid = res.find(re => re._id === route?.params.item)
+        setReviews(findByid)
 
+    const oneStarsCounts = findByid.reviews.map(review => {
+      if (review.rating_count == 1) {
+        return review.rating_count
+      }
+    }).filter(Boolean)
+    const twoStarsCounts = findByid.reviews.map(review => {
+      if (review.rating_count == 2) {
+        return review.rating_count
+      }
+    }).filter(Boolean)
+    const threeStarsCounts = findByid.reviews.map(review => {
+      if (review.rating_count == 3) {
+        return review.rating_count
+      }
+    }).filter(Boolean)
+    const fourStarsCounts = findByid.reviews.map(review => {
+      if (review.rating_count == 4) {
+        return review.rating_count
+      }
+    }).filter(Boolean)
+    const fiveStarsCounts = findByid.reviews.map(review => {
+      if (review.rating_count == 5) {
+        return review.rating_count
+      }
+    }).filter(Boolean)
+    const total = [oneStarsCounts.length, twoStarsCounts.length, threeStarsCounts.length, fourStarsCounts.length, fiveStarsCounts.length]
+
+    setTotalStars(total)
+    setLoading(false)
+       }
+    
+      }catch(err) {
+        Alert.alert({type:"Warning", title:"Error", message: err.message})
+      }
+    }
+    getListings()
+
+  }, [reviews])
   /**
    * on Load data
    *
@@ -70,7 +116,7 @@ export default function Review({navigation, route}) {
 
     return (
       <FlatList
-        contentContainerStyle={{padding: 20}}
+        contentContainerStyle={{ padding: 20 }}
         refreshControl={
           <RefreshControl
             colors={[colors.primary]}
@@ -79,24 +125,24 @@ export default function Review({navigation, route}) {
             onRefresh={onRefresh}
           />
         }
-        data={data?.list ?? []}
+        data={reviews?.reviews ?? []}
         keyExtractor={(item, index) => `review ${index}`}
         ListHeaderComponent={() => (
           <RateDetail
-            point={data?.rating?.avg ?? 0}
+            point={reviews.rating_avg ?? 0}
             maxPoint={5}
-            totalRating={data?.rating?.total ?? 0}
-            data={data?.rating?.data}
+            totalRating={reviews.reviews.length ?? 0}
+            data={totalStars}
           />
         )}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <CommentItem
-            style={{marginTop: 10}}
-            image={item.authorImage}
-            name={item.author}
-            rate={item.rate}
-            date={item.date}
-            comment={item.content}
+            style={{ marginTop: 10 }}
+            image={item.user_image}
+            name={item.user_name}
+            rate={item.rating_count}
+            date={item.publish_date}
+            comment={item.message}
           />
         )}
       />
@@ -104,7 +150,7 @@ export default function Review({navigation, route}) {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('reviews')}
         renderLeft={() => {
@@ -128,10 +174,10 @@ export default function Review({navigation, route}) {
           navigation.goBack();
         }}
         onPressRight={() => {
-          navigation.navigate({name: 'Feedback'});
+          navigation.navigate('Feedback', { item: {reviews, setReviews} });
         }}
       />
-      <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
+     <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
         {renderContent()}
       </SafeAreaView>
     </View>

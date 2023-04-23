@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import * as Utils from '@utils';
 
 export default StyleSheet.create({
+  //block css
   blockImage: {
     height: Utils.scaleWithPixel(200),
     width: '100%',
@@ -33,18 +34,15 @@ export default StyleSheet.create({
   },
   //list css
   listImage: {
-    height: Utils.scaleWithPixel(100),
-    width: Utils.scaleWithPixel(80),
-    borderRadius: 8,
+    height: Utils.scaleWithPixel(140),
+    width: Utils.scaleWithPixel(120),
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
   },
   listContent: {
     flexDirection: 'row',
   },
-  listContentRight: {
-    paddingLeft: 10,
-    paddingVertical: 5,
-    flex: 1,
-  },
+  listContentRight: {paddingLeft: 10, paddingVertical: 5, flex: 1},
   lineRate: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -66,6 +64,9 @@ export default StyleSheet.create({
     height: Utils.scaleWithPixel(120),
     width: '100%',
   },
+  girdContent: {
+    flex: 1,
+  },
   tagGirdStatus: {
     position: 'absolute',
     top: 5,
@@ -75,5 +76,29 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 5,
     right: 5,
+  },
+  contain: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    borderRadius: 8,
+    marginRight: 15,
+  },
+  smallContentRate: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  smallImage: {
+    width: Utils.scaleWithPixel(235),
+    height: Utils.scaleWithPixel(190),
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  moreButton: {
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
   },
 });

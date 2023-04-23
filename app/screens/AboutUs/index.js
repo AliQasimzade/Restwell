@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
-import {View, ScrollView, ImageBackground, FlatList} from 'react-native';
-import {useTranslation} from 'react-i18next';
-import {BaseStyle, Images, useTheme} from '@config';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, ImageBackground, FlatList, Alert, Linking, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { BaseStyle, Images, useTheme } from '@config';
+import * as Utils from '@utils';
 import {
   Header,
   SafeAreaView,
@@ -12,50 +13,43 @@ import {
 } from '@components';
 import styles from './styles';
 
-export default function AboutUs({navigation}) {
-  const {t} = useTranslation();
-  const {colors} = useTheme();
-  const [ourTeam] = useState([
-    {
-      id: '1',
-      screen: 'Profile1',
-      image: Images.profile2,
-      subName: 'CEO Founder',
-      name: 'Kondo Ieyasu',
-      description:
-        'In the world of Internet Customer Service, it’s important to remember your competitor is only one mouse click away.',
-    },
-    {
-      id: '2',
-      screen: 'Profile2',
-      image: Images.profile3,
-      subName: 'Sale Manager',
-      name: 'Yeray Rosales',
-      description:
-        'In the world of Internet Customer Service, it’s important to remember your competitor is only one mouse click away.',
-    },
-    {
-      id: '3',
-      screen: 'Profile3',
-      image: Images.profile5,
-      subName: 'Product Manager',
-      name: 'Alf Huncoot',
-      description:
-        'In the world of Internet Customer Service, it’s important to remember your competitor is only one mouse click away.',
-    },
-    {
-      id: '4',
-      screen: 'Profile4',
-      image: Images.profile4,
-      subName: 'Designer UI/UX',
-      name: 'Chioke Okonkwo',
-      description:
-        'In the world of Internet Customer Service, it’s important to remember your competitor is only one mouse click away.',
-    },
-  ]);
+export default function AboutUs({ navigation }) {
+  const { t } = useTranslation();
+  const { colors } = useTheme();
+  const [ourTeam, setOurTeam] = useState([]);
+  const onOpen = (type, link) => {
+    switch (type) {
+      case 'social':
+        Linking.openURL(link)
+        break;
+      case 'phone':
+        Linking.openURL('tel://' + link);
+        break;
+        case 'email':
+          Linking.openURL('mailto:' + link)
+    }
+  };
+  useEffect(() => {
+    const getCompany = async () => {
+      try {
+        const request = await fetch('https://restwell.az/api/company')
+        if (!request.ok) {
+          throw new Error('Request is Failed !')
+        } else {
+          const response = await request.json()
+          setOurTeam(response)
+          console.log(response, "About Page !");
+        }
+      } catch (err) {
+        Alert.alert({ title: "Error", message: err.message })
+      }
+
+    }
+    getCompany()
+  }, [])
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('about_us')}
         renderLeft={() => {
@@ -73,8 +67,8 @@ export default function AboutUs({navigation}) {
         }}
       />
       <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
-        <ScrollView style={{flex: 1}}>
-          <ImageBackground source={Images.trip4} style={styles.banner}>
+        {ourTeam.length > 0 && <ScrollView style={{ flex: 1 }}>
+          <ImageBackground source={{ uri: ourTeam[0].splashScreen }} style={styles.banner}>
             <Text title1 semibold whiteColor>
               {t('about_us')}
             </Text>
@@ -84,80 +78,88 @@ export default function AboutUs({navigation}) {
           </ImageBackground>
           <View style={styles.content}>
             <Text headline semibold>
-              {t('who_we_are').toUpperCase()}
+              {t('Name').toUpperCase()}
             </Text>
-            <Text body2 style={{marginTop: 5}}>
-              The song's lyrics allude to District 12, a region of the fictional
-              country of Panem in The Hunger Games universe, subject to the
-              nation's mining industry, and recounts the feelings of the rebels
-              in District 12 at the onset of the rebellion towards the end of
-              Catching Fire. In addition, the song makes several apparent
-              references to The Hunger Games, especially the events of Catching
-              Fire, including the attic where the protagonists of the novel meet
-              during the rebellion of District 11 and "the view from up here"
+            <Text body2 style={{ marginTop: 5 }}>
+              {ourTeam[0].name}
             </Text>
-            <Text headline semibold style={{marginTop: 20}}>
-              {t('what_we_do').toUpperCase()}
+            <TouchableOpacity onPress={() => onOpen('email', ourTeam[0].email)}>
+            <Text headline semibold style={{ marginTop: 20, marginBottom: 10 }}>
+              {t('Email').toUpperCase()}
             </Text>
-            <Text body2 style={{marginTop: 5}}>
-              - First Class Flights
-            </Text>
-            <Text body2 style={{marginTop: 5}}>
-              - 5 Star Accommodations
-            </Text>
-            <Text body2 style={{marginTop: 5}}>
-              - Inclusive Packages
-            </Text>
-            <Text body2 style={{marginTop: 5}}>
-              - Latest Model Vehicles
-            </Text>
+            <Text>{ourTeam[0].email}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ width: '100%' }} onPress={() => onOpen('phone', ourTeam[0].phone)}>
+              <Text headline semibold style={{ marginTop: 20, marginBottom: 10 }} >
+                {t('phone').toUpperCase()}
+              </Text>
+              <ScrollView horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                <Icon name="mobile-alt" size={16} style={{ marginRight: 5 }} />
+                <Text>{ourTeam[0].phone}</Text>
+              </ScrollView>
+
+            </TouchableOpacity>
           </View>
           <Text headline semibold style={styles.title}>
-            {t('meet_our_team').toUpperCase()}
+            {t('Social Links').toUpperCase()}
           </Text>
-          <FlatList
-            contentContainerStyle={{paddingLeft: 5, paddingRight: 20}}
-            numColumns={2}
-            data={ourTeam}
-            keyExtractor={(item, index) => 'ourTeam' + index}
-            renderItem={({item, index}) => (
-              <Card
-                image={item.image}
-                onPress={() => navigation.navigate(item.screen)}
-                style={{
-                  flex: 1,
-                  marginLeft: 15,
-                  height: 200,
-                  marginBottom: 20,
-                }}>
-                <Text footnote whiteColor>
-                  {item.subName}
+          <ScrollView
+            horizontal={true}
+            style={{ paddingLeft: 13 }}
+            showsHorizontalScrollIndicator={false}>
+            {ourTeam[0].socialLinks.map((link, index) => (
+              <Icon
+                key={index}
+                name={Utils.iconConvert(link.name)}
+                size={30}
+                color={link.color}
+                onPress={() => onOpen('social', link.link)}
+                style={{ margin: 4 }}
+                solid
+              />
+            ))}
+          </ScrollView>
+            <View >
+              <Text headline semibold style={{ marginTop: 20, marginBottom: 10,marginLeft: 15 }}>
+                {t('address').toUpperCase()}
+              </Text>
+              <ScrollView horizontal={true}
+                style={{ paddingLeft: 13 }}
+                showsHorizontalScrollIndicator={false}>
+                  <Icon
+                    name="map-marker-alt"
+                    size={16}
+                    style={{marginTop: 5,marginRight: 5}}
+                  />
+                <Text footnote semibold style={{ marginTop: 5 }}>
+                  {ourTeam[0].address}
                 </Text>
-                <Text headline whiteColor semibold numberOfLines={1}>
-                  {item.name}
+              </ScrollView>
+            </View>
+
+            <View >
+              <Text headline semibold style={{ marginTop: 20, marginBottom: 10,marginLeft: 15 }}>
+                {t('Terms and Conditions').toUpperCase()}
+              </Text>
+
+                <Text footnote semibold style={{ marginTop: 5,marginLeft: 15 }}>
+                  {ourTeam[0].termsAndConditions}
                 </Text>
-              </Card>
-            )}
-          />
-          <Text headline semibold style={styles.title}>
-            {t('our_service').toUpperCase()}
-          </Text>
-          <View style={{paddingHorizontal: 20}}>
-            {ourTeam.map((item, index) => {
-              return (
-                <ProfileDescription
-                  key={'service' + index}
-                  image={item.image}
-                  name={item.name}
-                  subName={item.subName}
-                  description={item.description}
-                  style={{marginBottom: 10}}
-                  onPress={() => navigation.navigate(item.screen)}
-                />
-              );
-            })}
-          </View>
-        </ScrollView>
+
+            </View>
+
+            <View >
+              <Text headline semibold style={{ marginTop: 20, marginBottom: 10,marginLeft: 15 }}>
+                {t('Privacy Policy').toUpperCase()}
+              </Text>
+
+                <Text footnote semibold style={{ marginTop: 5,marginLeft: 15 }}>
+                  {ourTeam[0].privacyPolicy}
+                </Text>
+
+            </View>
+        </ScrollView>}
       </SafeAreaView>
     </View>
   );

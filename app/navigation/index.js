@@ -13,27 +13,20 @@ import {languageSelect, designSelect} from '@selectors';
 
 /* Main Stack Navigator */
 import Main from 'app/navigation/main';
+import AddListings from '@screens/AddListings';
 /* Modal Screen only affect iOS */
 import Loading from '@screens/Loading';
 import Filter from '@screens/Filter';
 import PickerScreen from '@screens/PickerScreen';
 import SearchHistory from '@screens/SearchHistory';
-import SearchHistoryRealEstate from '@screens/SearchHistoryRealEstate';
-import SearchHistoryEvent from '@screens/SearchHistoryEvent';
-import SearchHistoryFood from '@screens/SearchHistoryFood';
 import PreviewImage from '@screens/PreviewImage';
 import SelectDarkOption from '@screens/SelectDarkOption';
 import SelectFontOption from '@screens/SelectFontOption';
 import AlertScreen from '@screens/Alert';
-import ChooseBusiness from '@screens/ChooseBusiness';
 import SignIn from '@screens/SignIn';
 import SignUp from '@screens/SignUp';
 import ResetPassword from '@screens/ResetPassword';
 import ProductDetail from '@screens/ProductDetail';
-import ProductDetailRealEsate from '@screens/ProductDetailRealEsate';
-import ProductDetailEvent from '@screens/ProductDetailEvent';
-import ProductDetailFood from '@screens/ProductDetailFood';
-import Notification from '@screens/Notification';
 
 const RootStack = createStackNavigator();
 
@@ -80,12 +73,6 @@ export default function Navigator() {
    */
   const exportSearchHistory = value => {
     switch (value) {
-      case 'real_estate':
-        return SearchHistoryRealEstate;
-      case 'event':
-        return SearchHistoryEvent;
-      case 'food':
-        return SearchHistoryFood;
       default:
         return SearchHistory;
     }
@@ -98,12 +85,6 @@ export default function Navigator() {
    */
   const exportProductDetail = value => {
     switch (value) {
-      case 'real_estate':
-        return ProductDetailRealEsate;
-      case 'event':
-        return ProductDetailEvent;
-      case 'food':
-        return ProductDetailFood;
       default:
         return ProductDetail;
     }
@@ -134,20 +115,10 @@ export default function Navigator() {
             gestureEnabled: false,
           }}
         />
-        <RootStack.Screen
-          name="ChooseBusiness"
-          component={ChooseBusiness}
-          options={{
-            presentation: 'transparentModal',
-            cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
-            cardStyle: {backgroundColor: 'rgba(0, 0, 0, 0.5)'},
-            gestureEnabled: false,
-          }}
-        />
         <RootStack.Screen name="Main" component={Main} />
         <RootStack.Screen name="Filter" component={Filter} />
+        <RootStack.Screen name="AddListings" component={AddListings} />
         <RootStack.Screen name="PickerScreen" component={PickerScreen} />
-        <RootStack.Screen name="Notification" component={Notification} />
         <RootStack.Screen
           name="SearchHistory"
           component={exportSearchHistory(design)}

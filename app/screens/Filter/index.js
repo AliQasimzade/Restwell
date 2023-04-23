@@ -1,42 +1,94 @@
-import React, {useState} from 'react';
-import {View, FlatList, TouchableOpacity, ScrollView} from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Tag, RangeSlider} from '@components';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { BaseStyle, BaseColor, useTheme } from '@config';
+import { Header, SafeAreaView, Icon, Text, Tag, RangeSlider } from '@components';
 import * as Utils from '@utils';
 import styles from './styles';
-import {settingSelect} from '@selectors';
-import {useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-export default function Filter({navigation, route}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
-  const setting = useSelector(settingSelect);
-  const filter = route?.params?.filter;
 
-  const [priceBegin, setPriceBegin] = useState(filter?.minPrice ?? 0);
-  const [priceEnd, setPriceEnd] = useState(filter?.maxPrice ?? 100);
-  const [selectedCategory, setCategory] = useState(filter?.category ?? []);
-  const [selectedFacilities, setFacilities] = useState(filter?.feature ?? []);
-  const [businessColor, setBusinessColor] = useState(filter?.color);
-  const [location, setLocation] = useState(filter?.location);
+
+export default function Filter({ navigation, route }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
+  function searchProperties(res, c, l, priceBegin, priceEnd, f) {
+    return res.filter(property => {
+
+      if (c && !c.some(cat => property.category.includes(cat))) {
+        return false;
+      }
+
+      if (l && property.address.includes(l) != true) {
+        return false;
+      }
+      if (priceBegin && property.previousprice < priceBegin) {
+        return false;
+      }
+      if (priceEnd && property.price > priceEnd) {
+        return false;
+      }
+      if (f && !f.some(feature => feature.includes(feature))) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+  const [priceBegin, setPriceBegin] = useState(0);
+  const [priceEnd, setPriceEnd] = useState(0);
+  const [selectedCategory, setCategory] = useState([]);
+  const [categories, setCategories] = useState([])
+  const [features, setFeatures] = useState([])
+  const [selectedFacilities, setFacilities] = useState([]);
+  const [businessColor, setBusinessColor] = useState('');
+  const [location, setLocation] = useState([]);
+  const [locations, setLocations] = useState([])
   const [scrollEnabled, setScrollEnabled] = useState(true);
 
+  console.log(selectedCategory,selectedFacilities, "Filter Page")
+  useEffect(() => {
+    const cats = fetch('https://restwell.az/api/categories').then(res => res.json())
+    const locs = fetch('https://restwell.az/api/locations').then(res => res.json())
+    const feat = fetch('https://restwell.az/api/properties').then(res => res.json())
+
+
+    Promise.all([cats, locs, feat])
+      .then(responses => {
+        const [response1, response2, response3] = responses;
+        setCategories(response1)
+        setLocations(response2)
+        setFeatures(response3)
+
+      })
+
+      .catch(error => {
+        console.error(error);
+      });
+
+  }, [])
   /**
    * on Apply filter
    *
    */
-  const onApply = () => {
-    filter.category = selectedCategory;
-    filter.feature = selectedFacilities;
-    filter.color = businessColor;
-    filter.location = location;
-    if (setting?.priceMin != priceBegin || setting?.priceMax != priceEnd) {
-      filter.minPrice = priceBegin;
-      filter.maxPrice = priceEnd;
+  const onApply = async () => {
+    try {
+      const request = await fetch('https://restwell.az/api/listings')
+      if (!request.ok) {
+        throw new Error("Request is failed !")
+      } else {
+        const response = await request.json()
+        const c = selectedCategory.length > 0 ? selectedCategory : null
+        const f = selectedFacilities.length > 0 ? selectedFacilities : null
+        const l = location.length > 0 ? location : null
+
+        const results = searchProperties(response, c, l, priceBegin, priceEnd, f);
+        navigation.navigate('FilterSearchList', { results })
+
+      }
+    } catch (err) {
+      Alert.alert({ title: "Error", message: err.message })
     }
-    route.params?.onApply?.(filter);
-    navigation.goBack();
   };
 
   /**
@@ -48,10 +100,10 @@ export default function Filter({navigation, route}) {
   const onNavigateLocation = () => {
     navigation.navigate('PickerScreen', {
       onApply: async location => {
-        setLocation(location);
+        setLocation(location.name);
       },
       selected: location,
-      data: setting?.locations,
+      data: locations,
     });
   };
 
@@ -61,12 +113,13 @@ export default function Filter({navigation, route}) {
    * @date 2019-09-01
    * @param {*} select
    */
+
   const onSelectCategory = select => {
-    const exist = selectedCategory.some(item => item.id === select.id);
+    const exist = selectedCategory.some(item => item === select.name);
     if (exist) {
-      setCategory(selectedCategory.filter(item => item.id != select.id));
+      setCategory(selectedCategory.filter(item => item != select.name));
     } else {
-      setCategory(selectedCategory.concat(select));
+      setCategory([...selectedCategory, select.name])
     }
   };
 
@@ -75,16 +128,16 @@ export default function Filter({navigation, route}) {
    * @param {*} select
    */
   const onSelectFeature = select => {
-    const exist = selectedFacilities.some(item => item.id === select.id);
+    const exist = selectedFacilities.some(item => item === select.name);
     if (exist) {
-      setFacilities(selectedFacilities.filter(item => item.id != select.id));
+      setFacilities(selectedFacilities.filter(item => item != select.name));
     } else {
-      setFacilities(selectedFacilities.concat(select));
+      setFacilities([...selectedFacilities, select.name]);
     }
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('filtering')}
         renderLeft={() => {
@@ -106,34 +159,34 @@ export default function Filter({navigation, route}) {
           onContentSizeChange={(contentWidth, contentHeight) =>
             setScrollEnabled(Utils.scrollEnabled(contentWidth, contentHeight))
           }>
-          <View style={{paddingHorizontal: 20, paddingVertical: 15}}>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
             <Text headline semibold>
               {t('category').toUpperCase()}
             </Text>
             <View style={styles.wrapContent}>
-              {setting?.categories?.map?.(item => {
-                const selected = selectedCategory.some(i => i.id === item.id);
+              {categories.length > 0 && categories.map(item => {
+                const selected = selectedCategory.some(i => i === item.name);
                 return (
                   <Tag
                     primary={selected}
                     outline={!selected}
-                    key={item.id.toString()}
+                    key={item._id}
                     style={{
                       marginTop: 8,
                       marginRight: 8,
                     }}
                     onPress={() => onSelectCategory(item)}>
-                    {item.title}
+                    {item.name}
                   </Tag>
                 );
               })}
             </View>
-            <Text headline semibold style={{marginTop: 20}}>
+            <Text headline semibold style={{ marginTop: 20 }}>
               {t('facilities').toUpperCase()}
             </Text>
             <View style={styles.wrapContent}>
-              {setting?.features?.map?.(item => {
-                const selected = selectedFacilities.some(i => i.id === item.id);
+              {features.length > 0 && features.map(item => {
+                const selected = selectedFacilities.some(i => i === item.name);
                 return (
                   <Tag
                     onPress={() => onSelectFeature(item)}
@@ -143,17 +196,17 @@ export default function Filter({navigation, route}) {
                         size={12}
                         color={colors.accent}
                         solid
-                        style={{marginRight: 5}}
+                        style={{ marginRight: 5 }}
                       />
                     }
                     chip
-                    key={item.id.toString()}
+                    key={item._id}
                     style={{
                       marginTop: 8,
                       marginRight: 8,
                       borderColor: selected ? colors.primary : colors.accent,
                     }}>
-                    {item.title}
+                    {item.name}
                   </Tag>
                 );
               })}
@@ -165,27 +218,18 @@ export default function Filter({navigation, route}) {
                 <Text headline semibold>
                   {t('location').toUpperCase()}
                 </Text>
-                {location ? (
-                  <Text footnote primaryColor style={{marginTop: 5}}>
-                    {location.title}
-                  </Text>
-                ) : (
-                  <Text footnote grayColor style={{marginTop: 5}}>
-                    {t('please_select')}
-                  </Text>
-                )}
               </View>
               <Icon name="angle-right" size={18} color={BaseColor.grayColor} />
             </TouchableOpacity>
-            <Text headline semibold style={{marginTop: 20}}>
+            <Text headline semibold style={{ marginTop: 20 }}>
               {t('price').toUpperCase()}
             </Text>
             <View style={styles.contentRange}>
               <Text caption1 grayColor>
-                ${setting?.priceMin ?? 0}
+                {priceBegin}
               </Text>
               <Text caption1 grayColor>
-                ${setting?.priceMax ?? 100}
+                {priceEnd}
               </Text>
             </View>
             <RangeSlider
@@ -203,37 +247,6 @@ export default function Filter({navigation, route}) {
               </Text>
             </View>
           </View>
-          <Text
-            headline
-            semibold
-            style={{
-              paddingHorizontal: 20,
-              marginTop: 5,
-            }}>
-            {t('business_color').toUpperCase()}
-          </Text>
-          <FlatList
-            contentContainerStyle={{paddingVertical: 10}}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={setting?.color ?? []}
-            keyExtractor={(item, index) => item}
-            renderItem={({item, index}) => {
-              const checked = item == businessColor;
-              return (
-                <TouchableOpacity
-                  style={[
-                    styles.circleIcon,
-                    {backgroundColor: item, shadowColor: colors.border},
-                  ]}
-                  onPress={() => setBusinessColor(item)}>
-                  {checked && (
-                    <Icon name="check" size={16} color={BaseColor.whiteColor} />
-                  )}
-                </TouchableOpacity>
-              );
-            }}
-          />
         </ScrollView>
       </SafeAreaView>
     </View>

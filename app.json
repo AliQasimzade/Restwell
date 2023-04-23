@@ -1,14 +1,16 @@
 {
   "expo": {
-    "name": "listar",
-    "slug": "listar",
+    "name": "RestWell",
+    "slug": "RestWell",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./app/assets/images/IconRestwell.png",
+    "scheme":"com.auth.restwell",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./app/assets/images/restwelllogo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "width":"120px"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,16 +20,22 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.huynh.listar"
+      "bundleIdentifier": "com.auth.restwell"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./app/assets/images/IconRestwell.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.auth.restwell"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./app/assets/images/IconRestwell.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "45a5911f-21be-4913-bc21-2257ec248fb5"
+      }
     }
   }
 }

@@ -31,18 +31,20 @@ import {
   PlaceholderMedia,
 } from 'rn-placeholder';
 import {productActions, wishListActions} from '@actions';
-import {userSelect, wishlistSelect, designSelect} from '@selectors';
+import {userInfo, wish, designSelect} from '@selectors';
 import styles from './styles';
+import { addWish, removeWish } from '../../actions/wish';
+import { Alert } from 'react-native';
 
 export default function ProductDetail({navigation, route}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
   const dispatch = useDispatch();
-  const wishlist = useSelector(wishlistSelect);
+  const wishlist = useSelector(wish);
+  console.log(wishlist);
   const design = useSelector(designSelect);
-  const item = route?.params;
-  console.log(item);
-  const user = useSelector(userSelect);
+  const item = route?.params.item;
+  const user = useSelector(userInfo);
   const deltaY = new Animated.Value(0);
 
   const [loading, setLoading] = useState(true);
@@ -54,20 +56,10 @@ export default function ProductDetail({navigation, route}) {
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
 
   useEffect(() => {
-    dispatch(
-      productActions.onLoadProduct(item.id, design, item => {
-        setLoading(false);
-        setProduct(item);
-        setLike(item.favorite);
-      }),
-    );
-  }, [design, dispatch, item.id]);
-
-  useEffect(() => {
   const getAllListings = async () => {
-    const request = await fetch('https://adminpanelback.onrender.com/api/listings')
+    const request = await fetch('https://restwell.az/api/listings')
     const response = await request.json()
-
+    setLoading(false)
      const filterByCategory = response.filter(listing => listing.category == item?.category)
      console.log(filterByCategory);
     setRelated(filterByCategory)
@@ -81,7 +73,7 @@ export default function ProductDetail({navigation, route}) {
    * only UI kit
    */
   const isFavorite = item => {
-    return wishlist.list?.some(i => i.id === item.id);
+    return wishlist.some(i => i._id === item._id);
   };
 
   /**
@@ -90,15 +82,23 @@ export default function ProductDetail({navigation, route}) {
    */
   const onLike = like => {
     if (user) {
-      setLike(null);
-      dispatch(wishListActions.onUpdate(item));
-      setLike(like);
+      const checkWish = isFavorite(item)
+      if(checkWish) {
+        const id = item._id
+       dispatch(removeWish(id))
+       setLike(null);
+      }else {
+      
+        dispatch(addWish(item));
+        setLike(like);
+      }
+    
     } else {
       navigation.navigate({
         name: 'SignIn',
         params: {
           success: () => {
-            dispatch(wishListActions.onUpdate(item));
+            dispatch(addWish(item));
             setLike(like);
           },
         },
@@ -111,9 +111,7 @@ export default function ProductDetail({navigation, route}) {
    */
   const onReview = () => {
     if (user) {
-      navigation.navigate({
-        name: 'Review',
-      });
+      navigation.navigate('Review', {item: item._id});
     } else {
       navigation.navigate({
         name: 'SignIn',
@@ -172,7 +170,7 @@ export default function ProductDetail({navigation, route}) {
   const renderLike = () => {
     return (
       <TouchableOpacity onPress={() => onLike(!like)}>
-        {like ? (
+        {wishlist.find(wi => wi._id == item._id) ? (
           <Icon name="heart" color={colors.primaryLight} solid size={18} />
         ) : (
           <Icon name="heart" color={colors.primaryLight} size={18} />
@@ -232,7 +230,6 @@ export default function ProductDetail({navigation, route}) {
             position: 'absolute',
             bottom: 15,
             left: 20,
-            flexDirection: 'row',
             opacity: deltaY.interpolate({
               inputRange: [
                 0,
@@ -361,18 +358,18 @@ export default function ProductDetail({navigation, route}) {
               </Text>
               <TouchableOpacity style={styles.rateLine} onPress={onReview}>
                 <Tag rateSmall style={{marginRight: 5}} onPress={onReview}>
-                  {3}
+                  {item?.rating_avg}
                 </Tag>
                 <StarRating
                   disabled={true}
                   starSize={10}
                   maxStars={5}
-                  rating={3}
+                  rating={item?.rating_avg}
                   fullStarColor={BaseColor.yellowColor}
                   on
                 />
                 <Text footnote grayColor style={{marginLeft: 5}}>
-                  (3)
+                  {item.rating_avg}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -505,11 +502,7 @@ export default function ProductDetail({navigation, route}) {
           <Text body2 style={{lineHeight: 20}}>
             {item?.description}
           </Text>
-          <View
-            style={{
-              paddingVertical: 20,
-              flexDirection: 'row',
-            }}>
+          <View>
             <View style={{flex: 1}}>
               <Text caption1 grayColor>
                 {t('date_established')}
@@ -565,15 +558,6 @@ export default function ProductDetail({navigation, route}) {
             return (
               <Tag
                 key={item._id}
-                icon={
-                  <Icon
-                    name={Utils.iconConvert(item.icon)}
-                    size={12}
-                    color={colors.accent}
-                    solid
-                    style={{marginRight: 5}}
-                  />
-                }
                 chip
                 style={{
                   marginTop: 8,
@@ -598,15 +582,6 @@ export default function ProductDetail({navigation, route}) {
             return (
               <Tag
                 key={item._id}
-                icon={
-                  <Icon
-                    name={Utils.iconConvert(item.icon)}
-                    size={12}
-                    color={colors.accent}
-                    solid
-                    style={{marginRight: 5}}
-                  />
-                }
                 chip
                 style={{
                   marginTop: 8,
@@ -635,7 +610,7 @@ export default function ProductDetail({navigation, route}) {
                 image={item.profileImage}
                 title={item.listingTitle}
                 subtitle={item.category}
-                rate={3}
+                rate={item.rating_avg}
                 style={{marginBottom: 15}}
                 onPress={() => onProductDetail(item)}
                 onPressTag={onReview}
