@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, RefreshControl, View, TouchableOpacity,Alert,Text } from 'react-native';
+import { FlatList, RefreshControl, View, TouchableOpacity, Alert, Text } from 'react-native';
 import { BaseStyle, BaseColor, useTheme } from '@config';
 import {
   Header,
@@ -14,6 +14,7 @@ import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { productActions } from '@actions';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Category({ navigation }) {
@@ -27,51 +28,33 @@ export default function Category({ navigation }) {
   const [category, setCategory] = useState([]);
   const [listings, setListings] = useState([])
   const [result, setResult] = useState([])
- const [filterBy, setByFilter] = useState(0)
+  const [filterBy, setByFilter] = useState(0)
   const [filter, setFilter] = useState([])
   const [origin, setOrigin] = useState([]);
 
-  useEffect(() => {
-    dispatch(
-      productActions.onFetchCategory(null, data => {
-        setCategory(data);
-        setOrigin(data);
-        setRefreshing(false);
-      }),
-    );
-  }, [dispatch]);
 
   useEffect(() => {
-        const categories =  fetch('https://restwell.az/api/categories').then(res => res.json())
-        const allistings =  fetch('https://restwell.az/api/listings').then(res => res.json())
+    const categories = fetch('https://restwell.az/api/categories').then(res => res.json())
+    const allistings = fetch('https://restwell.az/api/listings').then(res => res.json())
 
-        Promise.all([categories,allistings])
-        .then(responses => {
-          const [response1, response2] = responses;
-          setFilter(response1)
+    Promise.all([categories, allistings])
+      .then(responses => {
+        const [response1, response2] = responses;
+        setFilter(response1)
         setListings(response1)
         setResult(response2)
         setByFilter(response2.filter(it => it.category == "Bar").length)
-        })
-        .catch(error => {
-          // Handle error here
-          console.error(error);
-        });
-    
+      })
+      .catch(error => {
+        // Handle error here
+        console.error(error);
+      });
+
   }, [])
   /**
    * on Refresh category
    */
-  const onRefresh = () => {
-    setRefreshing(true);
-    dispatch(
-      productActions.onFetchCategory(null, data => {
-        setCategory(data);
-        setOrigin(data);
-        setRefreshing(false);
-      }),
-    );
-  };
+
 
   /**
    * call when change mode view
@@ -99,7 +82,7 @@ export default function Category({ navigation }) {
         return item.name.toUpperCase().includes(search.toUpperCase());
       })
       console.log(result);
-       setFilter(result)
+      setFilter(result)
     }
   };
 
@@ -119,8 +102,7 @@ export default function Category({ navigation }) {
             title={item.name}
             subtitle={item.email}
             onPress={() => {
-
-              navigation.navigate('List', { item:item.name });
+              navigation.navigate('List', { item: item.name });
             }}
             style={[styles.itemIcon, { borderColor: colors.border }]}
           />
@@ -135,7 +117,7 @@ export default function Category({ navigation }) {
             subtitle={item.email}
             count={(result.filter(it => it.category == item.name).length)}
             onPress={() => {
-              navigation.navigate('List', { item:item.name });
+              navigation.navigate('List', { item: item.name });
             }}
             style={{
               marginBottom: 15,
@@ -154,35 +136,35 @@ export default function Category({ navigation }) {
   const renderContent = () => {
     let list = (
       <View >
-          <View style={{alignItems: 'center'}}>
-            <Icon
-              name="frown-open"
-              size={18}
-              color={colors.text}
-              style={{marginBottom: 4}}
-            />
-            <Text style={{color:'white'}}>{t('data_not_found')}</Text>
-          </View>
+        <View style={{ alignItems: 'center' }}>
+          <Icon
+            name="frown-open"
+            size={18}
+            color={colors.text}
+            style={{ marginBottom: 4 }}
+          />
+          <Text style={{ color: 'white' }}>{t('data_not_found')}</Text>
         </View>
+      </View>
     );
     if (filter.length > 0) {
       list = (
-        <FlatList
-          contentContainerStyle={{
-            paddingHorizontal: 20,
-          }}
-          refreshControl={
-            <RefreshControl
-              colors={[colors.primary]}
-              tintColor={colors.primary}
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
-          }
-          data={filter}
-          keyExtractor={(item, index) => `Category ${index}`}
-          renderItem={({ item, index }) => renderItem(item, index)}
-        />
+        
+          <FlatList
+            contentContainerStyle={{
+              paddingHorizontal: 20,
+            }}
+            refreshControl={
+              <RefreshControl
+                colors={[colors.primary]}
+                tintColor={colors.primary}
+                refreshing={refreshing}
+              />
+            }
+            data={filter}
+            keyExtractor={(item, index) => `Category ${index}`}
+            renderItem={({ item, index }) => renderItem(item, index)}
+          />
       );
     }
 

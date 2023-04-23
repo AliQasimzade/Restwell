@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as Utils from '@utils';
 
 export default StyleSheet.create({
@@ -14,12 +14,18 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   iconCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  placehoder: {width: '100%', height: '100%', borderRadius: 8},
-  contentTitle: {paddingLeft: 10},
+  placehoder: { width: '100%', height: '100%', borderRadius: 8 },
+  contentTitle: { paddingLeft: 10 },
+
+  gradient: {
+    width: '100%',
+    height: '100%',
+    position:'absolute'
+  }
 });

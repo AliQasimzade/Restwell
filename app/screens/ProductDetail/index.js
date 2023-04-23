@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   ScrollView,
@@ -9,7 +9,7 @@ import {
   Platform,
   Dimensions,
 } from 'react-native';
-import {BaseColor, useTheme, BaseStyle} from '@config';
+import { BaseColor, useTheme, BaseStyle } from '@config';
 import {
   Header,
   SafeAreaView,
@@ -20,25 +20,25 @@ import {
   Image,
   ListItem,
 } from '@components';
-import {useTranslation} from 'react-i18next';
-import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import { useTranslation } from 'react-i18next';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import * as Utils from '@utils';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Placeholder,
   PlaceholderLine,
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import {productActions, wishListActions} from '@actions';
-import {userInfo, wish, designSelect} from '@selectors';
+import { productActions, wishListActions } from '@actions';
+import { userInfo, wish, designSelect } from '@selectors';
 import styles from './styles';
 import { addWish, removeWish } from '../../actions/wish';
 import { Alert } from 'react-native';
 
-export default function ProductDetail({navigation, route}) {
-  const {t} = useTranslation();
-  const {colors} = useTheme();
+export default function ProductDetail({ navigation, route }) {
+  const { t } = useTranslation();
+  const { colors } = useTheme();
   const dispatch = useDispatch();
   const wishlist = useSelector(wish);
   console.log(wishlist);
@@ -55,23 +55,20 @@ export default function ProductDetail({navigation, route}) {
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
 
+  const [week, setWeek] = useState(["mon", "tue", "wed", "thu", "fri", "sat", "sun"])
+
+
   useEffect(() => {
-  const getAllListings = async () => {
-    const request = await fetch('https://restwell.az/api/listings')
-    const response = await request.json()
-    setLoading(false)
-     const filterByCategory = response.filter(listing => listing.category == item?.category)
-     console.log(filterByCategory);
-    setRelated(filterByCategory)
+    const getAllListings = async () => {
+      const request = await fetch('https://restwell.az/api/listings')
+      const response = await request.json()
+      setLoading(false)
+      const filterByCategory = response.filter(listing => listing.category == item?.category)
+      setRelated(filterByCategory)
+    }
+    getAllListings()
+  }, [])
 
-  }
-  getAllListings()
-  },[])
-
-  /**
-   * check wishlist state
-   * only UI kit
-   */
   const isFavorite = item => {
     return wishlist.some(i => i._id === item._id);
   };
@@ -83,16 +80,16 @@ export default function ProductDetail({navigation, route}) {
   const onLike = like => {
     if (user) {
       const checkWish = isFavorite(item)
-      if(checkWish) {
+      if (checkWish) {
         const id = item._id
-       dispatch(removeWish(id))
-       setLike(null);
-      }else {
-      
+        dispatch(removeWish(id))
+        setLike(null);
+      } else {
+
         dispatch(addWish(item));
         setLike(like);
       }
-    
+
     } else {
       navigation.navigate({
         name: 'SignIn',
@@ -111,7 +108,7 @@ export default function ProductDetail({navigation, route}) {
    */
   const onReview = () => {
     if (user) {
-      navigation.navigate('Review', {item: item._id});
+      navigation.navigate('Review', { item: item._id });
     } else {
       navigation.navigate({
         name: 'SignIn',
@@ -131,7 +128,7 @@ export default function ProductDetail({navigation, route}) {
    * @param {*} item
    */
   const onProductDetail = item => {
-    navigation.replace('ProductDetail', {item: item});
+    navigation.replace('ProductDetail', { item: item });
   };
 
   /**
@@ -200,7 +197,7 @@ export default function ProductDetail({navigation, route}) {
                 }),
               },
             ]}>
-            <PlaceholderMedia style={{width: '100%', height: '100%'}} />
+            <PlaceholderMedia style={{ width: '100%', height: '100%' }} />
           </Animated.View>
         </Placeholder>
       );
@@ -222,8 +219,8 @@ export default function ProductDetail({navigation, route}) {
           },
         ]}>
         <Image
-          source={{uri: item?.splashscreen}}
-          style={{width: '100%', height: '100%'}}
+          source={{ uri: item?.splashscreen }}
+          style={{ width: '100%', height: '100%' }}
         />
         <Animated.View
           style={{
@@ -239,7 +236,7 @@ export default function ProductDetail({navigation, route}) {
               outputRange: [1, 0, 0],
             }),
           }}>
-          <Image source={{uri: item?.profileImage}} style={styles.userIcon} />
+          <Image source={{ uri: item?.profileImage }} style={styles.userIcon} />
           <View>
             <Text headline semibold whiteColor>
               {item?.listingTitle}
@@ -265,58 +262,58 @@ export default function ProductDetail({navigation, route}) {
             [
               {
                 nativeEvent: {
-                  contentOffset: {y: deltaY},
+                  contentOffset: { y: deltaY },
                 },
               },
             ],
-            {useNativeDriver: false},
+            { useNativeDriver: false },
           )}
           onContentSizeChange={() => {
             setHeightHeader(Utils.heightHeader());
           }}
           scrollEventThrottle={8}>
-          <View style={{height: 255 - heightHeader}} />
+          <View style={{ height: 255 - heightHeader }} />
           <Placeholder Animation={Progressive}>
             <View
               style={{
                 paddingHorizontal: 20,
                 marginBottom: 20,
               }}>
-              <PlaceholderLine style={{width: '50%', marginTop: 10}} />
-              <PlaceholderLine style={{width: '70%'}} />
-              <PlaceholderLine style={{width: '40%'}} />
+              <PlaceholderLine style={{ width: '50%', marginTop: 10 }} />
+              <PlaceholderLine style={{ width: '70%' }} />
+              <PlaceholderLine style={{ width: '40%' }} />
               <View style={styles.line}>
                 <PlaceholderMedia style={styles.contentIcon} />
-                <View style={{marginLeft: 10, flex: 1, paddingTop: 10}}>
-                  <PlaceholderLine style={{width: '40%'}} />
+                <View style={{ marginLeft: 10, flex: 1, paddingTop: 10 }}>
+                  <PlaceholderLine style={{ width: '40%' }} />
                 </View>
               </View>
               <View style={styles.line}>
                 <PlaceholderMedia style={styles.contentIcon} />
-                <View style={{marginLeft: 10, flex: 1, paddingTop: 10}}>
-                  <PlaceholderLine style={{width: '40%'}} />
+                <View style={{ marginLeft: 10, flex: 1, paddingTop: 10 }}>
+                  <PlaceholderLine style={{ width: '40%' }} />
                 </View>
               </View>
               <View style={styles.line}>
                 <PlaceholderMedia style={styles.contentIcon} />
-                <View style={{marginLeft: 10, flex: 1, paddingTop: 10}}>
-                  <PlaceholderLine style={{width: '40%'}} />
+                <View style={{ marginLeft: 10, flex: 1, paddingTop: 10 }}>
+                  <PlaceholderLine style={{ width: '40%' }} />
                 </View>
               </View>
               <View style={styles.line}>
                 <PlaceholderMedia style={styles.contentIcon} />
-                <View style={{marginLeft: 10, flex: 1, paddingTop: 10}}>
-                  <PlaceholderLine style={{width: '40%'}} />
+                <View style={{ marginLeft: 10, flex: 1, paddingTop: 10 }}>
+                  <PlaceholderLine style={{ width: '40%' }} />
                 </View>
               </View>
               <View style={styles.line}>
                 <PlaceholderMedia style={styles.contentIcon} />
-                <View style={{marginLeft: 10, flex: 1, paddingTop: 10}}>
-                  <PlaceholderLine style={{width: '40%'}} />
+                <View style={{ marginLeft: 10, flex: 1, paddingTop: 10 }}>
+                  <PlaceholderLine style={{ width: '40%' }} />
                 </View>
               </View>
               <PlaceholderLine
-                style={{width: '100%', height: 250, marginTop: 20}}
+                style={{ width: '100%', height: 250, marginTop: 20 }}
               />
             </View>
           </Placeholder>
@@ -329,24 +326,24 @@ export default function ProductDetail({navigation, route}) {
           [
             {
               nativeEvent: {
-                contentOffset: {y: deltaY},
+                contentOffset: { y: deltaY },
               },
             },
           ],
-          {useNativeDriver: false},
+          { useNativeDriver: false },
         )}
         onContentSizeChange={() => {
           setHeightHeader(Utils.heightHeader());
         }}
         scrollEventThrottle={8}>
-        <View style={{height: 255 - heightHeader}} />
+        <View style={{ height: 255 - heightHeader }} />
         <View
           style={{
             paddingHorizontal: 20,
             marginBottom: 20,
           }}>
           <View style={styles.lineSpace}>
-            <Text title1 semibold style={{paddingRight: 15}}>
+            <Text title1 semibold style={{ paddingRight: 15 }}>
               {item?.listingTitle}
             </Text>
             {renderLike()}
@@ -357,7 +354,7 @@ export default function ProductDetail({navigation, route}) {
                 {item?.category}
               </Text>
               <TouchableOpacity style={styles.rateLine} onPress={onReview}>
-                <Tag rateSmall style={{marginRight: 5}} onPress={onReview}>
+                <Tag rateSmall style={{ marginRight: 5 }} onPress={onReview}>
                   {item?.rating_avg}
                 </Tag>
                 <StarRating
@@ -368,7 +365,7 @@ export default function ProductDetail({navigation, route}) {
                   fullStarColor={BaseColor.yellowColor}
                   on
                 />
-                <Text footnote grayColor style={{marginLeft: 5}}>
+                <Text footnote grayColor style={{ marginLeft: 5 }}>
                   {item.rating_avg}
                 </Text>
               </TouchableOpacity>
@@ -386,18 +383,18 @@ export default function ProductDetail({navigation, route}) {
               onOpen('address', t('address'), url);
             }}>
             <View
-              style={[styles.contentIcon, {backgroundColor: colors.border}]}>
+              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
               <Icon
                 name="map-marker-alt"
                 size={16}
                 color={BaseColor.whiteColor}
               />
             </View>
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <Text caption2 grayColor>
                 {t('address')}
               </Text>
-              <Text footnote semibold style={{marginTop: 5}}>
+              <Text footnote semibold style={{ marginTop: 5 }}>
                 {item?.address}
               </Text>
             </View>
@@ -408,14 +405,14 @@ export default function ProductDetail({navigation, route}) {
               onOpen('phone', t('tel'), item?.phone);
             }}>
             <View
-              style={[styles.contentIcon, {backgroundColor: colors.border}]}>
+              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
               <Icon name="mobile-alt" size={16} color={BaseColor.whiteColor} />
             </View>
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <Text caption2 grayColor>
                 {t('tel')}
               </Text>
-              <Text footnote semibold style={{marginTop: 5}}>
+              <Text footnote semibold style={{ marginTop: 5 }}>
                 {item.phone}
               </Text>
             </View>
@@ -426,14 +423,14 @@ export default function ProductDetail({navigation, route}) {
               onOpen('email', t('envelope'), item?.email);
             }}>
             <View
-              style={[styles.contentIcon, {backgroundColor: colors.border}]}>
+              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
               <Icon name="envelope" size={16} color={BaseColor.whiteColor} />
             </View>
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <Text caption2 grayColor>
                 {t('email')}
               </Text>
-              <Text footnote semibold style={{marginTop: 5}}>
+              <Text footnote semibold style={{ marginTop: 5 }}>
                 {item?.email}
               </Text>
             </View>
@@ -444,26 +441,26 @@ export default function ProductDetail({navigation, route}) {
               onOpen('web', t('website'), item?.website);
             }}>
             <View
-              style={[styles.contentIcon, {backgroundColor: colors.border}]}>
+              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
               <Icon name="globe" size={16} color={BaseColor.whiteColor} />
             </View>
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <Text caption2 grayColor>
                 {t('website')}
               </Text>
-              <Text footnote semibold style={{marginTop: 5}}>
+              <Text footnote semibold style={{ marginTop: 5 }}>
                 {item?.website}
               </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.line} onPress={onCollapse}>
             <View
-              style={[styles.contentIcon, {backgroundColor: colors.border}]}>
-              <Icon name="clock" size={16} color={BaseColor.whiteColor} />
+              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
+              <Icon name="clock" size={18} color={BaseColor.whiteColor} />
             </View>
             <View style={styles.contentInforAction}>
               <View>
-                <Text caption2 grayColor>
+                <Text body2 grayColor>
                   {t('open_hour')}
                 </Text>
               </View>
@@ -485,12 +482,12 @@ export default function ProductDetail({navigation, route}) {
             {item?.timeschedule.map((item, index) => {
               return (
                 <View
-                  style={[styles.lineWorkHours, {borderColor: colors.border}]}
+                  style={[styles.lineWorkHours, { borderColor: colors.border }]}
                   key={index}>
-                  <Text body2 grayColor>
-                    {t(index + 1)}
+                  <Text body1 grayColor>
+                    {t(`${week[index]}`)}
                   </Text>
-                  <Text body2 accentColor semibold>
+                  <Text body1 accentColor semibold>
                     {`${item.openingTime} - ${item.closingtime}`}
                   </Text>
                 </View>
@@ -498,24 +495,24 @@ export default function ProductDetail({navigation, route}) {
             })}
           </View>
         </View>
-        <View style={[styles.contentDescription, {borderColor: colors.border}]}>
-          <Text body2 style={{lineHeight: 20}}>
+        <View style={[styles.contentDescription, { borderColor: colors.border }]}>
+          <Text body2 style={{ lineHeight: 20 }}>
             {item?.description}
           </Text>
           <View>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <Text caption1 grayColor>
                 {t('date_established')}
               </Text>
-              <Text headline style={{marginTop: 5}}>
+              <Text headline style={{ marginTop: 5 }}>
                 {item?.slogan}
               </Text>
             </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <View style={{ flex: 1, alignItems: 'flex-end' }}>
               <Text caption1 grayColor>
                 {t('price_range')}
               </Text>
-              <Text headline style={{marginTop: 5}}>
+              <Text headline style={{ marginTop: 5 }}>
                 {`${item?.previousprice ?? '-'}$ - ${item?.price ?? '-'}$`}
               </Text>
             </View>
@@ -537,7 +534,7 @@ export default function ProductDetail({navigation, route}) {
               <Marker
                 coordinate={{
                   latitude: parseFloat(item?.locationCoords.latitude ?? 0.0),
-                longitude: parseFloat(item?.locationCoords.longtitude ?? 0.0),
+                  longitude: parseFloat(item?.locationCoords.longtitude ?? 0.0),
                 }}
               />
             </MapView>
@@ -553,7 +550,7 @@ export default function ProductDetail({navigation, route}) {
           }}>
           {t('Tags')}
         </Text>
-        <View style={[styles.wrapContent, {borderColor: colors.border}]}>
+        <View style={[styles.wrapContent, { borderColor: colors.border }]}>
           {item?.tags.map(item => {
             return (
               <Tag
@@ -577,7 +574,7 @@ export default function ProductDetail({navigation, route}) {
           }}>
           {t('Features')}
         </Text>
-        <View style={[styles.wrapContent, {borderColor: colors.border}]}>
+        <View style={[styles.wrapContent, { borderColor: colors.border }]}>
           {item?.features.map(item => {
             return (
               <Tag
@@ -601,7 +598,7 @@ export default function ProductDetail({navigation, route}) {
           }}>
           {t('related')}
         </Text>
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{ paddingHorizontal: 20 }}>
           {related.length > 0 && related.map(item => {
             return (
               <ListItem
@@ -611,7 +608,7 @@ export default function ProductDetail({navigation, route}) {
                 title={item.listingTitle}
                 subtitle={item.category}
                 rate={item.rating_avg}
-                style={{marginBottom: 15}}
+                style={{ marginBottom: 15 }}
                 onPress={() => onProductDetail(item)}
                 onPressTag={onReview}
               />
@@ -623,7 +620,7 @@ export default function ProductDetail({navigation, route}) {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       {renderBanner()}
       <Header
         title=""

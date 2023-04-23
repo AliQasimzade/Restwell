@@ -1,15 +1,15 @@
 import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {BaseColor} from '@config';
-import {Text, Icon, Image} from '@components';
+import { View, TouchableOpacity } from 'react-native';
+import { BaseColor } from '@config';
+import { Text, Icon, Image } from '@components';
 import styles from './styles';
 import PropTypes from 'prop-types';
-import {Placeholder, Progressive, PlaceholderMedia} from 'rn-placeholder';
-import {useTranslation} from 'react-i18next';
-
+import { Placeholder, Progressive, PlaceholderMedia } from 'rn-placeholder';
+import { useTranslation } from 'react-i18next';
+import { LinearGradient } from 'expo-linear-gradient';
 export default function CategoryFull(props) {
-  const {t} = useTranslation();
-  const {style, loading, image, icon, color, title, count, onPress} = props;
+  const { t } = useTranslation();
+  const { style, loading, image, icon, color, title, count, onPress } = props;
   if (loading) {
     return (
       <Placeholder Animation={Progressive}>
@@ -24,20 +24,27 @@ export default function CategoryFull(props) {
       style={[styles.contain, style]}
       onPress={onPress}
       activeOpacity={0.9}>
-      <Image source={{uri: image}} style={styles.placehoder} />
-      <View style={styles.contentIcon}>
-        <View style={[styles.iconCircle, {backgroundColor: color}]}>
-          <Icon name={icon} size={18} color={BaseColor.whiteColor} />
+        <Image source={{ uri: image }} style={styles.placehoder} />
+        <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={['#000000a8', 'transparent']}
+        style={styles.gradient}
+      >
+        <View style={styles.contentIcon}>
+          <View style={[styles.iconCircle, { backgroundColor: color }]}>
+            <Icon name={icon} size={25} color={BaseColor.whiteColor} />
+          </View>
+          <View style={styles.contentTitle}>
+            <Text headline bold whiteColor>
+              {title}
+            </Text>
+            <Text body2 bold whiteColor>
+              {count}
+            </Text>
+          </View>
         </View>
-        <View style={styles.contentTitle}>
-          <Text headline bold whiteColor>
-            {title}
-          </Text>
-          <Text body2 bold whiteColor>
-            {count}
-          </Text>
-        </View>
-      </View>
+        </LinearGradient>
     </TouchableOpacity>
   );
 }
@@ -61,5 +68,5 @@ CategoryFull.defaultProps = {
   color: '',
   title: '',
   subtitle: '',
-  onPress: () => {},
+  onPress: () => { },
 };

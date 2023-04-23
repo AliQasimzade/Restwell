@@ -32,12 +32,12 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    marginVertical: 10,
+    alignContent:'flex-start',
+    marginVertical: 50,
   },
   serviceItem: {
     alignItems: 'center',
-    marginTop:70,
-    marginBottom: 15,
+    marginTop:35,
   },
   serviceCircleIcon: {
     width: 36,

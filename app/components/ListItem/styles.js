@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
 import * as Utils from '@utils';
+import { height } from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
 
 export default StyleSheet.create({
   //block css
   blockImage: {
-    height: Utils.scaleWithPixel(200),
+    height: Utils.scaleWithPixel(300),
     width: '100%',
   },
   tagStatus: {
@@ -71,11 +72,14 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 5,
     left: 5,
+    width:'25%',
+    height:35,
   },
   iconGirdLike: {
     position: 'absolute',
     bottom: 5,
     right: 5,
+    padding:15
   },
   contain: {
     flexDirection: 'column',
@@ -89,8 +93,8 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   smallImage: {
-    width: Utils.scaleWithPixel(235),
-    height: Utils.scaleWithPixel(190),
+    width: Utils.scaleWithPixel(290),
+    height: Utils.scaleWithPixel(210),
     borderRadius: 8,
     marginBottom: 10,
   },

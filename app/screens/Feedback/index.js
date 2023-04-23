@@ -71,8 +71,7 @@ export default function Feedback({ navigation, route }) {
           throw new Error("Request is failed !")
         } else {
           const response = await request.json()
-          route?.params.item.setReviews(response.listing)
-          Alert.alert({title:'Success', message: 'Added Successfuly '})
+          Alert.alert({type:'success',title:'Gözləmədədir', message: 'Rəyiniz idarəçilər tərəfindən yoxlandıqdan sonra hamıya açıq olacaq '})
           setLoading(false)
           setTimeout(() => {
             navigation.goBack();

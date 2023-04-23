@@ -311,7 +311,7 @@
           </Tag>
           <View
             style={{ paddingHorizontal: 10, justifyContent: 'center', flex: 1 }}>
-            <Text headline semibold numberOfLines={1}>
+            <Text title2 semibold numberOfLines={1}>
               {title}
             </Text>
             <Text footnote semibold grayColor style={{ marginTop: 4 }}>

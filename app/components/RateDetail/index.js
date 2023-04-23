@@ -23,7 +23,7 @@ export default function RateDetail(props) {
           {point}
         </Text>
         <Text subhead grayColor semibold>
-          {t('out_of')} {maxPoint}
+           {maxPoint} {t('out_of')}
         </Text>
       </View>
       <View style={styles.containRight}>

@@ -193,8 +193,7 @@ export default function Home({ navigation }) {
   const renderCategory = () => {
     if (categories.length > 0) {
       return (
-        <ScrollView horizontal={true}
-          showsHorizontalScrollIndicator={false} >
+        <View style={styles.serviceContent}>
           {categories.map((item, index) => {
             return (
               <TouchableOpacity
@@ -224,7 +223,7 @@ export default function Home({ navigation }) {
               </TouchableOpacity>
             );
           })}
-        </ScrollView>
+        </View>
       );
     }
 
@@ -321,6 +320,9 @@ export default function Home({ navigation }) {
   const renderPopular = () => {
     if (popularLocations.length > 0) {
       return popularLocations.map((item, index) => {
+        console.log('====================================');
+        console.log(item);
+        console.log('====================================');
         return (
           <ListItem
             small
@@ -328,7 +330,7 @@ export default function Home({ navigation }) {
             image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
-            status={item.slogan}
+            status={item.previousprice + "₼ - " + item.price + "₼"}
             rate={item.rating_avg}
             style={{ marginBottom: 15 }}
             onPress={() => {
@@ -366,7 +368,7 @@ export default function Home({ navigation }) {
             image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
-            status={item.slogan}
+            status={item.previousprice + "₼ - " + item.price + "₼"}
             rate={item.rating_avg}
             style={{ marginBottom: 15 }}
             onPress={() => {
@@ -405,7 +407,7 @@ export default function Home({ navigation }) {
             image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
-            status={item.slogan}
+            status={item.previousprice + "₼ - " + item.price + "₼"}
             rate={item.rating_avg}
             style={{ marginBottom: 15 }}
             onPress={() => {
@@ -436,13 +438,12 @@ export default function Home({ navigation }) {
         return (
           <ListItem
             small
-            keyExtractor={(item, index) => `nearbyme-${item.id}-${index}`}
             key={`nearbyme ${item._id}`}
             image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
             rate={item.rating_avg}
-            status={item.slogan}
+            status={item.previousprice + "₼ - " + item.price + "₼"}
             style={{ marginBottom: 15 }}
             onPress={() => {
               navigation.navigate('ProductDetail', {
@@ -598,10 +599,10 @@ export default function Home({ navigation }) {
           {renderCategory()}
           <View style={styles.contentPopular}>
             <Text title3 semibold>
-              {t('Locations')}
+              {t('location')}
             </Text>
             <Text body2 grayColor>
-              {t("Baku's all locations")}
+              {t("locationSubtitle")}
             </Text>
           </View>
           {renderLocations()}
@@ -618,7 +619,7 @@ export default function Home({ navigation }) {
               {t('popular_location')}
             </Text>
             <Text body2 grayColor style={{ marginBottom: 15 }}>
-              {t('Popular Locations')}
+              {t('popularSubtitle')}
             </Text>
             <ScrollView
               horizontal={true}
@@ -644,23 +645,16 @@ export default function Home({ navigation }) {
             </ScrollView>
           </View>
 
-
-
-
-
-
-
-
           <View
             style={{
               paddingHorizontal: 20,
               paddingTop: 15,
             }}>
             <Text title3 semibold>
-              {t('Near by Me')}
+              {t('nearByMe')}
             </Text>
             <Text body2 grayColor style={{ marginBottom: 15 }}>
-              {t('recent_sologan')}
+              {t('nearByMeSubtitle')}
             </Text>
             <ScrollView
               horizontal={true}
@@ -674,10 +668,10 @@ export default function Home({ navigation }) {
               paddingTop: 15,
             }}>
             <Text title3 semibold>
-              {t('Recommended Locations')}
+              {t('recommended_locations')}
             </Text>
             <Text body2 grayColor style={{ marginBottom: 15 }}>
-              {t('recent_sologan')}
+              {t('recommended_locations_subtitle')}
             </Text>
             <ScrollView
               horizontal={true}
@@ -691,10 +685,10 @@ export default function Home({ navigation }) {
               paddingTop: 15,
             }}>
             <Text title3 semibold>
-              {t('Events')}
+              {t('event')}
             </Text>
             <Text body2 grayColor style={{ marginBottom: 15 }}>
-              {t('All Events')}
+              {t('eventSubtitle')}
             </Text>
             <ScrollView
               horizontal={true}

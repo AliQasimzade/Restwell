@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, RefreshControl, ActivityIndicator, View,Alert } from 'react-native';
+import { FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
 import {
   Header,
@@ -28,77 +28,100 @@ export default function Review({ navigation, route }) {
   const [totalStars, setTotalStars] = useState([])
   const [reviews, setReviews] = useState([])
 
-  
+
   useEffect(() => {
     const getListings = async () => {
       try {
         const req = await fetch('https://restwell.az/api/listings')
-       if(!req.ok) {
-        throw new Error('Request failed !')
-       }else {
-        const res = await req.json()
-        console.log(res, "Review Page !")
-        const findByid = res.find(re => re._id === route?.params.item)
-        setReviews(findByid)
+        if (!req.ok) {
+          throw new Error('Request failed !')
+        } else {
+          const res = await req.json()
+          console.log(res, "Review Page !")
+          const findByid = res.find(re => re._id === route?.params.item)
+          setReviews(findByid)
 
-    const oneStarsCounts = findByid.reviews.map(review => {
-      if (review.rating_count == 1) {
-        return review.rating_count
-      }
-    }).filter(Boolean)
-    const twoStarsCounts = findByid.reviews.map(review => {
-      if (review.rating_count == 2) {
-        return review.rating_count
-      }
-    }).filter(Boolean)
-    const threeStarsCounts = findByid.reviews.map(review => {
-      if (review.rating_count == 3) {
-        return review.rating_count
-      }
-    }).filter(Boolean)
-    const fourStarsCounts = findByid.reviews.map(review => {
-      if (review.rating_count == 4) {
-        return review.rating_count
-      }
-    }).filter(Boolean)
-    const fiveStarsCounts = findByid.reviews.map(review => {
-      if (review.rating_count == 5) {
-        return review.rating_count
-      }
-    }).filter(Boolean)
-    const total = [oneStarsCounts.length, twoStarsCounts.length, threeStarsCounts.length, fourStarsCounts.length, fiveStarsCounts.length]
+          const oneStarsCounts = findByid.reviews.map(r => {
+            if (r.verify) {
+              return r
+            }
+          }).filter(Boolean).map(review => {
+            if (review.rating_count == 1) {
+              return review.rating_count
+            }
+          }).filter(Boolean)
 
-    setTotalStars(total)
-    setLoading(false)
-       }
-    
-      }catch(err) {
-        Alert.alert({type:"Warning", title:"Error", message: err.message})
+          const twoStarsCounts = findByid.reviews.map(r => {
+            if (r.verify) {
+              return r
+            }
+          }).filter(Boolean).map(review => {
+            if (review.rating_count == 2) {
+              return review.rating_count
+            }
+          }).filter(Boolean)
+          const threeStarsCounts = findByid.reviews.map(r => {
+            if (r.verify) {
+              return r
+            }
+          }).filter(Boolean).map(review => {
+            if (review.rating_count == 3) {
+              return review.rating_count
+            }
+          }).filter(Boolean)
+          const fourStarsCounts = findByid.reviews.map(r => {
+            if (r.verify) {
+              return r
+            }
+          }).filter(Boolean).map(review => {
+            if (review.rating_count == 4) {
+              return review.rating_count
+            }
+          }).filter(Boolean)
+          const fiveStarsCounts = findByid.reviews.map(r => {
+            if (r.verify) {
+              return r
+            }
+          }).filter(Boolean).map(review => {
+            if (review.rating_count == 5) {
+              return review.rating_count
+            }
+          }).filter(Boolean)
+
+
+          console.log('====================================');
+          console.log(oneStarsCounts, twoStarsCounts, threeStarsCounts, fourStarsCounts, fiveStarsCounts, "review page blet");
+          console.log('====================================');
+
+          const total = [oneStarsCounts.length, twoStarsCounts.length, threeStarsCounts.length, fourStarsCounts.length, fiveStarsCounts.length]
+          console.log('====================================');
+          console.log(total);
+          console.log('====================================');
+          setTotalStars(total)
+          setLoading(false)
+        }
+
+      } catch (err) {
+        Alert.alert({ type: "Warning", title: "Error", message: err.message })
       }
     }
     getListings()
 
-  }, [reviews])
+  }, [])
   /**
    * on Load data
    *
    */
-  const loadData = () => {
-    dispatch(
-      productActions.onLoadReview({}, item => {
-        setData(item);
-        setLoading(false);
-        setRefreshing(false);
-      }),
-    );
-  };
 
   /**
    * on Refresh commemt
    */
   const onRefresh = () => {
     setRefreshing(true);
-    loadData();
+    setTimeout(() => {
+      setRefreshing(false);
+      setLoading(false);
+    }, 1000);
   };
 
   /**
@@ -125,13 +148,21 @@ export default function Review({ navigation, route }) {
             onRefresh={onRefresh}
           />
         }
-        data={reviews?.reviews ?? []}
+        data={reviews?.reviews.map(r=>{
+          if (r.verify) {
+            return r
+          }
+        }).filter(Boolean) ?? []}
         keyExtractor={(item, index) => `review ${index}`}
         ListHeaderComponent={() => (
           <RateDetail
             point={reviews.rating_avg ?? 0}
             maxPoint={5}
-            totalRating={reviews.reviews.length ?? 0}
+            totalRating={reviews.reviews.map(r=>{
+              if (r.verify) {
+                return r
+              }
+            }).filter(Boolean).length ?? 0}
             data={totalStars}
           />
         )}
@@ -174,10 +205,10 @@ export default function Review({ navigation, route }) {
           navigation.goBack();
         }}
         onPressRight={() => {
-          navigation.navigate('Feedback', { item: {reviews, setReviews} });
+          navigation.navigate('Feedback', { item: { reviews, setReviews } });
         }}
       />
-     <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
+      <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
         {renderContent()}
       </SafeAreaView>
     </View>
