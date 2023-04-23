@@ -114,7 +114,7 @@ export default function List({ navigation, route }) {
 
   /**
    * @description Open modal when filterring mode is applied
-   * @author Passion UI <passionui.com>
+   * @author Passion UI <rgagency.org>
    * @date 2019-09-01
    */
   const onFilter = () => {
@@ -129,7 +129,7 @@ export default function List({ navigation, route }) {
 
   /**
    * @description Open modal when view mode is pressed
-   * @author Passion UI <passionui.com>
+   * @author Passion UI <rgagency.org>
    * @date 2019-09-01
    */
   const onChangeView = () => {
@@ -211,7 +211,7 @@ export default function List({ navigation, route }) {
 
   /**
    * @description Render loading view
-   * @author Passion UI <passionui.com>
+   * @author Passion UI <rgagency.org>
    * @date 2019-09-01
    * @returns
    */
@@ -450,7 +450,7 @@ export default function List({ navigation, route }) {
 
   /**
    * @description Render container view
-   * @author Passion UI <passionui.com>
+   * @author Passion UI <rgagency.org>
    * @date 2019-09-01
    * @returns
    */

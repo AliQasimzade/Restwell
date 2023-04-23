@@ -32,7 +32,7 @@ export default function ContactUs({navigation}) {
 
   /**
    * @description Called when user sumitted form
-   * @author Passion UI <passionui.com>
+   * @author Passion UI <rgagency.org>
    * @date 2019-08-03
    */
   const onSubmit = () => {

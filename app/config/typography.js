@@ -4,7 +4,7 @@ import {StyleSheet} from 'react-native';
  * Fontweight setting
  * - This font weight will be used for style of screens where needed
  * - Check more how to use font weight with url below
- * @url http://passionui.com/docs/felix-travel/theming
+ * @url http://rgagency.org/docs/felix-travel/theming
  */
 export const FontWeight = {
   thin: '100',
@@ -22,7 +22,7 @@ export const FontWeight = {
  * Typography setting
  * - This font weight will be used for all template
  * - Check more how to use typography in url below
- * @url http://passionui.com/docs/felix-travel/theming
+ * @url http://rgagency.org/docs/felix-travel/theming
  */
 export const Typography = StyleSheet.create({
   header: {

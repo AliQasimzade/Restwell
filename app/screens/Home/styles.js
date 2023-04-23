@@ -6,11 +6,13 @@ export default StyleSheet.create({
     height: 140,
     width: '100%',
     position: 'absolute',
+    zIndex:999
   },
   contentPage: {
-    bottom: 50,
+    bottom: 10,
   },
   searchForm: {
+    top:50,
     marginHorizontal: 15,
     padding: 10,
     borderRadius: 10,
@@ -34,6 +36,7 @@ export default StyleSheet.create({
   },
   serviceItem: {
     alignItems: 'center',
+    marginTop:70,
     marginBottom: 15,
   },
   serviceCircleIcon: {

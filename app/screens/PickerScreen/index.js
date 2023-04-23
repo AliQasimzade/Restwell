@@ -15,7 +15,7 @@ export default function PickerScreen({route, navigation}) {
 
   /**
    * @description Called when apply
-   * @author Passion UI <passionui.com>
+   * @author Passion UI <rgagency.org>
    * @date 2019-08-03
    * @param {object} select
    */
@@ -44,7 +44,7 @@ export default function PickerScreen({route, navigation}) {
 
   /**
    * @description Called when item is selected
-   * @author Passion UI <passionui.com>
+   * @author Passion UI <rgagency.org>
    * @date 2019-08-03
    * @param {object} select
    */

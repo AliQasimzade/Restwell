@@ -25,7 +25,7 @@ export default function ChangeLanguage({navigation}) {
 
   /**
    * @description Called when setting language is selected
-   * @author Passion UI <passionui.com>
+   * @author Passion UI <rgagency.org>
    * @date 2019-08-03
    * @param {string} select
    */

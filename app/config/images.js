@@ -1,6 +1,6 @@
 /**
  * Images Defines
- * @author Passion UI <passionui.com>
+ * @author Passion UI <rgagency.org>
  */
 
 export const Images = {
