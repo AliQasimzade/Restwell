@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import MapView, { Marker } from 'react-native-maps';
+import * as Location from 'expo-location';
+
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
+
 import {
   View,
   ScrollView,
@@ -25,7 +34,6 @@ import {
 import { KeyboardAvoidingView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import CheckboxGroup from 'react-native-checkbox-group';
-import * as ImagePicker from 'expo-image-picker';
 import { Picker } from '@react-native-picker/picker';
 export default function AddListings({ navigation }) {
   const { t } = useTranslation();
@@ -40,12 +48,13 @@ export default function AddListings({ navigation }) {
   const [properties, setProperties] = useState([]);
   const [selectedProperties, setSelectedProperties] = useState([]);
   const [slogan, setSlogan] = useState('');
-  const [type, setType] = useState('');
   const [city, setCity] = useState('');
   const [street, setStreet] = useState('');
   const [address, setAddress] = useState('');
-  const [zipcode, setZipCode] = useState('');
+  const [rayonAdi, setRayonAdi] = useState('');
   const [description, setDescription] = useState('');
+  const [longitude, setLongitude] = useState([]);
+  const [latitude, setLatitude] = useState([]);
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
@@ -56,7 +65,8 @@ export default function AddListings({ navigation }) {
   const [prePrice, setPrePrice] = useState('');
   const [price, setPrice] = useState('');
   const [uploadVideoLink, setUploadVideoLink] = useState('');
-
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   useEffect(() => {
     const categories = fetch(
       'https://restwell.az/api/categories',
@@ -75,20 +85,205 @@ export default function AddListings({ navigation }) {
 
       const formattedTags = res2.map((tag) => ({
         label: tag.name,
-        value: tag._id,
+        value: tag.name,
         selected: false,
       }));
       setTags(formattedTags);
 
       const formattedProperties = res3.map((tag) => ({
         label: tag.name,
-        value: tag._id,
+        value: tag.name,
         selected: false,
       }));
       setProperties(formattedProperties);
     })
 
   }, [])
+
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
+  const [markerInfo, setMarkerInfo] = useState({
+    city: '',
+    street: '',
+    address: '',
+    latitude: null,
+    longitude: null,
+  });
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      setMarkerPosition(location.coords);
+    })();
+  }, []);
+
+  async function fetchAddress(latitude, longitude) {
+    const apiKey = 'AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU';
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+    );
+
+    if (response.status === 200) {
+      const data = await response.json();
+
+      if (data.status === 'OK') {
+        const addressComponents = data.results[0].address_components;
+        const street = addressComponents.find(
+          (component) => component.types.includes('route')
+        );
+        const city = addressComponents.find((component) =>
+          component.types.includes('locality')
+        );
+        const address = data.results[0].formatted_address;
+        const kuceNomresi = data.results[0].address_components[0].long_name;
+        const kuceAdi = data.results[0].address_components[1].long_name;
+        const seherAdi = data.results[0].address_components[3].long_name;
+        const tamUnvan = address;
+        setStreet(`${kuceNomresi} ${kuceAdi}`)
+        setCity(seherAdi)
+        setAddress(tamUnvan)
+        setLongitude(longitude);
+        setLatitude(latitude)
+        return {
+          street: street ? street.long_name : '',
+          city: city ? city.long_name : '',
+          address,
+          latitude,
+          longitude,
+        };
+      }
+    }
+    return null;
+  }
+  const handlePress = async (e) => {
+    const coords = e.nativeEvent.coordinate;
+    setMarkerPosition(coords);
+    const fetchedInfo = await fetchAddress(coords.latitude, coords.longitude);
+    if (fetchedInfo) {
+      setMarkerInfo(fetchedInfo);
+    }
+  };
+  function renderMap() {
+    if (errorMsg) {
+      return (
+        <View>
+          <Text>{errorMsg}</Text>
+        </View>
+      );
+    } else if (location) {
+      return (
+        <MapView
+          style={{ flex: 1, width: '100%', height: 400 }}
+          initialRegion={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          onPress={handlePress}
+        >
+          {markerPosition && (
+            <Marker
+              coordinate={{
+                latitude: markerPosition.latitude,
+                longitude: markerPosition.longitude,
+              }}
+              title="Seçilen Konum"
+            />
+          )}
+        </MapView>
+      );
+    } else {
+      return (
+        <View>
+          <Text>Harita yükleniyor...</Text>
+        </View>
+      );
+    }
+  }
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU",
+    authDomain: "restwellapp-9bfa9.firebaseapp.com",
+    projectId: "restwellapp-9bfa9",
+    storageBucket: "restwellapp-9bfa9.appspot.com",
+    messagingSenderId: "469388796562",
+    appId: "1:469388796562:web:8f43a85fdedbdc84f9bc4b",
+    measurementId: "G-SGJ6SBH2SM"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+
+  // sekil secib gondermek
+  async function pickAndUploadImages() {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        allowsMultipleSelection: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      const response = await fetch(result.uri);
+
+      const blob = await response.blob();
+      const fileName = result.uri.substring(result.uri.lastIndexOf("/") + 1);
+      const fileExtension = fileName.split(".").pop();
+
+      const fileRef = ref(storage, `images/${fileName}.${fileExtension}`);
+
+      const uploadTask = uploadBytesResumable(fileRef, blob);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload progress: " + progress + "%");
+        },
+        (error) => {
+          console.error("Upload error: ", error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          console.log("Upload complete. File available at: ", downloadURL);
+          setSelectedImages([...selectedImages, downloadURL]);
+        }
+      );
+
+    } else {
+      console.log('Media Library permission not granted');
+    }
+  }
+  // sekil secib gondermek bitdi
+
+
+  // rayon pickerinin cekmeyi
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch('https://restwell.az/api/locations');
+        const data = await response.json();
+        setLocations(data);
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
+    };
+
+    fetchLocations();
+  }, [])
+
 
   const handleTitleChange = text => {
     setTitle(text);
@@ -110,8 +305,8 @@ export default function AddListings({ navigation }) {
     setAddress(text);
   };
 
-  const handleZipCodeChange = text => {
-    setZipCode(text);
+  const handleRayonAdiChange = text => {
+    setRayonAdi(text);
   };
 
   const handleDescriptionChange = text => {
@@ -159,32 +354,51 @@ export default function AddListings({ navigation }) {
   uploadVideoLink;
 
   const handleSubmit = () => {
-    fetch('https://restwell.az/api/listings', {
+    fetch('http://192.168.0.169:3001/api/addnewlisting', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        title: title,
-        category: category,
+        listingTitle: title,
+        category: selectedCategory[0],
         slogan: slogan,
-        type: type,
-        city: city,
-        street: street,
+        type: "lastadded",
+        cityorstate: city,
+        roadorstreet: street,
         address: address,
-        zipcode: zipcode,
         description: description,
         phone: phone,
         email: email,
         website: website,
         facebook: facebook,
-        Instagram: Instagram,
-        youtube: youtube,
+        instagram: Instagram,
+        twitter: youtube,
         whatsapp: whatsapp,
-        prePrice: prePrice,
+        previousprice: prePrice,
         price: price,
-        uploadVideoLink: uploadVideoLink,
+        uploadlink: uploadVideoLink,
+        rayon: "Yasamal",
+        gallery: selectedImages,
+        splashscreen: 'pic.png',
+        profileImage: 'pic.png',
+        features: selectedProperties,
+        tags: selectedTags,
+        locationCoords: {
+          latitude: latitude,
+          longtitude: longitude
+        },
+        timeschedule: [
+          { closingtime: "01:00", openingTime: "10:00" },
+          { closingtime: "01:00", openingTime: "10:00" },
+          { closingtime: "01:00", openingTime: "10:00" },
+          { closingtime: "01:00", openingTime: "10:00" },
+          { closingtime: "01:00", openingTime: "10:00" },
+          { closingtime: "01:00", openingTime: "10:00" },
+          { closingtime: "01:00", openingTime: "10:00" }
+        ]
       }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+
     })
       .then(response => response.json())
       .then(data => {
@@ -195,36 +409,10 @@ export default function AddListings({ navigation }) {
       });
   };
 
-  const pickImages = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (status !== 'granted') {
-      alert('Permission to access the media library is required!');
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsMultipleSelection: true,
-      quality: 1,
-      maxSelectedAssets: 10 - selectedImages.length, // limit to 10 images total
-    });
-    if (!result.canceled) {
-      const images = result.selected.map(image => image.uri);
-      setSelectedImages([...selectedImages, ...images]);
-    }
-  };
-
   const offsetKeyboard = Platform.select({
     ios: 0,
     android: 20,
   });
-
-  const [checked, setChecked] = useState(false);
-
-  const handleCheckBox = () => {
-    setChecked(!checked);
-  };
 
   return (
     <KeyboardAvoidingView
@@ -342,17 +530,36 @@ export default function AddListings({ navigation }) {
               />
             </View>
 
-            <View style={styles.formItem}>
+            <View>
+              {locations.length > 0 ? (
+                <Picker
+                  style={styles.locationPickerStyle}
+                  selectedValue={selectedLocation}
+                  onValueChange={(itemValue) => setSelectedLocation(itemValue)}
+                >
+                  <Picker.Item label="Bir lokasyon seçin" value={null} color='white' />
+                  {locations.map((location, index) => (
+                    <Picker.Item key={index} label={location.name} value={location.id} color='white' />
+                  ))}
+                </Picker>
+              ) : (
+                <Text>Yüklənir...</Text>
+              )}
+            </View>
+
+            {/* <View style={styles.formItem}>
               <Text style={styles.formLabel}>Poçt kodu:</Text>
               <TextInput
                 secureTextEntry={false}
                 placeholder={'Poçt kodu daxil edin'}
                 style={styles.formInput}
-                value={zipcode}
-                onChangeText={handleZipCodeChange}
+                value={rayonAdi}
+                onChangeText={handleRayonAdiChange}
               />
+            </View> */}
+            <View style={{ flex: 1 }}>
+              {renderMap()}
             </View>
-
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>Detalları</Text>
               <Icon
@@ -547,26 +754,29 @@ export default function AddListings({ navigation }) {
               />
             </View>
 
-            <TouchableOpacity onPress={pickImages}>
+            <TouchableOpacity onPress={pickAndUploadImages}>
               <View style={{ backgroundColor: 'gray', padding: 20 }}>
                 <Text style={{ color: 'white', fontSize: 16 }}>
                   Maksimum {10 - selectedImages.length} şəkil seçin
                 </Text>
               </View>
-              {selectedImages && selectedImages.length > 0 && (
+              {selectedImages.length > 0 && (
                 <View
                   style={{
                     flexDirection: 'row',
                     flexWrap: 'wrap',
                     marginTop: 25,
                   }}>
-                  {selectedImages.map(imageUri => (
-                    <Image
-                      key={selectedImages.length}
-                      source={{ uri: imageUri }}
-                      style={{ width: 100, height: 100, margin: 5 }}
-                    />
-                  ))}
+                  {
+                    selectedImages.map((imageUri, index) => (
+                      <Image
+                        key={index}
+                        source={{ uri: imageUri }}
+                        style={{ width: 100, height: 100, margin: 5 }}
+                      />
+                    ))
+                  }
+
                 </View>
               )}
             </TouchableOpacity>
@@ -670,8 +880,21 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 8,
-    textAlignVertical: 'top', 
+    textAlignVertical: 'top',
     fontSize: 16,
-    height:200,
+    height: 200,
   },
+  map: {
+    width: '100%',
+    height: 400,
+  },
+  locationPickerStyle: {
+    width: '95%',
+    backgroundColor: 'grey',
+    color: 'white',
+    marginBottom: 10,
+    paddingTop: Platform.OS === 'ios' ? 0 : 0,
+    marginHorizontal: 15,
+    borderRadius: 8
+  }
 });
