@@ -58,15 +58,7 @@ export default function Wishlist({navigation}) {
   
   }
 
-  /**
-   * Action for share
-   */
-  const onShare = async item => {
-    try {
-      await Sharing.shareAsync(item.link);
-    } catch (error) {}
-    setModalVisible(false);
-  };
+ 
 
   /**
    * render UI Modal action
@@ -95,19 +87,7 @@ export default function Wishlist({navigation}) {
             }}>
             <Icon name="times" size={12} color={colors.text} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              onShare(actionItem);
-            }}
-            style={[
-              styles.contentActionModalBottom,
-              {borderBottomColor: colors.border, borderBottomWidth: 1},
-            ]}>
-            <Icon name="share" size={18} color={colors.text} />
-            <Text body2 semibold style={{marginLeft: 15}}>
-              {t('share')}
-            </Text>
-          </TouchableOpacity>
+         
           <TouchableOpacity
             style={[styles.contentActionModalBottom]}
             onPress={() => {

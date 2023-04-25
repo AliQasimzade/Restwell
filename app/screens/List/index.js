@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FlatList, RefreshControl, View, Animated } from 'react-native';
+import {  RefreshControl, View, Animated } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { BaseStyle, BaseColor, useTheme } from '@config';
 import Carousel from 'react-native-snap-carousel';
@@ -71,7 +71,12 @@ export default function List({ navigation, route }) {
     const getAllListings = async () => {
       const request = await fetch('https://restwell.az/api/listings')
       const response = await request.json()
-      const filter = response.filter(res => res.category == route?.params.item)
+      const verifiedListings = response.map(re => {
+        if(re.verify){
+          return re
+        }
+      }).filter(Boolean)
+      const filter = verifiedListings.filter(res => res.category == route?.params.item)
       console.log(filter, "List Page");
       setlists(filter)
       setLoading(false)
@@ -83,12 +88,10 @@ export default function List({ navigation, route }) {
    *
    */
   const loadData = filter => {
-    dispatch(
-      listActions.onLoadList(filter, design, () => {
-        setLoading(false);
-        setRefreshing(false);
-      }),
-    );
+    setTimeout(() => {
+    setLoading(false)
+    setRefreshing(false)
+    }, 500)
   };
 
   /**

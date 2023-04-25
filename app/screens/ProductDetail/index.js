@@ -517,7 +517,7 @@ export default function ProductDetail({ navigation, route }) {
                 {t('price_range')}
               </Text>
               <Text headline style={{ marginTop: 5 }}>
-                {`${item?.previousprice ?? '-'}$ - ${item?.price ?? '-'}$`}
+                {`${item?.previousprice ?? '-'}₼ - ${item?.price ?? '-'}₼`}
               </Text>
             </View>
           </View>

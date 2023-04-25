@@ -46,6 +46,7 @@ export default function SignIn({navigation, route}) {
         throw new Error("Request is failed");
       }else {
         const res = await req.json();
+      
         const usEr = {email: res.email}
          const request = await fetch('https://restwell.az/api/loginuser', {
           method: 'PUT',
@@ -58,6 +59,9 @@ export default function SignIn({navigation, route}) {
           throw new Error('Request failed !')
         }else {
           const response = await request.json()
+          console.log('====================================');
+          console.log(JSON.stringify(response) + "res bleeet ");
+          console.log('====================================');
           if(response.message == "This user is not registered") {
             Alert.alert({title: "Error" ,message: response.message})
           }if(response.message === "User logged in succesfully") {

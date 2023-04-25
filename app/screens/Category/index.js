@@ -13,8 +13,6 @@ import * as Utils from '@utils';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { productActions } from '@actions';
-import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Category({ navigation }) {
@@ -25,12 +23,9 @@ export default function Category({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState('');
   const [modeView, setModeView] = useState('full');
-  const [category, setCategory] = useState([]);
   const [listings, setListings] = useState([])
   const [result, setResult] = useState([])
-  const [filterBy, setByFilter] = useState(0)
   const [filter, setFilter] = useState([])
-  const [origin, setOrigin] = useState([]);
 
 
   useEffect(() => {
@@ -41,9 +36,13 @@ export default function Category({ navigation }) {
       .then(responses => {
         const [response1, response2] = responses;
         setFilter(response1)
+        const verifiedListings = response2.map(re => {
+          if(re.verify) {
+            return re
+          }
+        }).filter(Boolean)
         setListings(response1)
-        setResult(response2)
-        setByFilter(response2.filter(it => it.category == "Bar").length)
+        setResult(verifiedListings)
       })
       .catch(error => {
         // Handle error here
@@ -75,14 +74,18 @@ export default function Category({ navigation }) {
    * call when search category
    */
   const onSearch = search => {
+    console.log('====================================');
+    console.log(search);
+    console.log('====================================');
     if (!search) {
       setFilter(listings)
+     
     } else {
-      const result = listings.filter(item => {
+      const res = listings.filter(item => {
         return item.name.toUpperCase().includes(search.toUpperCase());
       })
-      console.log(result);
-      setFilter(result)
+    
+      setFilter(res)
     }
   };
 
@@ -172,10 +175,12 @@ export default function Category({ navigation }) {
       <View style={{ flex: 1 }}>
         <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
           <TextInput
-            onChangeText={text => setSearch(text)}
+            onChangeText={text => {
+              setSearch(text)
+              onSearch(text)
+            }}
             placeholder={t('search')}
             value={search}
-            onChange={() => onSearch(search)}
             icon={
               <TouchableOpacity
                 onPress={() => {

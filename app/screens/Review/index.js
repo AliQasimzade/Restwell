@@ -11,9 +11,8 @@ import {
 } from '@components';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
-import { userInfo } from '@selectors';
 import { useDispatch } from 'react-redux';
-import { productActions } from '@actions';
+
 
 export default function Review({ navigation, route }) {
   const { colors } = useTheme();

@@ -32,7 +32,13 @@ export default function ResetPassword({ navigation }) {
       } else {
 
         setIsEmail(true);
-        const request = await fetch(`http://192.168.31.124:3001/api/useremail/${email}`);
+        const request = await fetch('https://restwell.az/api/useremail', {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email })
+        });
 
         if (request.status === 404) {
           throw new Error('Request failed !');
@@ -82,8 +88,11 @@ export default function ResetPassword({ navigation }) {
         } else {
           const response = await request.json()
           setLoading(false);
+
           setTimeout(() => {
             navigation.goBack();
+            Alert.alert({ type: 'success', title: "Success", message: "Password changed successfully !" })
+
           }, 500)
 
           console.log('====================================');

@@ -7,7 +7,8 @@ import {
   ScrollView,
   Animated,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  RefreshControl
 } from 'react-native';
 import {
   Placeholder,
@@ -16,7 +17,7 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import { Image, Text, Icon, Card, SafeAreaView, ListItem } from '@components';
+import { Image, Text, Icon, Card, SafeAreaView, ListItem,SeeMoreIcon } from '@components';
 import { BaseStyle, BaseColor, useTheme } from '@config';
 import * as Utils from '@utils';
 import styles from './styles';
@@ -81,9 +82,12 @@ export default function Home({ navigation }) {
       }).filter(Boolean)
         setCategories(response2);
         setLocations(response6)
-        const pop = mekanlar.filter(item => item.type == 'popular');
-        const lastadd = mekanlar.filter(item => item.type == 'lastadded');
-        const featureds = mekanlar.filter(item => item.type == 'featured');
+        const pop = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'popular') : []
+        const lastadd = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'lastadded') : []
+        const featureds = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'featured') : []
+        console.log('====================================');
+        console.log("Last Added:" + JSON.stringify(lastadd));
+        console.log('====================================');
         setListings(mekanlar)
         setPopularLocations(pop);
         setLastAdded(lastadd);
@@ -198,7 +202,7 @@ export default function Home({ navigation }) {
     if (categories.length > 0) {
       return (
         <View style={styles.serviceContent}>
-          {categories.map((item, index) => {
+          {categories.filter((cat, index) => index < 7).map((item, index) => {
             return (
               <TouchableOpacity
                 key={`category${item._id}`}
@@ -227,6 +231,31 @@ export default function Home({ navigation }) {
               </TouchableOpacity>
             );
           })}
+           <TouchableOpacity
+                key={`category_all`}
+                style={[
+                  styles.serviceItem,
+                  { width: Utils.getWidthDevice() * 0.24 },
+                ]}
+                onPress={() => {
+                  navigation.navigate('Category');
+                }}>
+                <View
+                  style={[
+                    styles.serviceCircleIcon,
+                    { backgroundColor: "red" },
+                  ]}>
+                  <SeeMoreIcon
+                    name={Utils.iconConvert("dots-three-vertical")}
+                    size={20}
+                    color={BaseColor.whiteColor}
+                    solid
+                  />
+                </View>
+                <Text footnote numberOfLines={1}>
+                  {t('Daha çox')}
+                </Text>
+              </TouchableOpacity>
         </View>
       );
     }
@@ -276,7 +305,7 @@ export default function Home({ navigation }) {
                 image={item.image}
                 onPress={() => {
 
-                  navigation.navigate('LocationList', { item: item.name });
+                  navigation.navigate('LocationList', { item: item.name,listings: listings });
                 }}>
                 <LinearGradient
                   start={{ x: 0, y: 0 }}

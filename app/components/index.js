@@ -3,6 +3,7 @@ import Button from './Button/index.js';
 import TextInput from './TextInput/index.js';
 import Tag from './Tag/index.js';
 import Icon from './Icon/index.js';
+import SeeMoreIcon from "./SeeMoreIcon/index.js"
 import CommentItem from './CommentItem/index.js';
 import ProfilePerformance from './ProfilePerformance/index.js';
 import ListThumbSquare from './ListThumbSquare/index.js';
@@ -39,6 +40,7 @@ export {
   Button,
   Tag,
   Icon,
+  SeeMoreIcon,
   CommentItem,
   ProfilePerformance,
   ListThumbSquare,

@@ -66,31 +66,27 @@ export default function List({ navigation, route }) {
 
    
     useEffect(() => {
-        const getAllListings = async () => {
-            const request = await fetch('https://restwell.az/api/listings')
-            const response = await request.json()
-            const filter = response.filter(res => {
-                if (res.address.includes(route?.params.item)) {
+        
+            
+            const filter = route?.params.listings.filter(res => {
+                if (res.rayon.includes(route?.params.item)) {
                     return res
                 }
             })
             console.log(filter, "List Page");
             setlists(filter)
             setLoading(false)
-        }
-        getAllListings()
+        
     }, [])
     /**
      * on Load data
      *
      */
     const loadData = filter => {
-        dispatch(
-            listActions.onLoadList(filter, design, () => {
-                setLoading(false);
-                setRefreshing(false);
-            }),
-        );
+        setTimeout(() => {
+          setLoading(false)
+          setRefreshing(false)
+        },500)
     };
 
     /**

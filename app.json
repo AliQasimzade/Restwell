@@ -5,12 +5,12 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/images/IconRestwell.png",
-    "scheme":"com.auth.restwell",
+    "scheme": "com.auth.restwell",
     "splash": {
       "image": "./app/assets/images/restwelllogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
-      "width":"120px"
+      "width": "120px"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -29,21 +29,29 @@
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/images/IconRestwell.png",
         "backgroundColor": "#FFFFFF",
-        "config":{
-          "googleMaps":{
-            "apiKey":"AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU"
+        "config": {
+          "googleMaps": {
+            "apiKey": "AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU"
           }
         }
       },
       "package": "com.auth.restwell"
     },
     "web": {
-      "favicon": "./app/assets/images/IconRestwell.png"
+      "oauth": {
+        "redirectUrl": "https://auth.expo.io/@aliqasimzade/com.auth.restwell"
+      }
     },
+    "favicon": "./app/assets/images/IconRestwell.png",
     "extra": {
       "eas": {
         "projectId": "45a5911f-21be-4913-bc21-2257ec248fb5"
       }
+    }
+  },
+  "extra": {
+    "eas": {
+      "projectId": "45a5911f-21be-4913-bc21-2257ec248fb5"
     }
   }
 }

@@ -8,6 +8,7 @@ import styles from './styles';
 export default function PreviewImage({navigation, route}) {
   const {colors} = useTheme();
 
+  console.log(route?.params.gallery);
   let flatListRef = null;
   let swiperRef = null;
 
@@ -83,10 +84,10 @@ export default function PreviewImage({navigation, route}) {
           activeDotColor={colors.primary}
           removeClippedSubviews={false}
           onIndexChanged={index => onSelect(index)}>
-          {images.map((item, key) => {
+          {images.map((item, index) => {
             return (
               <Image
-                key={`image${key}`}
+                key={`image${index}`}
                 style={{width: '100%', height: '100%'}}
                 resizeMode="contain"
                 source={{uri: item}}
@@ -100,10 +101,7 @@ export default function PreviewImage({navigation, route}) {
           }}>
           <View style={styles.lineText}>
             <Text body2 whiteColor>
-              Standard Double Room
-            </Text>
-            <Text body2 whiteColor>
-              {indexSelected + 1}/{images.length}
+              {indexSelected + 1}/{route?.params.gallery.length}
             </Text>
           </View>
           <FlatList
