@@ -1,7 +1,7 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {View, ScrollView, TouchableOpacity} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { BaseStyle, useTheme } from '@config';
 import {
   Header,
   SafeAreaView,
@@ -12,18 +12,18 @@ import {
   ProfilePerformance,
 } from '@components';
 import styles from './styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {userInfo} from '@selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { userInfo } from '@selectors';
 import { logOutUSer } from '../../actions/user';
 
-export default function Profile({navigation}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
+export default function Profile({ navigation }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const userAbout = useSelector(userInfo)
   const [user, setUser] = useState(null)
-console.log(userAbout, "Profile Page");
+  console.log(userAbout, "Profile Page");
   const [loading, setLoading] = useState(false);
 
   /**
@@ -32,8 +32,8 @@ console.log(userAbout, "Profile Page");
    */
   const onLogout = async () => {
     setLoading(true);
-   dispatch(logOutUSer())
-   navigation.navigate('Home')
+    dispatch(logOutUSer())
+    navigation.navigate('Home')
   };
 
   /**
@@ -41,14 +41,13 @@ console.log(userAbout, "Profile Page");
    *
    */
 
-
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('profile')}
       />
       <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
-       {userAbout &&  <ScrollView>
+        {userAbout && <ScrollView>
           <View style={styles.contain}>
             <ProfileDetail
               image={userAbout?.image}
@@ -73,14 +72,14 @@ console.log(userAbout, "Profile Page");
                 name="angle-right"
                 size={18}
                 color={colors.primary}
-                style={{marginLeft: 5}}
+                style={{ marginLeft: 5 }}
                 enableRTL={true}
               />
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.profileItem,
-                {borderBottomColor: colors.border, borderBottomWidth: 1},
+                { borderBottomColor: colors.border, borderBottomWidth: 1 },
               ]}
               onPress={() => {
                 navigation.navigate('AddListings');
@@ -90,14 +89,14 @@ console.log(userAbout, "Profile Page");
                 name="angle-right"
                 size={18}
                 color={colors.primary}
-                style={{marginLeft: 5}}
+                style={{ marginLeft: 5 }}
                 enableRTL={true}
               />
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.profileItem,
-                {borderBottomColor: colors.border, borderBottomWidth: 1},
+                { borderBottomColor: colors.border, borderBottomWidth: 1 },
               ]}
               onPress={() => {
                 navigation.navigate('AboutUs');
@@ -112,7 +111,7 @@ console.log(userAbout, "Profile Page");
                   name="angle-right"
                   size={18}
                   color={colors.primary}
-                  style={{marginLeft: 5}}
+                  style={{ marginLeft: 5 }}
                   enableRTL={true}
                 />
               </View>
@@ -127,13 +126,13 @@ console.log(userAbout, "Profile Page");
                 name="angle-right"
                 size={18}
                 color={colors.primary}
-                style={{marginLeft: 5}}
+                style={{ marginLeft: 5 }}
                 enableRTL={true}
               />
             </TouchableOpacity>
           </View>
         </ScrollView>}
-        <View style={{paddingHorizontal: 20, paddingVertical: 15}}>
+        <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
           <Button full loading={loading} onPress={onLogout}>
             {t('sign_out')}
           </Button>

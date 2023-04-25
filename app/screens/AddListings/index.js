@@ -11,7 +11,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  useColorScheme
+  useColorScheme,
+  Alert
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@config';
@@ -66,10 +67,7 @@ export default function AddListings({ navigation }) {
 
 
   // heftenin gunler ve is vaxti ucun kodlar
-
   const daysOfWeek = ['Bazar ertəsi', 'Çərşənbə axşamı', 'Çərşənbə', 'Cümə axşamı', 'Cümə', 'Şənbə', 'Bazar'];
-  const [selectedHour, setSelectedHour] = useState();
-  const [selectedMinute, setSelectedMinute] = useState();
   const TimePicker = ({ selectedHour, selectedMinute, onHourChange, onMinuteChange }) => {
     const hours = Array.from({ length: 24 }, (_, i) => i); // 0'dan 23'e kadar bir dizi
     const minutes = Array.from({ length: 60 }, (_, i) => i); // 0'dan 59'a kadar bir dizi
@@ -116,9 +114,6 @@ export default function AddListings({ navigation }) {
       </View>
     );
   };
-
-
-
   const [schedule, setSchedule] = useState(
     daysOfWeek.reduce((acc, day) => {
       acc[day] = {
@@ -128,9 +123,12 @@ export default function AddListings({ navigation }) {
       return acc;
     }, {}),
   );
-  console.log('====================================');
-  console.log(JSON.stringify(schedule) + " saati yaz blet");
-  console.log('====================================');
+  const results = [];
+  for (let key in schedule) {
+    const openingTime = schedule[key].openingTime.hour.toString().padStart(2, "0") + ":" + schedule[key].openingTime.minute.toString().padStart(2, "0");
+    const closingTime = schedule[key].closingTime.hour.toString().padStart(2, "0") + ":" + schedule[key].closingTime.minute.toString().padStart(2, "0");
+    results.push({ openingTime, closingTime });
+  }
   const handleTimeChange = (day, timeType, field, value) => {
     setSchedule((prevSchedule) => ({
       ...prevSchedule,
@@ -140,11 +138,7 @@ export default function AddListings({ navigation }) {
       },
     }));
   };
-
   // heftenin gunleri ve is vacti ucun kod bitdi
-
-
-
 
   useEffect(() => {
     const categories = fetch(
@@ -179,6 +173,7 @@ export default function AddListings({ navigation }) {
 
   }, [])
 
+  //  location secme kodu basladi
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
@@ -288,7 +283,7 @@ export default function AddListings({ navigation }) {
       );
     }
   }
-
+  // location kodu bitdi
   const firebaseConfig = {
     apiKey: "AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU",
     authDomain: "restwellapp-9bfa9.firebaseapp.com",
@@ -346,7 +341,6 @@ export default function AddListings({ navigation }) {
     }
   }
   // logo sekil secib gondermek bitdi
-
   // logo sekil secib gondermek
   async function pickAndUploadImagesForCover() {
     const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -391,8 +385,6 @@ export default function AddListings({ navigation }) {
     }
   }
   // logo sekil secib gondermek bitdi
-
-
   // logo sekil secib gondermek
   async function pickAndUploadImagesForGallery() {
     const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -520,7 +512,8 @@ export default function AddListings({ navigation }) {
   uploadVideoLink;
 
   const handleSubmit = () => {
-    fetch('https://restwell.az/api/addnewlisting', {
+
+    fetch('http://192.168.0.171:3001/api/addnewlisting', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -539,40 +532,67 @@ export default function AddListings({ navigation }) {
         website: website,
         facebook: facebook,
         instagram: Instagram,
-        twitter: youtube,
+        youtube: youtube,
+        twitter:"salam",
         whatsapp: whatsapp,
         previousprice: prePrice,
         price: price,
         uploadlink: uploadVideoLink,
         rayon: selectedLocation,
         gallery: selectedGalleryImages,
-        splashscreen: selectedCoverImages,
-        profileImage: selectedLogoImage,
+        splashscreen: selectedCoverImages[0],
+        profileImage: selectedLogoImage[0],
         features: selectedProperties,
         tags: selectedTags,
         locationCoords: {
           latitude: latitude,
           longtitude: longitude
         },
-        timeschedule: [
-          { closingtime: "01:00", openingTime: "10:00" },
-          { closingtime: "01:00", openingTime: "10:00" },
-          { closingtime: "01:00", openingTime: "10:00" },
-          { closingtime: "01:00", openingTime: "10:00" },
-          { closingtime: "01:00", openingTime: "10:00" },
-          { closingtime: "01:00", openingTime: "10:00" },
-          { closingtime: "01:00", openingTime: "10:00" }
-        ]
+        timeschedule: results
       }),
 
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Form submitted successfully!', data);
+        Alert.alert({ title: "Göndərildi", message: 'Form submitted successfully!' });
       })
       .catch(error => {
-        console.error('Error submitting form data:', error);
+        Alert.alert({ title: 'Gonderilmedi', message: "Error submitting form data" });
       });
+
+
+    console.log('====================================');
+    console.log("=============" + title +
+      "=============" + selectedCategory +
+      "=============" + slogan +
+      "=============" + city +
+      "=============" + street +
+      "=============" + address +
+      "=============" + description +
+      "=============" + phone +
+      "=============" + email +
+      "=============" + website +
+      "=============" + facebook +
+      "=============" + Instagram +
+      "=============" + youtube +
+      "=============" + whatsapp +
+      "=============" + prePrice +
+      "=============" + price +
+      "=============" + uploadVideoLink +
+      "=============" + JSON.stringify(selectedLocation) +
+      "=============" + JSON.stringify(selectedCoverImages) +
+      "=============" + JSON.stringify(selectedGalleryImages) +
+      "=============" + JSON.stringify(selectedLogoImage) +
+      "=============" + JSON.stringify(latitude) +
+      "=============" + JSON.stringify(longitude) +
+      "=============" + JSON.stringify(results) +
+      "=============" + JSON.stringify(selectedProperties) +
+      "=============" + JSON.stringify(selectedTags) +
+      "=============" + "butun datalar bunlardi "
+    );
+    console.log('====================================');
+    Alert.alert({ title: "sehv var", message: "xanalar tam doldurulmayib" })
+
   };
 
   const offsetKeyboard = Platform.select({
@@ -696,7 +716,7 @@ export default function AddListings({ navigation }) {
                 onChangeText={handleAddressChange}
               />
             </View>
-
+            {/* location picker */}
             <View>
               {locations.length > 0 ? (
                 <Picker
@@ -706,7 +726,7 @@ export default function AddListings({ navigation }) {
                 >
                   <Picker.Item label="Məkan olduğu rayon ərazisi seçin" value={null} color={textColor} />
                   {locations.map((location, index) => (
-                    <Picker.Item key={index} label={location.name} value={location.id} color={textColor} />
+                    <Picker.Item key={index} label={location.name} value={location.name} color={textColor} />
                   ))}
                 </Picker>
               ) : (

@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  TouchableOpacity
 } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
 import {
@@ -23,6 +24,14 @@ import { userInfo } from '@selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { changeUserInfo } from '../../actions/user';
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
+
+
+
 
 export default function ProfileEdit({ navigation }) {
   const { colors } = useTheme();
@@ -38,6 +47,7 @@ export default function ProfileEdit({ navigation }) {
   const [surname, setSurname] = useState(user.surname);
   const [email, setEmail] = useState(user.email);
   const [password, setPassword] = useState(user.password);
+  const [profileImage, setProfileImage] = useState(user.image)
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState({
     name: true,
@@ -48,23 +58,85 @@ export default function ProfileEdit({ navigation }) {
 
   /**
    * on Update Profile
-   *
-   */
+   **/
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU",
+    authDomain: "restwellapp-9bfa9.firebaseapp.com",
+    projectId: "restwellapp-9bfa9",
+    storageBucket: "restwellapp-9bfa9.appspot.com",
+    messagingSenderId: "469388796562",
+    appId: "1:469388796562:web:8f43a85fdedbdc84f9bc4b",
+    measurementId: "G-SGJ6SBH2SM"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+
+
+  async function pickAndUploadProfileImage() {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        allowsMultipleSelection: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      const response = await fetch(result.uri);
+
+      const blob = await response.blob();
+      const fileName = result.uri.substring(result.uri.lastIndexOf("/") + 1);
+      const fileExtension = fileName.split(".").pop();
+
+      const fileRef = ref(storage, `images/${fileName}.${fileExtension}`);
+
+      const uploadTask = uploadBytesResumable(fileRef, blob);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload progress: " + progress + "%");
+        },
+        (error) => {
+          console.error("Upload error: ", error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          console.log("Upload complete. File available at: ", downloadURL);
+          setProfileImage(downloadURL);
+        }
+      );
+
+    } else {
+      console.log('Media Library permission not granted');
+    }
+  }
+
+
+
+
   const onUpdate = async () => {
     setLoading(true);
     try {
-      if (name == '' || email == '' || password == '' || surname == '') {
+      if (name == '' || email == '' || password == '' || surname == '' || profileImage.length == 0) {
         setSuccess({
           ...success,
           name: name != '' ? true : false,
           email: email != '' ? true : false,
           surname: surname != '' ? true : false,
           password: password != '' ? true : false,
+          image: profileImage != '' ? true : false,
         });
         setLoading(false)
         return;
-      } else if (name == user.name && surname == user.surname && email == user.email && password == user.password) {
-        Alert.alert({ title: "Warning", message: "Please change any input value" })
+      } else if (name == user.name && surname == user.surname && email == user.email && password == user.password && profileImage.length == 0) {
+        Alert.alert({ title: "Warning", message: "Hec bir deyisiklik olmayib" })
         setLoading(false)
         return;
       } else {
@@ -73,6 +145,7 @@ export default function ProfileEdit({ navigation }) {
           email,
           surname,
           password,
+          image: profileImage,
           isAdmin: false
         };
         const request = await fetch(`https://restwell.az/api/updateuser/${user._id}`, {
@@ -125,6 +198,12 @@ export default function ProfileEdit({ navigation }) {
           style={{ flex: 1 }}>
           <ScrollView contentContainerStyle={styles.contain}>
             {user?.image ? <Image source={{ uri: user?.image }} style={styles.thumb} /> : <Image source={UserImage} style={styles.thumb} />}
+            <View style={styles.editIconWrapper}>
+              <TouchableOpacity onPress={pickAndUploadProfileImage}>
+                <Icon name="pen" size={20} color={colors.primary} />
+              </TouchableOpacity>
+            </View>
+
             <View style={styles.contentTitle}>
               <Text headline semibold>
                 {t('name')}
@@ -149,7 +228,7 @@ export default function ProfileEdit({ navigation }) {
             </View>
             <TextInput
               onChangeText={text => setSurname(text)}
-              placeholder={t('Surname')}
+              placeholder={t('surname')}
               value={surname}
               success={success.surname}
               onFocus={() => {
@@ -181,7 +260,7 @@ export default function ProfileEdit({ navigation }) {
                 {t('password')}
               </Text>
             </View>}
-           {user?.password &&  <TextInput
+            {user?.password && <TextInput
               onChangeText={text => setPassword(text)}
               placeholder={t('password')}
               value={password}

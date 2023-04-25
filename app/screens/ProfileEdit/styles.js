@@ -27,4 +27,13 @@ export default StyleSheet.create({
     borderRadius: 50,
     marginBottom: 20,
   },
+  editIconWrapper: {
+    position: 'absolute',
+    top: 20,
+    right: 150,
+    backgroundColor: 'white',
+    borderRadius: 25,
+    padding: 15,
+  },
+  
 });
