@@ -579,7 +579,7 @@ export default function Home({ navigation }) {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingLeft: 5 }}>
+          <View style={{ paddingLeft: 5, marginTop:40, marginBottom:0, }}>
             {status.length > 0 && (
               <Story
                 data={status.map((item, index) => {

@@ -1,34 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-
 import {
   View,
   ScrollView,
-  ImageBackground,
-  FlatList,
-  Alert,
-  Linking,
   TouchableOpacity,
-  Button,
   Image,
+  useColorScheme
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { BaseStyle, Images, useTheme } from '@config';
-import * as Utils from '@utils';
+import { useTheme } from '@config';
 import {
   Header,
-  SafeAreaView,
   Icon,
   Text,
-  Card,
-  ProfileDescription,
   TextInput,
 } from '@components';
 import { KeyboardAvoidingView } from 'react-native';
@@ -38,8 +28,9 @@ import { Picker } from '@react-native-picker/picker';
 export default function AddListings({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const [ourTeam, setOurTeam] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedLogoImage, setSelectedLogoImage] = useState([]);
+  const [selectedCoverImages, setSelectedCoverImages] = useState([]);
+  const [selectedGalleryImages, setSelectedGalleryImages] = useState([]);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
@@ -51,7 +42,6 @@ export default function AddListings({ navigation }) {
   const [city, setCity] = useState('');
   const [street, setStreet] = useState('');
   const [address, setAddress] = useState('');
-  const [rayonAdi, setRayonAdi] = useState('');
   const [description, setDescription] = useState('');
   const [longitude, setLongitude] = useState([]);
   const [latitude, setLatitude] = useState([]);
@@ -67,6 +57,95 @@ export default function AddListings({ navigation }) {
   const [uploadVideoLink, setUploadVideoLink] = useState('');
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
+
+  //metnlerin rengi ucun 
+  const colorScheme = useColorScheme();
+  const textColor = colorScheme === 'dark' ? 'white' : 'black';
+  const bgColor = colorScheme === 'dark' ? 'white' : 'black';
+  // dark light rejim ucun kod bitdi
+
+
+  // heftenin gunler ve is vaxti ucun kodlar
+
+  const daysOfWeek = ['Bazar ertəsi', 'Çərşənbə axşamı', 'Çərşənbə', 'Cümə axşamı', 'Cümə', 'Şənbə', 'Bazar'];
+  const [selectedHour, setSelectedHour] = useState();
+  const [selectedMinute, setSelectedMinute] = useState();
+  const TimePicker = ({ selectedHour, selectedMinute, onHourChange, onMinuteChange }) => {
+    const hours = Array.from({ length: 24 }, (_, i) => i); // 0'dan 23'e kadar bir dizi
+    const minutes = Array.from({ length: 60 }, (_, i) => i); // 0'dan 59'a kadar bir dizi
+
+    return (
+      <View style={styles.timePickerContainer}>
+        <Picker
+          style={[styles.timePicker, bgColor]}
+          selectedValue={selectedHour}
+          onValueChange={(itemValue) => {
+            onHourChange(itemValue);
+          }}
+          mode="dropdown"
+          itemStyle={styles.pickerItem}
+        >
+          {hours.map((hour) => (
+            <Picker.Item
+              key={hour}
+              label={hour.toString().padStart(2, '0')}
+              value={hour}
+              color={textColor}
+            />
+          ))}
+        </Picker>
+        <Text>:</Text>
+        <Picker
+          style={[styles.timePicker, bgColor]}
+          selectedValue={selectedMinute}
+          onValueChange={(itemValue) => {
+            onMinuteChange(itemValue);
+          }}
+          mode="dropdown"
+          itemStyle={styles.pickerItem}
+        >
+          {minutes.map((minute) => (
+            <Picker.Item
+              key={minute}
+              label={minute.toString().padStart(2, '0')}
+              value={minute}
+              color={textColor}
+            />
+          ))}
+        </Picker>
+      </View>
+    );
+  };
+
+
+
+  const [schedule, setSchedule] = useState(
+    daysOfWeek.reduce((acc, day) => {
+      acc[day] = {
+        openingTime: { hour: 0, minute: 0 },
+        closingTime: { hour: 0, minute: 0 },
+      };
+      return acc;
+    }, {}),
+  );
+  console.log('====================================');
+  console.log(JSON.stringify(schedule) + " saati yaz blet");
+  console.log('====================================');
+  const handleTimeChange = (day, timeType, field, value) => {
+    setSchedule((prevSchedule) => ({
+      ...prevSchedule,
+      [day]: {
+        ...prevSchedule[day],
+        [timeType]: { ...prevSchedule[day][timeType], [field]: value },
+      },
+    }));
+  };
+
+  // heftenin gunleri ve is vacti ucun kod bitdi
+
+
+
+
   useEffect(() => {
     const categories = fetch(
       'https://restwell.az/api/categories',
@@ -223,8 +302,8 @@ export default function AddListings({ navigation }) {
   const app = initializeApp(firebaseConfig);
   const storage = getStorage(app);
 
-  // sekil secib gondermek
-  async function pickAndUploadImages() {
+  // logo sekil secib gondermek
+  async function pickAndUploadImagesForLogo() {
     const { status } = await MediaLibrary.requestPermissionsAsync();
 
     if (status === 'granted') {
@@ -258,7 +337,7 @@ export default function AddListings({ navigation }) {
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           console.log("Upload complete. File available at: ", downloadURL);
-          setSelectedImages([...selectedImages, downloadURL]);
+          setSelectedLogoImage([...selectedLogoImage, downloadURL]);
         }
       );
 
@@ -266,7 +345,98 @@ export default function AddListings({ navigation }) {
       console.log('Media Library permission not granted');
     }
   }
-  // sekil secib gondermek bitdi
+  // logo sekil secib gondermek bitdi
+
+  // logo sekil secib gondermek
+  async function pickAndUploadImagesForCover() {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        allowsMultipleSelection: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      const response = await fetch(result.uri);
+
+      const blob = await response.blob();
+      const fileName = result.uri.substring(result.uri.lastIndexOf("/") + 1);
+      const fileExtension = fileName.split(".").pop();
+
+      const fileRef = ref(storage, `images/${fileName}.${fileExtension}`);
+
+      const uploadTask = uploadBytesResumable(fileRef, blob);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload progress: " + progress + "%");
+        },
+        (error) => {
+          console.error("Upload error: ", error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          console.log("Upload complete. File available at: ", downloadURL);
+          setSelectedCoverImages([...selectedCoverImages, downloadURL]);
+        }
+      );
+
+    } else {
+      console.log('Media Library permission not granted');
+    }
+  }
+  // logo sekil secib gondermek bitdi
+
+
+  // logo sekil secib gondermek
+  async function pickAndUploadImagesForGallery() {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        allowsMultipleSelection: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      const response = await fetch(result.uri);
+
+      const blob = await response.blob();
+      const fileName = result.uri.substring(result.uri.lastIndexOf("/") + 1);
+      const fileExtension = fileName.split(".").pop();
+
+      const fileRef = ref(storage, `images/${fileName}.${fileExtension}`);
+
+      const uploadTask = uploadBytesResumable(fileRef, blob);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload progress: " + progress + "%");
+        },
+        (error) => {
+          console.error("Upload error: ", error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          console.log("Upload complete. File available at: ", downloadURL);
+          setSelectedGalleryImages([...selectedGalleryImages, downloadURL]);
+        }
+      );
+
+    } else {
+      console.log('Media Library permission not granted');
+    }
+  }
+  // logo sekil secib gondermek bitdi
 
 
   // rayon pickerinin cekmeyi
@@ -303,10 +473,6 @@ export default function AddListings({ navigation }) {
 
   const handleAddressChange = text => {
     setAddress(text);
-  };
-
-  const handleRayonAdiChange = text => {
-    setRayonAdi(text);
   };
 
   const handleDescriptionChange = text => {
@@ -354,7 +520,7 @@ export default function AddListings({ navigation }) {
   uploadVideoLink;
 
   const handleSubmit = () => {
-    fetch('http://192.168.0.169:3001/api/addnewlisting', {
+    fetch('https://restwell.az/api/addnewlisting', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -378,10 +544,10 @@ export default function AddListings({ navigation }) {
         previousprice: prePrice,
         price: price,
         uploadlink: uploadVideoLink,
-        rayon: "Yasamal",
-        gallery: selectedImages,
-        splashscreen: 'pic.png',
-        profileImage: 'pic.png',
+        rayon: selectedLocation,
+        gallery: selectedGalleryImages,
+        splashscreen: selectedCoverImages,
+        profileImage: selectedLogoImage,
         features: selectedProperties,
         tags: selectedTags,
         locationCoords: {
@@ -466,12 +632,13 @@ export default function AddListings({ navigation }) {
                   category.length > 0 &&
                   <Picker
                     selectedValue={selectedCategory}
-                    style={{ width: '100%' }}
-                    itemStyle={styles.pickerItem}
+                    style={[styles.locationPickerStyle, bgColor]}
+
                     onValueChange={(itemValue) => setSelectedCategory(itemValue)}
                   >
+                    <Picker.Item label='Kateqoriyanı seçin' color={textColor} />
                     {category.map((cat) => (
-                      <Picker.Item key={cat._id} label={cat.name} value={cat.name} />
+                      <Picker.Item key={cat._id} label={cat.name} value={cat.name} color={textColor} />
                     ))}
                   </Picker>
                 }
@@ -533,13 +700,13 @@ export default function AddListings({ navigation }) {
             <View>
               {locations.length > 0 ? (
                 <Picker
-                  style={styles.locationPickerStyle}
+                  style={[styles.locationPickerStyle, bgColor]}
                   selectedValue={selectedLocation}
                   onValueChange={(itemValue) => setSelectedLocation(itemValue)}
                 >
-                  <Picker.Item label="Bir lokasyon seçin" value={null} color='white' />
+                  <Picker.Item label="Məkan olduğu rayon ərazisi seçin" value={null} color={textColor} />
                   {locations.map((location, index) => (
-                    <Picker.Item key={index} label={location.name} value={location.id} color='white' />
+                    <Picker.Item key={index} label={location.name} value={location.id} color={textColor} />
                   ))}
                 </Picker>
               ) : (
@@ -547,16 +714,6 @@ export default function AddListings({ navigation }) {
               )}
             </View>
 
-            {/* <View style={styles.formItem}>
-              <Text style={styles.formLabel}>Poçt kodu:</Text>
-              <TextInput
-                secureTextEntry={false}
-                placeholder={'Poçt kodu daxil edin'}
-                style={styles.formInput}
-                value={rayonAdi}
-                onChangeText={handleRayonAdiChange}
-              />
-            </View> */}
             <View style={{ flex: 1 }}>
               {renderMap()}
             </View>
@@ -729,8 +886,6 @@ export default function AddListings({ navigation }) {
                 />
               </ScrollView>
             </View>
-
-
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>
                 Media və görüntülər
@@ -754,32 +909,99 @@ export default function AddListings({ navigation }) {
               />
             </View>
 
-            <TouchableOpacity onPress={pickAndUploadImages}>
-              <View style={{ backgroundColor: 'gray', padding: 20 }}>
-                <Text style={{ color: 'white', fontSize: 16 }}>
-                  Maksimum {10 - selectedImages.length} şəkil seçin
-                </Text>
-              </View>
-              {selectedImages.length > 0 && (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginTop: 25,
-                  }}>
-                  {
-                    selectedImages.map((imageUri, index) => (
-                      <Image
-                        key={index}
-                        source={{ uri: imageUri }}
-                        style={{ width: 100, height: 100, margin: 5 }}
-                      />
-                    ))
-                  }
-
+            {/* logo */}
+            <View style={styles.formItem}>
+              <Text>Logonu seçin</Text>
+              <TouchableOpacity onPress={pickAndUploadImagesForLogo}>
+                <View style={{ backgroundColor: 'gray', padding: 20 }}>
+                  <Text style={{ color: 'white', fontSize: 16 }}>
+                    Maksimum {1 - selectedLogoImage.length} şəkil seçin
+                  </Text>
                 </View>
-              )}
-            </TouchableOpacity>
+                {selectedLogoImage.length > 0 && (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                      marginTop: 25,
+                    }}>
+                    {
+                      selectedLogoImage.map((imageUri, index) => (
+                        <Image
+                          key={index}
+                          source={{ uri: imageUri }}
+                          style={{ width: 100, height: 100, margin: 5 }}
+                        />
+                      ))
+                    }
+
+                  </View>
+                )}
+              </TouchableOpacity>
+            </View>
+
+            {/* cover sekli */}
+            <View style={styles.formItem}>
+              <Text>Örtük şəklini seçin</Text>
+              <TouchableOpacity onPress={pickAndUploadImagesForCover}>
+                <View style={{ backgroundColor: 'gray', padding: 20 }}>
+                  <Text style={{ color: 'white', fontSize: 16 }}>
+                    Maksimum {3 - selectedCoverImages.length} şəkil seçin
+                  </Text>
+                </View>
+                {selectedCoverImages.length > 0 && (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                      marginTop: 25,
+                    }}>
+                    {
+                      selectedCoverImages.map((imageUri, index) => (
+                        <Image
+                          key={index}
+                          source={{ uri: imageUri }}
+                          style={{ width: 100, height: 100, margin: 5 }}
+                        />
+                      ))
+                    }
+
+                  </View>
+                )}
+              </TouchableOpacity>
+            </View>
+
+            {/* galerya sekli */}
+            <View style={styles.formItem}>
+              <Text>Qalereya şəkillərini seçin</Text>
+              <TouchableOpacity onPress={pickAndUploadImagesForGallery}>
+                <View style={{ backgroundColor: 'gray', padding: 20 }}>
+                  <Text style={{ color: 'white', fontSize: 16 }}>
+                    Maksimum {10 - selectedGalleryImages.length} şəkil seçin
+                  </Text>
+                </View>
+                {selectedGalleryImages.length > 0 && (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                      marginTop: 25,
+                    }}>
+                    {
+                      selectedGalleryImages.map((imageUri, index) => (
+                        <Image
+                          key={index}
+                          source={{ uri: imageUri }}
+                          style={{ width: 100, height: 100, margin: 5 }}
+                        />
+                      ))
+                    }
+
+                  </View>
+                )}
+              </TouchableOpacity>
+            </View>
+
 
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>Özəlliklər</Text>
@@ -820,10 +1042,35 @@ export default function AddListings({ navigation }) {
               </ScrollView>
             </View>
 
+
+            {/* həftənin günü və iş saatı başladı */}
+            <View style={styles.formItem}>
+              {daysOfWeek.map((day) => (
+                <View key={day} style={styles.dayContainer}>
+                  <Text body1>{day}</Text>
+                  <Text>Açılış saatı:</Text>
+                  <TimePicker
+                    selectedHour={schedule[day].openingTime.hour}
+                    selectedMinute={schedule[day].openingTime.minute}
+                    onHourChange={(hour) => handleTimeChange(day, 'openingTime', 'hour', hour)}
+                    onMinuteChange={(minute) => handleTimeChange(day, 'openingTime', 'minute', minute)}
+                  />
+                  <Text>Bağlanış saatı:</Text>
+                  <TimePicker
+                    selectedHour={schedule[day].closingTime.hour}
+                    selectedMinute={schedule[day].closingTime.minute}
+                    onHourChange={(hour) => handleTimeChange(day, 'closingTime', 'hour', hour)}
+                    onMinuteChange={(minute) => handleTimeChange(day, 'closingTime', 'minute', minute)}
+                  />
+
+                </View>
+              ))}
+            </View>
+            {/* həftənin günü və iş saatı bitdi */}
+
             <TouchableOpacity
               onPress={handleSubmit}
-              style={{
-                backgroundColor: 'white',
+              style={[{
                 padding: 10,
                 borderRadius: 25,
                 width: '85%',
@@ -832,12 +1079,9 @@ export default function AddListings({ navigation }) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginTop: 15,
-              }}>
+              }, bgColor]}>
               <Text
-                style={{
-                  color: 'black',
-                  fontSize: 18,
-                }}>
+                style={[{ fontSize: 18 }, textColor]}>
                 Təsdiqlə
               </Text>
             </TouchableOpacity>
@@ -870,10 +1114,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 16,
   },
-  pickerItem: {
-    color: '#000',
-    backgroundColor: "#fff"
-  },
   textarea: {
     borderWidth: 1,
     borderColor: 'grey',
@@ -890,11 +1130,21 @@ const styles = StyleSheet.create({
   },
   locationPickerStyle: {
     width: '95%',
-    backgroundColor: 'grey',
     color: 'white',
     marginBottom: 10,
     paddingTop: Platform.OS === 'ios' ? 0 : 0,
     marginHorizontal: 15,
     borderRadius: 8
+  },
+  dayContainer: {
+    marginBottom: 20,
+  },
+  timePickerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  timePicker: {
+    width: 200,
+    marginBottom: 20
   }
 });
