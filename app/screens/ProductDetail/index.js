@@ -30,11 +30,9 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import { productActions, wishListActions } from '@actions';
 import { userInfo, wish, designSelect } from '@selectors';
 import styles from './styles';
 import { addWish, removeWish } from '../../actions/wish';
-import { Alert } from 'react-native';
 
 export default function ProductDetail({ navigation, route }) {
   const { t } = useTranslation();
@@ -49,7 +47,6 @@ export default function ProductDetail({ navigation, route }) {
 
   const [loading, setLoading] = useState(true);
   const [like, setLike] = useState(null);
-  const [product, setProduct] = useState(null);
   const [collapseHour, setCollapseHour] = useState(false);
   const [related, setRelated] = useState([])
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
