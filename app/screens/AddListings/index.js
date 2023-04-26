@@ -513,7 +513,7 @@ export default function AddListings({ navigation }) {
 
   const handleSubmit = () => {
 
-    fetch('http://192.168.0.171:3001/api/addnewlisting', {
+    fetch('https://restwell.az/api/addnewlisting', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
