@@ -71,9 +71,6 @@ export default function Home({ navigation }) {
       .catch(error => console.error(error));
   }, []);
 
-  console.log('====================================');
-  console.log(firstBanner, secondBanner, thirdBanner + " banner sekilleri geldi blet");
-  console.log('====================================');
   // bannerleri tapib yukleme bitdi
 
   useEffect(() => {
@@ -155,13 +152,14 @@ export default function Home({ navigation }) {
             const restaurants = response1;
 
             // Find nearby restaurants within 5km radius
-
+            let nearbyRestaurants = [];
             restaurants.forEach((restaurant) => {
               const dist = haversine(latitude, longitude, restaurant.locationCoords.latitude, restaurant.locationCoords.longtitude);
               if (dist <= radius) {
-                setNearByMe([...nearByMe, restaurant]);
+                nearbyRestaurants.push(restaurant);
               }
             });
+            setNearByMe(nearbyRestaurants);
           }
         }
 

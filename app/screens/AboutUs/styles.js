@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   banner: {
-    height: 135,
+    height:335,
     alignItems: 'center',
     justifyContent: 'center',
   },

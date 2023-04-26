@@ -25,8 +25,8 @@ export default function AboutUs({ navigation }) {
       case 'phone':
         Linking.openURL('tel://' + link);
         break;
-        case 'email':
-          Linking.openURL('mailto:' + link)
+      case 'email':
+        Linking.openURL('mailto:' + link)
     }
   };
   useEffect(() => {
@@ -78,31 +78,28 @@ export default function AboutUs({ navigation }) {
           </ImageBackground>
           <View style={styles.content}>
             <Text headline semibold>
-              {t('Name').toUpperCase()}
+              {t('biz_kimik')}
             </Text>
-            <Text body2 style={{ marginTop: 5 }}>
-              {ourTeam[0].name}
-            </Text>
+            <Text body2 style={{ marginTop: 5 }}>RESTWELL LLC</Text>
             <TouchableOpacity onPress={() => onOpen('email', ourTeam[0].email)}>
-            <Text headline semibold style={{ marginTop: 20, marginBottom: 10 }}>
-              {t('Email').toUpperCase()}
-            </Text>
-            <Text>{ourTeam[0].email}</Text>
+              <Text headline semibold style={{ marginTop: 20, marginBottom: 10 }}>
+                {t('email')}
+              </Text>
+              <Text>{ourTeam[0].email}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{ width: '100%' }} onPress={() => onOpen('phone', ourTeam[0].phone)}>
               <Text headline semibold style={{ marginTop: 20, marginBottom: 10 }} >
-                {t('phone').toUpperCase()}
+                {t('phone_number')}
               </Text>
               <ScrollView horizontal={true}
                 showsHorizontalScrollIndicator={false}>
-                <Icon name="mobile-alt" size={16} style={{ marginRight: 5 }} />
                 <Text>{ourTeam[0].phone}</Text>
               </ScrollView>
 
             </TouchableOpacity>
           </View>
           <Text headline semibold style={styles.title}>
-            {t('Social Links').toUpperCase()}
+            {t('social_links')}
           </Text>
           <ScrollView
             horizontal={true}
@@ -120,45 +117,40 @@ export default function AboutUs({ navigation }) {
               />
             ))}
           </ScrollView>
-            <View >
-              <Text headline semibold style={{ marginTop: 20, marginBottom: 10,marginLeft: 15 }}>
-                {t('address').toUpperCase()}
+          <View >
+            <Text headline semibold style={{ marginTop: 20, marginBottom: 10, marginLeft: 15 }}>
+              {t('address')}
+            </Text>
+            <ScrollView horizontal={true}
+              style={{ paddingLeft: 13 }}
+              showsHorizontalScrollIndicator={false}>
+              <Text footnote semibold style={{ marginTop: 5 }}>
+                {ourTeam[0].address}
               </Text>
-              <ScrollView horizontal={true}
-                style={{ paddingLeft: 13 }}
-                showsHorizontalScrollIndicator={false}>
-                  <Icon
-                    name="map-marker-alt"
-                    size={16}
-                    style={{marginTop: 5,marginRight: 5}}
-                  />
-                <Text footnote semibold style={{ marginTop: 5 }}>
-                  {ourTeam[0].address}
-                </Text>
-              </ScrollView>
-            </View>
+            </ScrollView>
+          </View>
 
-            <View >
-              <Text headline semibold style={{ marginTop: 20, marginBottom: 10,marginLeft: 15 }}>
-                {t('Terms and Conditions').toUpperCase()}
-              </Text>
+          <View >
+            <Text headline semibold style={{ marginTop: 20, marginBottom: 10, marginLeft: 15 }}>
+              {t('terms_and_conditions')}
+            </Text>
 
-                <Text footnote semibold style={{ marginTop: 5,marginLeft: 15 }}>
-                  {ourTeam[0].termsAndConditions}
-                </Text>
+            <Text footnote semibold style={{ marginTop: 5, marginLeft: 15 }}>
+              {ourTeam[0].termsAndConditions}
+            </Text>
 
-            </View>
+          </View>
 
-            <View >
-              <Text headline semibold style={{ marginTop: 20, marginBottom: 10,marginLeft: 15 }}>
-                {t('Privacy Policy').toUpperCase()}
-              </Text>
+          <View >
+            <Text headline semibold style={{ marginTop: 20, marginBottom: 10, marginLeft: 15 }}>
+              {t('privacy_policy')}
+            </Text>
 
-                <Text footnote semibold style={{ marginTop: 5,marginLeft: 15 }}>
-                  {ourTeam[0].privacyPolicy}
-                </Text>
+            <Text footnote semibold style={{ marginTop: 5, marginLeft: 15 }}>
+              {ourTeam[0].privacyPolicy}
+            </Text>
 
-            </View>
+          </View>
         </ScrollView>}
       </SafeAreaView>
     </View>

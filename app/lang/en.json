@@ -73,8 +73,12 @@
   "popular_lologan": "Let find out what most interesting things",
   "recent_location": "Recent Location",
   "recent_sologan": "What’s the Worst That Could Happen",
-  "messages": "Messages",
-  "type_message": "Type message ...",
+  "nearByMe": "Sənə daha yaxın olanlar",
+  "nearByMeSubtitle": "Sənə 5km yaxında olan məkanlara bax",
+  "recommended_locations": "Tövsiyyə etdiklərimiz",
+  "recommended_locations_subtitle": "Sizin üçün seçib tövsiyyə etdiyimiz məkanlar",
+  "messages": "Mesajlar",
+  "type_message": "Mesaj yazın...",
   "messenger": "Messenger",
   "notification": "Notification",
   "place": "List",
@@ -170,5 +174,9 @@
   "products": "Products",
   "best_price_tasty": "Best product for your tasty",
   "nearly_location": "Nearby Locations",
-  "let_find_more_location": "Let find out more location"
+  "let_find_more_location": "Let find out more location",
+  "biz_kimik":"Who are we?",
+  "social_links":"Social media",
+  "terms_and_conditions":"Terms and Conditions",
+  "privacy_policy":"privacy Policy"
 }
