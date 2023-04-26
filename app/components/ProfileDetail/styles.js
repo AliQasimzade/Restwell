@@ -5,14 +5,14 @@ export default StyleSheet.create({
   contain: {flexDirection: 'row'},
   contentLeft: {
     flex: 8,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
   thumb: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 180,
+    height: 180,
+    borderRadius: 90,
     marginRight: 10,
   },
   contentRight: {

@@ -520,7 +520,7 @@ export default function AddListings({ navigation }) {
       },
       body: JSON.stringify({
         listingTitle: title,
-        category: selectedCategory[0],
+        category: selectedCategory,
         slogan: slogan,
         type: "lastadded",
         cityorstate: city,

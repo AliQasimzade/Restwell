@@ -28,20 +28,11 @@ export default function ProfileDetail(props) {
         <View>
           <Image source={{uri: image}} style={[styles.thumb, styleThumb]} />
         </View>
-        <View style={{alignItems: 'flex-start'}}>
-          <Text headline semibold numberOfLines={1}>
-            {textFirst}
+        <View style={{alignItems: 'center'}}>
+          <Text header semibold numberOfLines={1} style={{textAlign: 'center'}}>
+            {textFirst} {textSecond}
           </Text>
-          <Text
-            body2
-            style={{
-              marginTop: 3,
-              paddingRight: 10,
-            }}
-            numberOfLines={1}>
-            {textSecond}
-          </Text>
-          <Text footnote grayColor numberOfLines={1}>
+          <Text title3 grayColor numberOfLines={1} style={{textAlign: 'center'}}>
             {textThird}
           </Text>
         </View>

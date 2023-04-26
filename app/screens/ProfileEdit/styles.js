@@ -22,15 +22,15 @@ export default StyleSheet.create({
     color: BaseColor.grayColor,
   },
   thumb: {
-    width: 100,
-    height: 100,
+    width: 400,
+    height: 400,
     borderRadius: 50,
     marginBottom: 20,
   },
   editIconWrapper: {
     position: 'absolute',
     top: 20,
-    right: 150,
+    right: 10,
     backgroundColor: 'white',
     borderRadius: 25,
     padding: 15,

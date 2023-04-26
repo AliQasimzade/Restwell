@@ -73,8 +73,12 @@
   "popular_lologan": "Давайте узнаем, что самое интересное",
   "recent_location": "Недавнее местоположение",
   "recent_sologan": "Что самое худшее, что может случиться",
-  "messages": "Сообщения",
-  "type_message": "Введите сообщение...",
+  "nearByMe": "Sənə daha yaxın olanlar",
+  "nearByMeSubtitle": "Sənə 5km yaxında olan məkanlara bax",
+  "recommended_locations": "Tövsiyyə etdiklərimiz",
+  "recommended_locations_subtitle": "Sizin üçün seçib tövsiyyə etdiyimiz məkanlar",
+  "messages": "Месайлар",
+  "type_message": "Месаж язин...",
   "messenger": "Мессенджер",
   "notification": "Уведомление",
   "place": "Список",
@@ -170,5 +174,9 @@
   "products": "Продукты",
   "best_price_tasty": "Лучший продукт для вашего вкусного",
   "nearly_location": "Близлежащие места",
-  "let_find_more_location": "Позвольте узнать больше о местоположении"
+  "let_find_more_location": "Позвольте узнать больше о местоположении",
+  "biz_kimik": "Кто мы?",
+  "social_links": "Социальные медиа",
+  "terms_and_conditions": "Условия и положения",
+  "privacy_policy": "политика конфиденциальности"
 }
