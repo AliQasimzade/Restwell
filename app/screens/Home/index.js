@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as Location from "expo-location"
 import { LinearGradient } from 'expo-linear-gradient';
-
 import {
   View,
   ScrollView,
@@ -47,7 +46,35 @@ export default function Home({ navigation }) {
   const [nearByMe, setNearByMe] = useState([])
   const [loc, setLoc] = useState()
 
+  // bannerleri tapib yukleme basladi
+  const [firstBanner, setFirstBanner] = useState(null);
+  const [secondBanner, setSecondBanner] = useState(null);
+  const [thirdBanner, setThirdBanner] = useState(null);
 
+  useEffect(() => {
+    fetch('https://restwell.az/api/modalbanners')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(item => {
+          if (item && item.sira === 1 && item.image) {
+            console.log('====================================');
+            console.log(item +  " varmi bele birsey");
+            console.log('====================================');
+            setFirstBanner(item.image);
+          } else if (item && item.sira === 2 && item.image) {
+            setSecondBanner(item.image);
+          } else if (item && item.sira === 3 && item.image) {
+            setThirdBanner(item.image);
+          }
+        });
+      })
+      .catch(error => console.error(error));
+  }, []);
+
+  console.log('====================================');
+  console.log(firstBanner, secondBanner, thirdBanner + " banner sekilleri geldi blet");
+  console.log('====================================');
+  // bannerleri tapib yukleme bitdi
 
   useEffect(() => {
     // Fetch data from API
@@ -72,13 +99,13 @@ export default function Home({ navigation }) {
     ).then(res => res.json());
 
     Promise.all([listings, categories, banners, events, statuses, locs])
-    .then(responses => {
-      const [response1, response2, response3, response4, response5, response6] = responses;
-      let mekanlar = response1.map(r=>{
-        if (r.verify) {
-          return r
-        }
-      }).filter(Boolean)
+      .then(responses => {
+        const [response1, response2, response3, response4, response5, response6] = responses;
+        let mekanlar = response1.map(r => {
+          if (r.verify) {
+            return r
+          }
+        }).filter(Boolean)
         setCategories(response2);
         setLocations(response6)
         const pop = mekanlar.filter(item => item.type == 'popular');
@@ -96,9 +123,6 @@ export default function Home({ navigation }) {
         const getPermissions = async () => {
           let { status } = await Location.requestForegroundPermissionsAsync();
           if (status !== 'granted') {
-            console.log('====================================');
-            console.log("Please grant location permissions");
-            console.log('====================================');
           } else {
             let currentLocation = await Location.getCurrentPositionAsync({})
             setLoc(currentLocation)
@@ -216,7 +240,7 @@ export default function Home({ navigation }) {
                   ]}>
                   <Icon
                     name={Utils.iconConvert(item.icon)}
-                    size={20}
+                    size={32}
                     color={BaseColor.whiteColor}
                     solid
                   />
@@ -413,7 +437,7 @@ export default function Home({ navigation }) {
             subtitle={item.category}
             status={item.previousprice + "₼ - " + item.price + "₼"}
             rate={item.rating_avg}
-            style={{ marginBottom: 15 }}
+            style={{ marginBottom: 15, marginTop:0 }}
             onPress={() => {
               navigation.navigate('ProductDetail', {
                 item: item,
@@ -579,7 +603,7 @@ export default function Home({ navigation }) {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingLeft: 5, marginTop:40, marginBottom:0, }}>
+          <View style={{ paddingLeft: 5, marginTop: 40, marginBottom: 0, }}>
             {status.length > 0 && (
               <Story
                 data={status.map((item, index) => {
@@ -610,10 +634,7 @@ export default function Home({ navigation }) {
             </Text>
           </View>
           {renderLocations()}
-
-
-
-
+          {firstBanner ? <View style={styles.firstBannerImageContainer}><Image style={styles.bannerImageElement} source={{ uri: firstBanner }} /></View> : null}
           <View
             style={{
               paddingHorizontal: 20,
@@ -648,7 +669,7 @@ export default function Home({ navigation }) {
               {renderRecent()}
             </ScrollView>
           </View>
-
+          {secondBanner ? <View style={styles.secondBannerImageContainer}><Image style={styles.bannerImageElement} source={{ uri: secondBanner }} /></View> : null}
           <View
             style={{
               paddingHorizontal: 20,
@@ -683,6 +704,7 @@ export default function Home({ navigation }) {
               {renderFeatured()}
             </ScrollView>
           </View>
+          {thirdBanner ? <View style={styles.thirdBannerImageContainer}><Image style={styles.bannerImageElement} source={{ uri: thirdBanner }} /></View> : null}
           <View
             style={{
               paddingHorizontal: 20,

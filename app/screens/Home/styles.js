@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as Utils from '@utils';
 
 export default StyleSheet.create({
@@ -6,18 +6,18 @@ export default StyleSheet.create({
     height: 140,
     width: '100%',
     position: 'absolute',
-    zIndex:999
+    zIndex: 999
   },
   contentPage: {
     bottom: 10,
   },
   searchForm: {
-    top:50,
+    top: 50,
     marginHorizontal: 15,
     padding: 10,
     borderRadius: 10,
     borderWidth: 0.5,
-    shadowOffset: {width: 1.5, height: 1.5},
+    shadowOffset: { width: 1.5, height: 1.5 },
     shadowOpacity: 0.3,
     shadowRadius: 1,
     elevation: 1,
@@ -31,17 +31,16 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
-    alignContent:'flex-start',
+    alignContent: 'flex-start',
     marginVertical: 50,
   },
   serviceItem: {
     alignItems: 'center',
-    marginTop:35,
+    marginTop: 35,
   },
   serviceCircleIcon: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
@@ -79,10 +78,33 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  gradient:{
+  gradient: {
     width: Utils.scaleWithPixel(135),
     height: Utils.scaleWithPixel(160),
-    paddingTop:15,
-    paddingHorizontal:10
+    paddingTop: 15,
+    paddingHorizontal: 10
+  },
+  firstBannerImageContainer: {
+    paddingHorizontal:15,
+    width: '100%',
+    height: 150,
+    marginVertical:20,
+  },
+  secondBannerImageContainer: {
+    paddingHorizontal:15,
+    width: '100%',
+    height: 600,
+    marginVertical:20,
+  },
+  thirdBannerImageContainer: {
+    paddingHorizontal:15,
+    width: '100%',
+    height: 250,
+    marginVertical:15,
+  },
+  bannerImageElement: {
+    width: '100%',
+    height: '100%',
+    borderRadius:15
   }
 });
