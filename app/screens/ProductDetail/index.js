@@ -489,7 +489,7 @@ export default function ProductDetail({ navigation, route }) {
                     {t(`${week[index]}`)}
                   </Text>
                   <Text body1 accentColor semibold>
-                    {`${item.openingTime} - ${item.closingtime}`}
+                    {`${item.openingTime} - ${item.closingTime}`}
                   </Text>
                 </View>
               );

@@ -28,7 +28,7 @@ export default function Filter({ navigation, route }) {
       if (priceEnd && property.price > priceEnd) {
         return false;
       }
-      if (f && !f.some(feature => feature.includes(feature))) {
+      if (f && !f.some(it => property.features.includes(it))) {
         return false;
       }
 

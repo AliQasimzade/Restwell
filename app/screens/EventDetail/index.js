@@ -263,7 +263,7 @@ export default function EventDetail({ navigation, route }) {
               </Text>
               <View style={{display:'flex', flexDirection:'row',marginTop: 5,alignItems:'center', flex: 1, justifyContent: 'center' }}>
                 <Text headline style={{marginRight: 5}}>
-                  {item?.entryPrice}
+                  {item?.entryPrice} ₼
                 
                 </Text>
                 <Icon
