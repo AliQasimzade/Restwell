@@ -132,7 +132,7 @@ export default function ProductDetail({ navigation, route }) {
    * Open action
    * @param {*} item
    */
-  const onOpen = (type, title, link) => {
+  const onOpen = (type,title, link) => {
     switch (type) {
       case 'web':
         Linking.openURL(link);
@@ -146,6 +146,10 @@ export default function ProductDetail({ navigation, route }) {
       case 'address':
         Linking.openURL(link);
         break;
+      case 'whatsapp':
+        Linking.openURL(link);
+        break;
+        
     }
   };
 
@@ -415,6 +419,28 @@ export default function ProductDetail({ navigation, route }) {
               </Text>
               <Text footnote semibold style={{ marginTop: 5 }}>
                 {item.phone}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.line}
+            onPress={() => {
+              onOpen('whatsapp', t('whatsapp'), 
+              Platform.select({
+                ios: `whatsapp://api.whatsapp.com/send?phone=${item?.whatsapp}`,
+                android: `https://api.whatsapp.com/send?phone=${item?.whatsapp}`,
+              }));
+            }}>
+            <View
+              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
+              <Icon name="whatsapp" size={16} color={BaseColor.whiteColor} />
+            </View>
+            <View style={{ marginLeft: 10 }}>
+              <Text caption2 grayColor>
+                {t('Whatsapp')}
+              </Text>
+              <Text footnote semibold style={{ marginTop: 5 }}>
+                {item.whatsapp}
               </Text>
             </View>
           </TouchableOpacity>

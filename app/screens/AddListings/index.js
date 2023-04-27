@@ -26,11 +26,12 @@ import { KeyboardAvoidingView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import CheckboxGroup from 'react-native-checkbox-group';
 import { Picker } from '@react-native-picker/picker';
+import { downloadAsync } from 'expo-file-system';
 export default function AddListings({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const [selectedLogoImage, setSelectedLogoImage] = useState([]);
-  const [selectedCoverImages, setSelectedCoverImages] = useState([]);
+  const [selectedLogoImage, setSelectedLogoImage] = useState('');
+  const [selectedCoverImages, setSelectedCoverImages] = useState('');
   const [selectedGalleryImages, setSelectedGalleryImages] = useState([]);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState([]);
@@ -332,7 +333,7 @@ export default function AddListings({ navigation }) {
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           console.log("Upload complete. File available at: ", downloadURL);
-          setSelectedLogoImage([...selectedLogoImage, downloadURL]);
+          setSelectedLogoImage(downloadURL);
         }
       );
 
@@ -349,7 +350,7 @@ export default function AddListings({ navigation }) {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        allowsMultipleSelection: true,
+        allowsMultipleSelection: false,
         aspect: [4, 3],
         quality: 1,
       });
@@ -376,7 +377,7 @@ export default function AddListings({ navigation }) {
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           console.log("Upload complete. File available at: ", downloadURL);
-          setSelectedCoverImages([...selectedCoverImages, downloadURL]);
+          setSelectedCoverImages(selectedCoverImages => selectedCoverImages = downloadURL);
         }
       );
 
@@ -533,15 +534,15 @@ export default function AddListings({ navigation }) {
         facebook: facebook,
         instagram: Instagram,
         youtube: youtube,
-        twitter:"salam",
+        twitter: "salam",
         whatsapp: whatsapp,
         previousprice: prePrice,
         price: price,
         uploadlink: uploadVideoLink,
         rayon: selectedLocation,
         gallery: selectedGalleryImages,
-        splashscreen: selectedCoverImages[0],
-        profileImage: selectedLogoImage[0],
+        splashscreen: selectedCoverImages,
+        profileImage: selectedLogoImage,
         features: selectedProperties,
         tags: selectedTags,
         locationCoords: {
@@ -591,7 +592,6 @@ export default function AddListings({ navigation }) {
       "=============" + "butun datalar bunlardi "
     );
     console.log('====================================');
-    Alert.alert({ title: "sehv var", message: "xanalar tam doldurulmayib" })
 
   };
 
@@ -935,10 +935,10 @@ export default function AddListings({ navigation }) {
               <TouchableOpacity onPress={pickAndUploadImagesForLogo}>
                 <View style={{ backgroundColor: 'gray', padding: 20 }}>
                   <Text style={{ color: 'white', fontSize: 16 }}>
-                    Maksimum {1 - selectedLogoImage.length} şəkil seçin
+                    Maksimum {1 - (selectedLogoImage && selectedLogoImage[0].length)} şəkil seçin
                   </Text>
                 </View>
-                {selectedLogoImage.length > 0 && (
+                {selectedLogoImage && (
                   <View
                     style={{
                       flexDirection: 'row',
@@ -946,13 +946,12 @@ export default function AddListings({ navigation }) {
                       marginTop: 25,
                     }}>
                     {
-                      selectedLogoImage.map((imageUri, index) => (
+                      selectedLogoImage && 
                         <Image
-                          key={index}
-                          source={{ uri: imageUri }}
+                          source={{ uri: selectedLogoImage }}
                           style={{ width: 100, height: 100, margin: 5 }}
                         />
-                      ))
+                     
                     }
 
                   </View>
@@ -966,24 +965,23 @@ export default function AddListings({ navigation }) {
               <TouchableOpacity onPress={pickAndUploadImagesForCover}>
                 <View style={{ backgroundColor: 'gray', padding: 20 }}>
                   <Text style={{ color: 'white', fontSize: 16 }}>
-                    Maksimum {3 - selectedCoverImages.length} şəkil seçin
+                    Maksimum {1 - (selectedCoverImages && selectedCoverImages[0].length)} şəkil seçin
                   </Text>
                 </View>
-                {selectedCoverImages.length > 0 && (
+                {selectedCoverImages && (
                   <View
                     style={{
                       flexDirection: 'row',
                       flexWrap: 'wrap',
                       marginTop: 25,
                     }}>
-                    {
-                      selectedCoverImages.map((imageUri, index) => (
-                        <Image
-                          key={index}
-                          source={{ uri: imageUri }}
-                          style={{ width: 100, height: 100, margin: 5 }}
-                        />
-                      ))
+
+                    {selectedCoverImages &&
+                      <Image
+                        source={{ uri: selectedCoverImages }}
+                        style={{ width: 100, height: 100, margin: 5 }}
+                      />
+
                     }
 
                   </View>

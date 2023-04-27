@@ -19,7 +19,7 @@ export default function Filter({ navigation, route }) {
         return false;
       }
 
-      if (l && property.address.includes(l) != true) {
+      if (l && property.rayon.includes(l) != true) {
         return false;
       }
       if (priceBegin && property.previousprice < priceBegin) {
