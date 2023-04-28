@@ -39,7 +39,7 @@ const Story = (props) => {
       style={{ marginTop: 30, color: `${colors.primaryLight}` }}
       showAvatarText={true}
       avatarSize={70}
-      avatarTextStyle={{color: `${colors.primaryDark}`}}
+      avatarTextStyle={{color: `${colors.text}`}}
       storyUserContainerStyle={{color: "red"}}
     />
   );
