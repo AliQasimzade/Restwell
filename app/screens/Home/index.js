@@ -31,7 +31,6 @@ const deltaY = new Animated.Value(0);
 export default function Home({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
-  const swiperRef = useRef(null);
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const heightImageBanner = Utils.scaleWithPixel(180);
   const marginTopBanner = heightImageBanner - heightHeader + 10;
@@ -58,9 +57,7 @@ export default function Home({ navigation }) {
       .then(data => {
         data.forEach(item => {
           if (item && item.sira === 1 && item.image) {
-            console.log('====================================');
-            console.log(item +  " varmi bele birsey");
-            console.log('====================================');
+            
             setFirstBanner(item.image);
           } else if (item && item.sira === 2 && item.image) {
             setSecondBanner(item.image);
@@ -109,9 +106,7 @@ export default function Home({ navigation }) {
         const pop = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'popular') : []
         const lastadd = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'lastadded') : []
         const featureds = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'featured') : []
-        console.log('====================================');
-        console.log("Last Added:" + JSON.stringify(lastadd));
-        console.log('====================================');
+       
         setListings(mekanlar)
         setPopularLocations(pop);
         setLastAdded(lastadd);
@@ -125,8 +120,13 @@ export default function Home({ navigation }) {
           let { status } = await Location.requestForegroundPermissionsAsync();
           if (status !== 'granted') {
           } else {
-            let currentLocation = await Location.getCurrentPositionAsync({})
+            let currentLocation = await Location.getCurrentPositionAsync({
+              accuracy: Location.Accuracy.Balanced
+            })
             setLoc(currentLocation)
+            console.log('====================================');
+            console.log(currentLocation);
+            console.log('====================================');
             const RADIUS = 6371;
 
             const latitude = currentLocation.coords.latitude
@@ -151,11 +151,7 @@ export default function Home({ navigation }) {
             function toRadians(degrees) {
               return degrees * (Math.PI / 180);
             }
-
-            // List of restaurants with their latitude and longitude coordinates
-            const restaurants = response1;
-
-            // Find nearby restaurants within 5km radius
+            const restaurants = mekanlar;
             let nearbyRestaurants = [];
             restaurants.forEach((restaurant) => {
               const dist = haversine(latitude, longitude, restaurant.locationCoords.latitude, restaurant.locationCoords.longtitude);
@@ -375,9 +371,7 @@ export default function Home({ navigation }) {
   const renderPopular = () => {
     if (popularLocations.length > 0) {
       return popularLocations.map((item, index) => {
-        console.log('====================================');
-        console.log(item);
-        console.log('====================================');
+       
         return (
           <ListItem
             small
@@ -630,9 +624,10 @@ export default function Home({ navigation }) {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingLeft: 5, marginTop: 40, marginBottom: 0, }}>
+          <View style={{ paddingLeft: 5, marginTop: 40, marginBottom: 0 }}>
             {status.length > 0 && (
               <Story
+              
                 data={status.map((item, index) => {
                   return {
                     user_id: index,
@@ -643,7 +638,7 @@ export default function Home({ navigation }) {
                         story_id: index,
                         story_image: item.image,
                         swipeText: item.content,
-                        onPress: () => console.log('success'),
+                        
                       },
                     ],
                   };

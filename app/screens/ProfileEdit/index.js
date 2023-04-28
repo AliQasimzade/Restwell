@@ -54,6 +54,7 @@ export default function ProfileEdit({ navigation }) {
     email: true,
     surname: true,
     password: true,
+    profileImage:true
   });
 
   /**
@@ -131,11 +132,11 @@ export default function ProfileEdit({ navigation }) {
           email: email != '' ? true : false,
           surname: surname != '' ? true : false,
           password: password != '' ? true : false,
-          image: profileImage != '' ? true : false,
+          profileImage: profileImage != '' ? true : false,
         });
         setLoading(false)
         return;
-      } else if (name == user.name && surname == user.surname && email == user.email && password == user.password && profileImage.length == 0) {
+      } else if (name == user.name && surname == user.surname && email == user.email && password == user.password && profileImage == user.image) {
         Alert.alert({ title: "Warning", message: "Hec bir deyisiklik olmayib" })
         setLoading(false)
         return;

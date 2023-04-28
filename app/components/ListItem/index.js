@@ -177,7 +177,7 @@
             <Text headline semibold grayColor numberOfLines={1}>
               {subtitle}
             </Text>
-            <Text title2 semibold style={{ marginTop: 5 }} numberOfLines={1}>
+            <Text title2 semibold style={{ marginTop: 5 } } numberOfLines={1}>
               {title}
             </Text>
             <View style={styles.lineRate}>
@@ -259,7 +259,7 @@
             numberOfLines={1}>
             {subtitle}
           </Text>
-          <Text subhead semibold style={{ marginTop: 5 }} numberOfLines={1}>
+          <Text subhead semibold style={{ marginTop: 5 } }  numberOfLines={1}>
             {title}
           </Text>
           <View>

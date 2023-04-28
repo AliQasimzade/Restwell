@@ -1,12 +1,16 @@
-import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, useColorScheme } from 'react-native';
 import InstaStory from 'react-native-insta-story';
-
+import { BaseStyle, BaseColor, useTheme } from '@config';
 
 const Story = (props) => {
-  const {data} = props
-  const [show, setShow ] = useState(false)
-  const [text, setText] = useState('')
+  const { data } = props
+  const [show, setShow] = useState(false)
+  const [text, setText] = useState('');
+  const { colors } = useTheme();
+  console.log('====================================');
+  console.log(colors, "ListItem bleet");
+  console.log('====================================');
   const handleStart = item => {
     console.log(item);
     setShow(true)
@@ -24,18 +28,19 @@ const Story = (props) => {
 
   return (
     <InstaStory
+      
       data={data}
       duration={10}
       onStart={handleStart}
       onClose={handleClose}
       onSwipeUp={handleSwipe}
-      customSwipeUpComponent={show ?  <View>
-        <Text style={{color:'red'}}>{text}</Text>
-      </View> : <Text style={{color:'white'}}>Data not found</Text>}
-      style={{marginTop: 30}}
+      customSwipeUpComponent={show ? <View style={{ color: `${colors.primaryLight}` }}>
+        <Text style={{ color: `${colors.primaryLight}` }}>{text}</Text>
+      </View> : <Text>Data not found</Text>}
+      style={{ marginTop: 30, color: `${colors.primaryLight} !important` }}
       showAvatarText={true}
-      textStyle={{color: 'white'}}
       avatarSize={70}
+      storyUserContainerStyle={{color: "red"}}
     />
   );
 };
