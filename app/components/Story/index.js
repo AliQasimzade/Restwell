@@ -28,7 +28,6 @@ const Story = (props) => {
 
   return (
     <InstaStory
-      
       data={data}
       duration={10}
       onStart={handleStart}
@@ -37,9 +36,10 @@ const Story = (props) => {
       customSwipeUpComponent={show ? <View style={{ color: `${colors.primaryLight}` }}>
         <Text style={{ color: `${colors.primaryLight}` }}>{text}</Text>
       </View> : <Text>Data not found</Text>}
-      style={{ marginTop: 30, color: `${colors.primaryLight} !important` }}
+      style={{ marginTop: 30, color: `${colors.primaryLight}` }}
       showAvatarText={true}
       avatarSize={70}
+      avatarTextStyle={{color: `${colors.primaryDark}`}}
       storyUserContainerStyle={{color: "red"}}
     />
   );
