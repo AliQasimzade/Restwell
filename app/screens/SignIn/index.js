@@ -192,7 +192,7 @@ export default function SignIn({navigation, route}) {
               onPress={onLogin}>
               {t('sign_in')}
             </Button>
-            <Button
+            {Platform.OS == "android" && <Button
               style={{marginTop: 20}}
               full
               loading={loading}
@@ -201,7 +201,7 @@ export default function SignIn({navigation, route}) {
                 promptAsync();
               }}>
               {t('Sign in Google')}
-            </Button>
+            </Button>}
             <TouchableOpacity
               onPress={() => navigation.navigate('ResetPassword')}>
               <Text body1 grayColor style={{marginTop: 25}}>

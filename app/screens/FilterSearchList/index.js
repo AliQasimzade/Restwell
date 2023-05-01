@@ -52,7 +52,7 @@ export default function List({ navigation, route }) {
   const [viewportWidth] = useState(Utils.getWidthDevice());
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [modeView, setModeView] = useState(setting.mode);
+  const [modeView, setModeView] = useState('list');
   const [mapView, setMapView] = useState(false);
   const [lists, setlists] = useState([])
   const [region, setRegion] = useState({

@@ -86,7 +86,7 @@ export default function Tag(props) {
           textStyle,
         ])}
         numberOfLines={1}>
-        {children || 'Tag'}
+        {children}
       </Text>
     </TouchableOpacity>
   );

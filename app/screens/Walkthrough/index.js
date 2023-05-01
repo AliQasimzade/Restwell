@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
 import {SafeAreaView, Text, Button, Image} from '@components';
 import styles from './styles';
@@ -9,12 +9,29 @@ import {useTranslation} from 'react-i18next';
 
 export default function Walkthrough({navigation}) {
   const [scrollEnabled, setScrollEnabled] = useState(true);
-  const [slide] = useState([
-    {key: 1, image: Images.trip2},
-    {key: 2, image: Images.trip1},
-    {key: 3, image: Images.trip3},
-    {key: 4, image: Images.trip4},
-  ]);
+  const [slide,setSlide] = useState([]);
+const getAllBanners = async () => {
+   try {
+    const request = await fetch('https://restwell.az/api/banners');
+    if(!request.ok) {
+      throw new Error("Request is failed !")
+    }else {
+       const response = await request.json();
+       const filterRes = response.filter((_, index) => index < 4).map(re => {
+         return {
+           key: re._id,
+           image: re.image
+         }
+       })
+       setSlide(filterRes)
+    }
+   }catch(err) {
+    Alert.alert({type:"error", title:"Error", message: err.message})
+   }
+}
+  useEffect(() => {
+    getAllBanners()
+  } ,[])
   const {colors} = useTheme();
   const {t} = useTranslation();
 
@@ -37,10 +54,10 @@ export default function Walkthrough({navigation}) {
             activeDotColor={colors.primary}
             paginationStyle={styles.contentPage}
             removeClippedSubviews={false}>
-            {slide.map((item, index) => {
+            {slide.length > 0 && slide.map((item, index) => {
               return (
                 <View style={styles.slide} key={item.key}>
-                  <Image source={item.image} style={styles.img} />
+                  <Image source={{uri: item.image}} style={styles.img} />
                   <Text body1 style={styles.textSlide}>
                     {t('pick_your_destication')}
                   </Text>

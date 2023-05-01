@@ -92,9 +92,9 @@
             )}
             <View style={styles.blockContentRate}>
               <View>
-                {rate != 0 && <Tag rate onPress={onPressTag}>
+                <Tag rate onPress={onPressTag}>
                   {rate}
-                </Tag>}
+                </Tag>
                 <View style={{ marginLeft: 10 }}>
                   <Text caption1 whiteColor semibold style={{ marginBottom: 5 }}>
                     {t('rate')}
@@ -317,7 +317,7 @@
             <Text footnote semibold grayColor style={{ marginTop: 4 }}>
               {subtitle}
             </Text>
-            {rate !=0 && <View style={styles.smallContentRate}>
+        <View style={styles.smallContentRate}>
             <Tag onPress={onPressTag} rateSmall style={{ marginRight: 4 }}>
                 {rate}
               </Tag>
@@ -329,7 +329,7 @@
                 selectedStar={onPressTag}
                 fullStarColor={BaseColor.yellowColor}
               />
-            </View>}
+            </View>
           </View>
           {enableAction && (
             <TouchableOpacity onPress={omPressMore} style={styles.moreButton}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Location from "expo-location"
 import { LinearGradient } from 'expo-linear-gradient';
 import {
@@ -7,7 +7,7 @@ import {
   Animated,
   TouchableOpacity,
   FlatList,
-  RefreshControl
+  RefreshControl 
 } from 'react-native';
 import {
   Placeholder,
@@ -50,6 +50,7 @@ export default function Home({ navigation }) {
   const [firstBanner, setFirstBanner] = useState(null);
   const [secondBanner, setSecondBanner] = useState(null);
   const [thirdBanner, setThirdBanner] = useState(null);
+
 
   useEffect(() => {
     fetch('https://restwell.az/api/modalbanners')
@@ -124,9 +125,6 @@ export default function Home({ navigation }) {
               accuracy: Location.Accuracy.Balanced
             })
             setLoc(currentLocation)
-            console.log('====================================');
-            console.log(currentLocation);
-            console.log('====================================');
             const RADIUS = 6371;
 
             const latitude = currentLocation.coords.latitude

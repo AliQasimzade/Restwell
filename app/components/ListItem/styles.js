@@ -93,7 +93,7 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   smallImage: {
-    width: Utils.scaleWithPixel(290),
+    width: Utils.scaleWithPixel(270),
     height: Utils.scaleWithPixel(210),
     borderRadius: 8,
     marginBottom: 10,

@@ -228,7 +228,7 @@ export default function SignUp({ navigation }) {
               onPress={() => onSignUp()}>
               {t('sign_up')}
             </Button>
-            <Button
+            {Platform.OS == "android" &&  <Button
               full
               style={{ marginTop: 20 }}
               loading={loading}
@@ -238,7 +238,8 @@ export default function SignUp({ navigation }) {
               }}
             >
               {t('Sign up with Google')}
-            </Button>
+            </Button>}
+           
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>

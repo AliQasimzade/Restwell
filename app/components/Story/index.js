@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, useColorScheme } from 'react-native';
+import { View, Text } from 'react-native';
 import InstaStory from 'react-native-insta-story';
-import { BaseStyle, BaseColor, useTheme } from '@config';
+import { useTheme } from '@config';
 
 const Story = (props) => {
   const { data } = props
@@ -33,14 +33,13 @@ const Story = (props) => {
       onStart={handleStart}
       onClose={handleClose}
       onSwipeUp={handleSwipe}
-      customSwipeUpComponent={show ? <View style={{ color: `${colors.primaryLight}` }}>
-        <Text style={{ color: `${colors.primaryLight}` }}>{text}</Text>
+      customSwipeUpComponent={show ? <View >
+        <Text>{text}</Text>
       </View> : <Text>Data not found</Text>}
-      style={{ marginTop: 30, color: `${colors.primaryLight}` }}
+      style={{ marginTop: 30 }}
       showAvatarText={true}
       avatarSize={70}
-      avatarTextStyle={{color: `${colors.text}`}}
-      storyUserContainerStyle={{color: "red"}}
+      avatarTextStyle={{color: `${colors.primary}` }}
     />
   );
 };
