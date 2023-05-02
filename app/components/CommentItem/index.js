@@ -1,44 +1,53 @@
-import React from 'react';
-import {View} from 'react-native';
-import {Images, BaseColor, useTheme} from '@config';
-import {Text, Image, StarRating} from '@components';
+import React, {useState} from 'react';
+import { View } from 'react-native';
+import { Images, BaseColor, useTheme } from '@config';
+import { Text, Image, StarRating } from '@components';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
 export default function CommentItem(props) {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
+  const [state] = useState(["Xidmətə görə","Qiymətə görə", "Ümumi","Porsiyaya görə"])
   const cardColor = colors.card;
-  const {style, image, name, rate, date, comment} = props;
+  const { style, image, name, rate, date, comments } = props;
   return (
-    <View style={[styles.contain, {backgroundColor: cardColor}, style]}>
-      <View style={{flexDirection: 'row', marginBottom: 10}}>
+    <View style={[styles.contain, { backgroundColor: cardColor }, style]}>
+      <View style={{ flexDirection: 'row', marginBottom: 10 }}>
         <View style={styles.contentLeft}>
-          <Image source={{uri: image}} style={styles.thumb} />
+          <Image source={{ uri: image }} style={styles.thumb} />
           <View>
             <Text headline semibold numberOfLines={1}>
               {name}
             </Text>
+            
+          </View>
+        </View>
+        <View >
+          <Text caption2 grayColor numberOfLines={2}>
+            {date}
+          </Text>
+        </View>
+      </View>
+      <View body2 grayColor>
+        {comments.map((comment, index) => (
+          <View key={index} style={{marginTop: 8}}>
+            <Text style={{color: colors.accent}}>{state[index]}:</Text>
+            <View>
+            <Text>{comment.message}</Text>
             <View style={styles.contentRate}>
               <StarRating
                 disabled={true}
                 starSize={14}
                 maxStars={5}
-                rating={parseFloat(rate)}
-                selectedStar={rating => {}}
+                rating={comment.rating_count}
+                selectedStar={rating => { }}
                 fullStarColor={BaseColor.yellowColor}
               />
             </View>
+            </View>
           </View>
-        </View>
-        <View style={styles.contentRight}>
-          <Text caption2 grayColor numberOfLines={1}>
-            {date}
-          </Text>
-        </View>
+        ))}
       </View>
-      <Text body2 grayColor>
-        {comment}
-      </Text>
     </View>
   );
 }

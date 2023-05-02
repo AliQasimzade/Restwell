@@ -32,11 +32,12 @@ export default function Feedback({ navigation, route }) {
     android: 20,
   });
   const [loading, setLoading] = useState(false);
-  const [rate, setRate] = useState(5);
-  const [review, setReview] = useState('');
+  const [rates, setRates] = useState([5,5,5,5]);
+  const [reviews, setReviews] = useState(['','','','']);
+  const [state] = useState(["Xidmətə görə","Qiymətə görə", "Ümumi","Porsiyaya görə"])
   const [success, setSuccess] = useState({
     title: true,
-    review: true,
+    reviews: true,
   });
 
   /**
@@ -46,16 +47,31 @@ export default function Feedback({ navigation, route }) {
    */
   const onSubmit = async () => {
     try {
-      if (review == '') {
+      if (reviews[0] == '' || reviews[1] == '' || reviews[2] == '' || reviews[3] == '') {
         setSuccess({
           ...success,
-          review: review != '' ? true : false,
+          reviews:  false,
         });
       } else {
         setLoading(true);
         const newReview = {
-          message: review,
-          rating_count: rate,
+          messages: [{
+            message: reviews[0],
+            rating_count: rates[0]
+          },
+          {
+            message: reviews[1],
+            rating_count: rates[1]
+          },
+          {
+            message: reviews[2],
+            rating_count: rates[2]
+          },
+          {
+            message: reviews[3],
+            rating_count: rates[3]
+          }
+        ],
           user_name: user.name,
           user_image: user.image,  
           publish_date: new Date().toLocaleDateString()
@@ -83,7 +99,6 @@ export default function Feedback({ navigation, route }) {
       Alert.alert({title:'Xeta', message: err.message})
     }
   };
-
   return (
     <View style={{ flex: 1 }}>
       <Header
@@ -120,41 +135,47 @@ export default function Feedback({ navigation, route }) {
           behavior={Platform.OS == 'android' ? 'height' : 'padding'}
           keyboardVerticalOffset={offsetKeyboard}
           style={{ flex: 1 }}>
-          <ScrollView
-            contentContainerStyle={{ alignItems: 'center', padding: 20 }}>
-            {/* <Image
-              source={user.image}
-              style={{
-                width: 62,
-                height: 62,
-                borderRadius: 31,
-              }}
-            /> */}
-            <View style={{ width: 160 }}>
-              <StarRating
-                starSize={26}
-                maxStars={5}
-                rating={rate}
-                selectedStar={rating => {
-                  setRate(rating);
-                }}
-                fullStarColor={BaseColor.yellowColor}
-                containerStyle={{ padding: 5 }}
-              />
-              <Text caption1 grayColor style={{ textAlign: 'center' }}>
-                {t('tap_to_rate')}
-              </Text>
-            </View>
-            <TextInput
-              style={{ marginTop: 10, height: 150 }}
-              onChangeText={text => setReview(text)}
-              textAlignVertical="top"
-              multiline={true}
-              success={success.review}
-              placeholder={t('input')}
-              value={review}
-            />
-          </ScrollView>
+         {state.map((et, index) => (
+           <ScrollView
+           contentContainerStyle={{ alignItems: 'center', padding: 20 }}>
+            <Text style={{fontSize:22}}>{et}</Text>
+           <View style={{ width: 160 }}>
+             
+             <StarRating
+               starSize={26}
+               maxStars={5}
+               rating={rates[index]}
+               selectedStar={rating => {
+                 setRates(rates => rates.map((ra, i) => {
+                   if(i === index) {
+                    ra = rating
+                   }
+                   return ra
+                 }));
+               }}
+               fullStarColor={BaseColor.yellowColor}
+               containerStyle={{ padding: 5 }}
+             />
+             <Text caption1 grayColor style={{ textAlign: 'center' }}>
+               {t('tap_to_rate')}
+             </Text>
+           </View>
+           <TextInput
+             style={{ marginTop: 10, height: 150 }}
+             onChangeText={text => setReviews(reviews => reviews.map((rev, i) => {
+               if(index === i) {
+                rev = text
+               }
+               return rev
+             }))}
+             textAlignVertical="top"
+             multiline={true}
+             success={success.reviews}
+             placeholder={t('input')}
+             value={reviews[index]}
+           />
+         </ScrollView>
+         ))}
         </KeyboardAvoidingView>
       </SafeAreaView>
     </View>

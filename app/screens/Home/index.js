@@ -377,7 +377,7 @@ export default function Home({ navigation }) {
             image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
-            status={item.previousprice + "₼ - " + item.price + "₼"}
+            status={item.priceRelationShip}
             rate={item.rating_avg}
             style={{ marginBottom: 15 }}
             onPress={() => {
@@ -415,7 +415,7 @@ export default function Home({ navigation }) {
             image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
-            status={item.previousprice + "₼ - " + item.price + "₼"}
+            status={item.priceRelationShip}
             rate={item.rating_avg}
             style={{ marginBottom: 15 }}
             onPress={() => {
@@ -454,7 +454,7 @@ export default function Home({ navigation }) {
             image={item.splashscreen}
             title={item.listingTitle}
             subtitle={item.category}
-            status={item.previousprice + "₼ - " + item.price + "₼"}
+            status={item.priceRelationShip}
             rate={item.rating_avg}
             style={{ marginBottom: 15, marginTop:0 }}
             onPress={() => {
@@ -490,7 +490,7 @@ export default function Home({ navigation }) {
             title={item.listingTitle}
             subtitle={item.category}
             rate={item.rating_avg}
-            status={item.previousprice + "₼ - " + item.price + "₼"}
+            status={item.priceRelationShip}
             style={{ marginBottom: 15 }}
             onPress={() => {
               navigation.navigate('ProductDetail', {

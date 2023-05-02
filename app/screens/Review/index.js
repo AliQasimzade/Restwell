@@ -44,46 +44,51 @@ export default function Review({ navigation, route }) {
             if (r.verify) {
               return r
             }
-          }).filter(Boolean).map(review => {
-            if (review.rating_count == 1) {
-              return review.rating_count
+
+          }).filter(Boolean).map(review => review.messages).flat(Infinity).map(message => {
+            if (message.rating_count === 1) {
+              return message.rating_count
             }
           }).filter(Boolean)
-
+          console.log(oneStarsCounts, "Review Starts");
           const twoStarsCounts = findByid.reviews.map(r => {
             if (r.verify) {
               return r
             }
-          }).filter(Boolean).map(review => {
-            if (review.rating_count == 2) {
-              return review.rating_count
+
+          }).filter(Boolean).map(review => review.messages).flat(Infinity).map(message => {
+            if (message.rating_count === 2) {
+              return message.rating_count
             }
           }).filter(Boolean)
           const threeStarsCounts = findByid.reviews.map(r => {
             if (r.verify) {
               return r
             }
-          }).filter(Boolean).map(review => {
-            if (review.rating_count == 3) {
-              return review.rating_count
+
+          }).filter(Boolean).map(review => review.messages).flat(Infinity).map(message => {
+            if (message.rating_count === 3) {
+              return message.rating_count
             }
           }).filter(Boolean)
           const fourStarsCounts = findByid.reviews.map(r => {
             if (r.verify) {
               return r
             }
-          }).filter(Boolean).map(review => {
-            if (review.rating_count == 4) {
-              return review.rating_count
+
+          }).filter(Boolean).map(review => review.messages).flat(Infinity).map(message => {
+            if (message.rating_count === 4) {
+              return message.rating_count
             }
           }).filter(Boolean)
-          const fiveStarsCounts = findByid.reviews.map(r => {
+          const fiveStarsCounts =findByid.reviews.map(r => {
             if (r.verify) {
               return r
             }
-          }).filter(Boolean).map(review => {
-            if (review.rating_count == 5) {
-              return review.rating_count
+
+          }).filter(Boolean).map(review => review.messages).flat(Infinity).map(message => {
+            if (message.rating_count === 5) {
+              return message.rating_count
             }
           }).filter(Boolean)
 
@@ -147,7 +152,7 @@ export default function Review({ navigation, route }) {
             onRefresh={onRefresh}
           />
         }
-        data={reviews?.reviews.map(r=>{
+        data={reviews?.reviews.map(r => {
           if (r.verify) {
             return r
           }
@@ -157,9 +162,9 @@ export default function Review({ navigation, route }) {
           <RateDetail
             point={reviews.rating_avg ?? 0}
             maxPoint={5}
-            totalRating={reviews.reviews.map(r=>{
+            totalRating={reviews.reviews.map(r => {
               if (r.verify) {
-                return r
+                return r.messages
               }
             }).filter(Boolean).length ?? 0}
             data={totalStars}
@@ -172,7 +177,7 @@ export default function Review({ navigation, route }) {
             name={item.user_name}
             rate={item.rating_count}
             date={item.publish_date}
-            comment={item.message}
+            comments={item.messages}
           />
         )}
       />

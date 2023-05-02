@@ -70,7 +70,7 @@ export const Typography = StyleSheet.create({
     fontWeight: FontWeight.regular,
   },
   caption2: {
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: FontWeight.regular,
   },
   overline: {

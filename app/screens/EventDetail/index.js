@@ -254,7 +254,7 @@ export default function EventDetail({ navigation, route }) {
                 {t('Start Date - End Date')}
               </Text>
               <Text style={{ marginTop: 5, fontSize: 13 }}>
-                {item?.startDate} - {item?.endDate}
+                {new Date(item?.startDate).toLocaleDateString()} - {new Date(item?.endDate).toLocaleDateString()}
               </Text>
             </View>
             <View style={{ flex: 1, alignItems: 'flex-end' }}>

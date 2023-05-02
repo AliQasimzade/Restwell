@@ -53,7 +53,7 @@ export default function Tag(props) {
           styles.chip,
           {backgroundColor: colors.card, borderColor: colors.accent},
         ],
-        status && [styles.status, {backgroundColor: colors.primary}],
+        status && [styles.status, {backgroundColor: colors.primary,fontSize: 22}],
         rate && [styles.rate, {backgroundColor: colors.primaryLight}],
         rateSmall && [styles.rateSmall, {backgroundColor: colors.primaryLight}],
         sale && [styles.sale, {backgroundColor: colors.primaryLight}],

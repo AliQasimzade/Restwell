@@ -371,7 +371,7 @@ export default function ProductDetail({ navigation, route }) {
                 </Text>
               </TouchableOpacity>
             </View>
-            <Tag status>{item?.slogan}</Tag>
+            <Tag status>{item?.priceRelationShip}</Tag>
           </View>
           <TouchableOpacity
             style={styles.line}
