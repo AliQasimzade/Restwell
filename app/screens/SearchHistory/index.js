@@ -49,11 +49,6 @@ export default function SearchHistory({ navigation, route }) {
     
     if (keyword != '') {
       setLoading(true);
-      console.log('====================================');
-      console.log(route?.params.listings.filter(item => {
-        return item.listingTitle.toUpperCase().includes(keyword.toUpperCase());
-      }));
-      console.log('====================================');
       setFilter(
         route?.params.listings.filter(item => {
           return item.listingTitle.toUpperCase().includes(keyword.toUpperCase());
@@ -105,8 +100,8 @@ export default function SearchHistory({ navigation, route }) {
               subtitle={item.category}
               location={item.address}
               phone={item.phone}
-              rate={item.rate_avg}
-              status={item.slogan}
+              rate={item.rating_avg}
+              status={item.priceRelationShip}
               favorite={isFavorite(item)}
               style={{
                 marginBottom: 15,

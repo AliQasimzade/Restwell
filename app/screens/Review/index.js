@@ -19,8 +19,6 @@ export default function Review({ navigation, route }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  console.log(route?.params.item, "Review Page")
-
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -36,7 +34,6 @@ export default function Review({ navigation, route }) {
           throw new Error('Request failed !')
         } else {
           const res = await req.json()
-          console.log(res, "Review Page !")
           const findByid = res.find(re => re._id === route?.params.item)
           setReviews(findByid)
 
@@ -50,7 +47,6 @@ export default function Review({ navigation, route }) {
               return message.rating_count
             }
           }).filter(Boolean)
-          console.log(oneStarsCounts, "Review Starts");
           const twoStarsCounts = findByid.reviews.map(r => {
             if (r.verify) {
               return r
@@ -91,16 +87,9 @@ export default function Review({ navigation, route }) {
               return message.rating_count
             }
           }).filter(Boolean)
-
-
-          console.log('====================================');
-          console.log(oneStarsCounts, twoStarsCounts, threeStarsCounts, fourStarsCounts, fiveStarsCounts, "review page blet");
-          console.log('====================================');
-
+          
           const total = [oneStarsCounts.length, twoStarsCounts.length, threeStarsCounts.length, fourStarsCounts.length, fiveStarsCounts.length]
-          console.log('====================================');
-          console.log(total);
-          console.log('====================================');
+         
           setTotalStars(total)
           setLoading(false)
         }

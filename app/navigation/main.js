@@ -127,7 +127,6 @@ function BottomTabNavigator() {
     }
   };
 const userAbout = useSelector(userInfo)
-console.log(userAbout);
   return (
     <BottomTab.Navigator
       initialRouteName="Home"

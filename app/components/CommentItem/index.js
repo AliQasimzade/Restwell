@@ -31,7 +31,7 @@ export default function CommentItem(props) {
       <View body2 grayColor>
         {comments.map((comment, index) => (
           <View key={index} style={{marginTop: 8}}>
-            <Text style={{color: colors.accent}}>{state[index]}:</Text>
+            <Text style={{color: colors.primary}}>{state[index]}:</Text>
             <View>
             <Text>{comment.message}</Text>
             <View style={styles.contentRate}>

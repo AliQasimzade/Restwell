@@ -11,8 +11,6 @@ import {Header, SafeAreaView, ListItem, Text, Icon} from '@components';
 import {wish} from '@selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {wishListActions} from '@actions';
-import * as Sharing from 'expo-sharing';
 import Modal from 'react-native-modal';
 import styles from './styles';
 import { removeAllWish, removeWish } from '../../actions/wish';
@@ -22,7 +20,6 @@ export default function Wishlist({navigation}) {
   const {colors} = useTheme();
   const dispatch = useDispatch();
   const wishlist = useSelector(wish);
-  console.log(wishlist, "WishList Page");
   const [modalVisible, setModalVisible] = useState(false);
 
   const [refreshing, setRefresh] = useState(false);
@@ -42,7 +39,6 @@ export default function Wishlist({navigation}) {
   const onDelete = it => {
     setDeleting(true);
     const id = it._id
-    console.log(it, "See More");
     setTimeout(() => {
       dispatch(removeWish(id));
       setDeleting(false);
@@ -132,6 +128,7 @@ export default function Wishlist({navigation}) {
               title={item.listingTitle}
               subtitle={item.category}
               rate={item.rating_avg}
+              status={item.priceRelationShip}
               style={{marginBottom: 15}}
               onPress={() =>
                 navigation.navigate('ProductDetail', {

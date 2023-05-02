@@ -4,15 +4,14 @@ import { BaseStyle, BaseColor, useTheme } from '@config';
 import { Header, SafeAreaView, Icon, Text, Tag, RangeSlider } from '@components';
 import * as Utils from '@utils';
 import styles from './styles';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 
 
-export default function Filter({ navigation, route }) {
+export default function Filter({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
-  function searchProperties(res, c, l, priceBegin, priceEnd, f) {
+  function searchProperties(res, c, l, t, priceBegin, priceEnd, f) {
     return res.filter(property => {
 
       if (c && !c.some(cat => property.category.includes(cat))) {
@@ -31,6 +30,10 @@ export default function Filter({ navigation, route }) {
       if (f && !f.some(it => property.features.includes(it))) {
         return false;
       }
+      if (t && !t.some(it => property.tags.includes(it))) {
+        return false;
+      }
+
 
       return true;
     });
@@ -40,25 +43,29 @@ export default function Filter({ navigation, route }) {
   const [selectedCategory, setCategory] = useState([]);
   const [categories, setCategories] = useState([])
   const [features, setFeatures] = useState([])
+  const [tags, setTags] = useState([])
+
   const [selectedFacilities, setFacilities] = useState([]);
-  const [businessColor, setBusinessColor] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]);
   const [location, setLocation] = useState([]);
   const [locations, setLocations] = useState([])
   const [scrollEnabled, setScrollEnabled] = useState(true);
 
-  console.log(selectedCategory,selectedFacilities, "Filter Page")
   useEffect(() => {
     const cats = fetch('https://restwell.az/api/categories').then(res => res.json())
     const locs = fetch('https://restwell.az/api/locations').then(res => res.json())
     const feat = fetch('https://restwell.az/api/properties').then(res => res.json())
+    const tagss = fetch('https://restwell.az/api/tags').then(res => res.json())
 
 
-    Promise.all([cats, locs, feat])
+
+    Promise.all([cats, locs, feat, tagss])
       .then(responses => {
-        const [response1, response2, response3] = responses;
+        const [response1, response2, response3, response4] = responses;
         setCategories(response1)
         setLocations(response2)
         setFeatures(response3)
+        setTags(response4)
 
       })
 
@@ -81,8 +88,8 @@ export default function Filter({ navigation, route }) {
         const c = selectedCategory.length > 0 ? selectedCategory : null
         const f = selectedFacilities.length > 0 ? selectedFacilities : null
         const l = location.length > 0 ? location : null
-
-        const results = searchProperties(response, c, l, priceBegin, priceEnd, f);
+        const t = selectedTags.length > 0 ? selectedTags : null
+        const results = searchProperties(response, c, l, t, priceBegin, priceEnd, f);
         navigation.navigate('FilterSearchList', { results })
 
       }
@@ -136,6 +143,15 @@ export default function Filter({ navigation, route }) {
     }
   };
 
+  const onSelectTag = select => {
+    const exist = selectedTags.some(item => item === select.name);
+    if (exist) {
+      setSelectedTags(selectedTags.filter(item => item != select.name));
+    } else {
+      setSelectedTags([...selectedTags, select.name]);
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Header
@@ -161,7 +177,7 @@ export default function Filter({ navigation, route }) {
           }>
           <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
             <Text headline semibold>
-              {t('category').toUpperCase()}
+              {t('category').toUpperCase()}LAR
             </Text>
             <View style={styles.wrapContent}>
               {categories.length > 0 && categories.map(item => {
@@ -189,22 +205,47 @@ export default function Filter({ navigation, route }) {
                 const selected = selectedFacilities.some(i => i === item.name);
                 return (
                   <Tag
+                    primary={selected}
+                    outline={!selected}
                     onPress={() => onSelectFeature(item)}
                     icon={
                       <Icon
                         name={Utils.iconConvert(item.icon)}
                         size={12}
-                        color={colors.accent}
+                        
                         solid
-                        style={{ marginRight: 5 }}
+                        style={{ marginRight: 5,color: selected ? "white" : colors.primary }}
                       />
                     }
-                    chip
+
                     key={item._id}
                     style={{
                       marginTop: 8,
                       marginRight: 8,
-                      borderColor: selected ? colors.primary : colors.accent,
+                    }}>
+                    {item.name}
+                  </Tag>
+                );
+              })}
+            </View>
+
+
+            <Text headline semibold style={{ marginTop: 20 }}>
+              {t('tags').toUpperCase()}
+            </Text>
+            <View style={styles.wrapContent}>
+              {tags.length > 0 && tags.map(item => {
+                const selected = selectedTags.some(i => i === item.name);
+                return (
+                  <Tag
+                    primary={selected}
+                    outline={!selected}
+                    onPress={() => onSelectTag(item)}
+                    key={item._id}
+                    style={{
+                      marginTop: 8,
+                      marginRight: 8
+
                     }}>
                     {item.name}
                   </Tag>

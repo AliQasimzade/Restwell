@@ -561,38 +561,6 @@ export default function AddListings({ navigation }) {
         Alert.alert({ title: 'Gonderilmedi', message: "Error submitting form data" });
       });
 
-
-    console.log('====================================');
-    console.log("=============" + title +
-      "=============" + selectedCategory +
-      "=============" + slogan +
-      "=============" + city +
-      "=============" + street +
-      "=============" + address +
-      "=============" + description +
-      "=============" + phone +
-      "=============" + email +
-      "=============" + website +
-      "=============" + facebook +
-      "=============" + Instagram +
-      "=============" + youtube +
-      "=============" + whatsapp +
-      "=============" + prePrice +
-      "=============" + price +
-      "=============" + uploadVideoLink +
-      "=============" + JSON.stringify(selectedLocation) +
-      "=============" + JSON.stringify(selectedCoverImages) +
-      "=============" + JSON.stringify(selectedGalleryImages) +
-      "=============" + JSON.stringify(selectedLogoImage) +
-      "=============" + JSON.stringify(latitude) +
-      "=============" + JSON.stringify(longitude) +
-      "=============" + JSON.stringify(results) +
-      "=============" + JSON.stringify(selectedProperties) +
-      "=============" + JSON.stringify(selectedTags) +
-      "=============" + "butun datalar bunlardi "
-    );
-    console.log('====================================');
-
   };
 
   const offsetKeyboard = Platform.select({
@@ -883,7 +851,6 @@ export default function AddListings({ navigation }) {
               <ScrollView>
                 <CheckboxGroup
                   callback={(selected) => {
-                    console.log(selected);
                     setSelectedTags(selected);
                   }}
                   iconColor={'white'}
@@ -1036,7 +1003,6 @@ export default function AddListings({ navigation }) {
               <ScrollView>
                 <CheckboxGroup
                   callback={(selected) => {
-                    console.log(selected);
                     setSelectedProperties(selected);
                   }}
                   iconColor={'white'}

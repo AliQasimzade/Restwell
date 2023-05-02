@@ -61,9 +61,6 @@ export default function SignUp({ navigation }) {
           throw new Error('Request failed !')
         } else {
           const response = await request.json()
-          console.log('====================================');
-          console.log(response);
-          console.log('====================================');
           if (response == "This user already exsist") {
             Alert.alert({ title: "Error", message: response })
           } if (response.message === "User added succesfully") {

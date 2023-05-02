@@ -8,17 +8,12 @@ const Story = (props) => {
   const [show, setShow] = useState(false)
   const [text, setText] = useState('');
   const { colors } = useTheme();
-  console.log('====================================');
-  console.log(colors, "ListItem bleet");
-  console.log('====================================');
   const handleStart = item => {
-    console.log(item);
     setShow(true)
     setText(item.stories[0].swipeText)
   };
 
   const handleClose = item => {
-    console.log('close: ', item);
     setShow(false)
   };
 

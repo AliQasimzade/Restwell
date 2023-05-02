@@ -51,7 +51,7 @@ export default function Tag(props) {
         gray && styles.gray,
         chip && [
           styles.chip,
-          {backgroundColor: colors.card, borderColor: colors.accent},
+          {backgroundColor: colors.card, borderColor: colors.primary},
         ],
         status && [styles.status, {backgroundColor: colors.primary,fontSize: 22}],
         rate && [styles.rate, {backgroundColor: colors.primaryLight}],
@@ -78,7 +78,7 @@ export default function Tag(props) {
           small && styles.textSmall,
           light && [styles.textLight, {color: colors.primaryLight}],
           gray && styles.textGray,
-          chip && [styles.textChip, {color: colors.accent}],
+          chip && [styles.textChip, {color: colors.primary}],
           status && styles.textStatus,
           rate && styles.textRate,
           rateSmall && styles.textRateSmall,

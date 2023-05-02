@@ -73,7 +73,6 @@ export default function List({ navigation, route }) {
                     return res
                 }
             })
-            console.log(filter, "List Page");
             setlists(filter)
             setLoading(false)
         
@@ -213,7 +212,7 @@ export default function List({ navigation, route }) {
      * UI kit
      */
     const isFavorite = item => {
-        return wishlist.list?.some(i => i.id == item.id);
+        return wishlist.some(i => i._id == item._id);
     };
 
     /**
@@ -507,7 +506,7 @@ export default function List({ navigation, route }) {
                                     location={item?.address}
                                     phone={item?.phone}
                                     rate={item?.rating_avg}
-                                    status={item?.slogan}
+                                    status={item?.priceRelationShip}
                                     numReviews={3}
                                     favorite={isFavorite(item)}
                                     onPress={() => onProductDetail(item)}
@@ -577,7 +576,7 @@ export default function List({ navigation, route }) {
                                     location={item?.address}
                                     phone={item?.phone}
                                     rate={item?.rating_avg}
-                                    status={item?.slogan}
+                                    status={item?.priceRelationShip}
                                     numReviews={item.numRate}
                                     favorite={isFavorite(item)}
                                     style={{
@@ -649,7 +648,7 @@ export default function List({ navigation, route }) {
                                     location={item?.address}
                                     phone={item?.phone}
                                     rate={item?.rating_avg}
-                                    status={item.slogan}
+                                    status={item.priceRelationShip}
                                     numReviews={3}
                                     favorite={isFavorite(item)}
                                     style={{
@@ -718,7 +717,7 @@ export default function List({ navigation, route }) {
                                     location={item?.address}
                                     phone={item?.phone}
                                     rate={item?.rating_avg}
-                                    status={item.slogan}
+                                    status={item.priceRelationShip}
                                     numReviews={3}
                                     favorite={isFavorite(item)}
                                     onPress={() => onProductDetail(item)}

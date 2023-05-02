@@ -48,9 +48,6 @@ export default function ResetPassword({ navigation }) {
 
           Alert.alert({ type: 'success', title: "Success", message: "User finded ! Please new password" })
 
-          console.log('====================================');
-          console.log(response);
-          console.log('====================================');
           setUserId(response.user._id)
 
         }
@@ -95,9 +92,6 @@ export default function ResetPassword({ navigation }) {
 
           }, 500)
 
-          console.log('====================================');
-          console.log(response);
-          console.log('====================================');
         }
       }
     } catch (err) {

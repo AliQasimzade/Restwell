@@ -38,7 +38,6 @@ export default function AboutUs({ navigation }) {
         } else {
           const response = await request.json()
           setOurTeam(response)
-          console.log(response, "About Page !");
         }
       } catch (err) {
         Alert.alert({ title: "Error", message: err.message })

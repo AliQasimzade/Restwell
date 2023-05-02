@@ -8,7 +8,6 @@ import styles from './styles';
 export default function PreviewImage({navigation, route}) {
   const {colors} = useTheme();
 
-  console.log(route?.params.gallery);
   let flatListRef = null;
   let swiperRef = null;
 

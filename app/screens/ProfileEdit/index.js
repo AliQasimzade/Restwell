@@ -160,7 +160,6 @@ export default function ProfileEdit({ navigation }) {
           throw new Error('Request is failed !')
         } else {
           const response = await request.json()
-          console.log(response);
           dispatch(changeUserInfo(response.user))
           Alert.alert({ title: "Success", message: "User is successfully updated" })
           navigation.goBack()

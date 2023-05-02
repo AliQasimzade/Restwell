@@ -39,7 +39,6 @@ export default function ProductDetail({ navigation, route }) {
   const { colors } = useTheme();
   const dispatch = useDispatch();
   const wishlist = useSelector(wish);
-  console.log(wishlist);
   const design = useSelector(designSelect);
   const item = route?.params.item;
   const user = useSelector(userInfo);
@@ -382,9 +381,6 @@ export default function ProductDetail({ navigation, route }) {
                 ios: `https://www.google.com/maps/@${location},6z`,
                 android: `geo:${location}?center=${location}&q=${location}&z=16`,
               });
-              console.log('====================================');
-              console.log(loc2 + "blet");
-              console.log('====================================');
               onOpen('address', t('address'), url);
             }}>
             <View
@@ -635,6 +631,7 @@ export default function ProductDetail({ navigation, route }) {
                 title={item.listingTitle}
                 subtitle={item.category}
                 rate={item.rating_avg}
+                status={item.priceRelationShip}
                 style={{ marginBottom: 15 }}
                 onPress={() => onProductDetail(item)}
                 onPressTag={onReview}
@@ -653,11 +650,11 @@ export default function ProductDetail({ navigation, route }) {
         title=""
         renderLeft={() => {
           return (
-            <Icon name="arrow-left" size={20} color={BaseColor.whiteColor} />
+            <Icon name="arrow-left" size={20} color={colors.primary} />
           );
         }}
         renderRight={() => {
-          return <Icon name="images" size={20} color={BaseColor.whiteColor} />;
+          return <Icon name="images" size={20} color={colors.primary} />;
         }}
         onPressLeft={() => {
           navigation.goBack();

@@ -23,7 +23,6 @@ export default function Profile({ navigation }) {
   const dispatch = useDispatch();
   const userAbout = useSelector(userInfo)
   const [user, setUser] = useState(null)
-  console.log(userAbout, "Profile Page");
   const [loading, setLoading] = useState(false);
 
   /**

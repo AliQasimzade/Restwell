@@ -35,7 +35,6 @@ export default function EventDetail({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const item = route.params?.item;
-  console.log(item, 'Event Detail Page');
   const deltaY = new Animated.Value(0);
 
   const [loading, setLoading] = useState(true);

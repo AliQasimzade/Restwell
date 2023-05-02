@@ -74,9 +74,7 @@ export default function Category({ navigation }) {
    * call when search category
    */
   const onSearch = search => {
-    console.log('====================================');
-    console.log(search);
-    console.log('====================================');
+  
     if (!search) {
       setFilter(listings)
      

@@ -77,7 +77,6 @@ export default function List({ navigation, route }) {
         }
       }).filter(Boolean)
       const filter = verifiedListings.filter(res => res.category == route?.params.item)
-      console.log(filter, "List Page");
       setlists(filter)
       setLoading(false)
     }
@@ -509,7 +508,7 @@ export default function List({ navigation, route }) {
                   location={item?.address}
                   phone={item?.phone}
                   rate={item?.rating_avg}
-                  status={item?.slogan}
+                  status={item?.priceRelationShip}
                   numReviews={3}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
@@ -579,7 +578,7 @@ export default function List({ navigation, route }) {
                   location={item?.address}
                   phone={item?.phone}
                   rate={item?.rating_avg}
-                  status={item?.slogan}
+                  status={item?.priceRelationShip}
                   numReviews={item.numRate}
                   favorite={isFavorite(item)}
                   style={{
@@ -649,7 +648,7 @@ export default function List({ navigation, route }) {
                   location={item?.address}
                   phone={item?.phone}
                   rate={item?.rating_avg}
-                  status={item.slogan}
+                  status={item.priceRelationShip}
                   numReviews={3}
                   favorite={isFavorite(item)}
                   style={{
@@ -716,7 +715,7 @@ export default function List({ navigation, route }) {
                   location={item?.address}
                   phone={item?.phone}
                   rate={item?.rating_avg}
-                  status={item.slogan}
+                  status={item.priceRelationShip}
                   numReviews={3}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
@@ -793,6 +792,7 @@ export default function List({ navigation, route }) {
                 title={item?.listingTitle}
                 subtitle={item?.category}
                 rate={item?.rating_avg}
+                status={item?.priceRelationShip}
                 favorite={isFavorite(item)}
                 style={{
                   margin: 3,
