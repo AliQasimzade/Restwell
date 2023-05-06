@@ -523,7 +523,7 @@ export default function ProductDetail({ navigation, route }) {
             {item?.description}
           </Text>
           <View>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1,marginTop: 20 }}>
               <Text caption1 grayColor>
                 {t('date_established')}
               </Text>
@@ -531,7 +531,7 @@ export default function ProductDetail({ navigation, route }) {
                 {item?.slogan}
               </Text>
             </View>
-            <View style={{ flex: 1, alignItems: 'flex-end' }}>
+            <View style={{ flex: 1, alignItems: 'flex-end', marginBottom: 20 }}>
               <Text caption1 grayColor>
                 {t('price_range')}
               </Text>

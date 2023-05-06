@@ -34,7 +34,7 @@ export default function Feedback({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [rates, setRates] = useState([5,5,5,5]);
   const [reviews, setReviews] = useState(['','','','']);
-  const [state] = useState(["Xidmətə görə","Qiymətə görə", "Ümumi","Porsiyaya görə"])
+  const [state] = useState(["according_to_the_service","for_the_price", "general","according_to_the_portion"])
   const [success, setSuccess] = useState({
     title: true,
     reviews: true,
@@ -138,7 +138,7 @@ export default function Feedback({ navigation, route }) {
          {state.map((et, index) => (
            <ScrollView
            contentContainerStyle={{ alignItems: 'center', padding: 20 }}>
-            <Text style={{fontSize:22}}>{et}</Text>
+            <Text style={{fontSize:22}}>{t(et)}</Text>
            <View style={{ width: 160 }}>
              
              <StarRating

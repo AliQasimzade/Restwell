@@ -31,10 +31,13 @@ const Story = (props) => {
       customSwipeUpComponent={show ? <View >
         <Text>{text}</Text>
       </View> : <Text>Data not found</Text>}
-      style={{ marginTop: 30 }}
+      style={{ marginTop: 30, color: `${colors.primary}` }}
       showAvatarText={true}
       avatarSize={70}
-      avatarTextStyle={{color: `${colors.primary}` }}
+      unPressedAvatarTextColor={colors.text}
+      pressedAvatarTextColor={colors.text}
+      unPressedBorderColor={colors.primary}
+      pressedBorderColor={colors.text}
     />
   );
 };

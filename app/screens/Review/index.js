@@ -12,7 +12,7 @@ import {
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-
+import axios from 'axios';
 
 export default function Review({ navigation, route }) {
   const { colors } = useTheme();
@@ -29,11 +29,11 @@ export default function Review({ navigation, route }) {
   useEffect(() => {
     const getListings = async () => {
       try {
-        const req = await fetch('https://restwell.az/api/listings')
-        if (!req.ok) {
+        const req = await axios.get('https://restwell.az/api/listings')
+        if (req.status !== 200) {
           throw new Error('Request failed !')
         } else {
-          const res = await req.json()
+          const res = req.data
           const findByid = res.find(re => re._id === route?.params.item)
           setReviews(findByid)
 

@@ -5,7 +5,7 @@ import { Header, SafeAreaView, Icon, Text, Tag, RangeSlider } from '@components'
 import * as Utils from '@utils';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
-
+import axios from 'axios';
 
 
 export default function Filter({ navigation }) {
@@ -78,13 +78,16 @@ export default function Filter({ navigation }) {
    * on Apply filter
    *
    */
+
+
   const onApply = async () => {
     try {
-      const request = await fetch('https://restwell.az/api/listings')
-      if (!request.ok) {
+      const request = await axios.get('https://restwell.az/api/listings')
+      if (request.status !== 200) {
         throw new Error("Request is failed !")
       } else {
-        const response = await request.json()
+        const response = request.data;
+        console.log(response, "Filter Bleet !");
         const c = selectedCategory.length > 0 ? selectedCategory : null
         const f = selectedFacilities.length > 0 ? selectedFacilities : null
         const l = location.length > 0 ? location : null

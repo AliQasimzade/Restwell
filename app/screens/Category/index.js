@@ -13,8 +13,7 @@ import * as Utils from '@utils';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-
-
+import axios from 'axios';
 export default function Category({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -29,19 +28,19 @@ export default function Category({ navigation }) {
 
 
   useEffect(() => {
-    const categories = fetch('https://restwell.az/api/categories').then(res => res.json())
-    const allistings = fetch('https://restwell.az/api/listings').then(res => res.json())
+    const categories = axios.get('https://restwell.az/api/categories')
+    const allistings = axios.get('https://restwell.az/api/listings')
 
     Promise.all([categories, allistings])
       .then(responses => {
         const [response1, response2] = responses;
-        setFilter(response1)
-        const verifiedListings = response2.map(re => {
+        setFilter(response1.data)
+        const verifiedListings = response2.data.map(re => {
           if(re.verify) {
             return re
           }
         }).filter(Boolean)
-        setListings(response1)
+        setListings(response1.data)
         setResult(verifiedListings)
       })
       .catch(error => {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, ImageBackground, FlatList, Alert, Linking, TouchableOpacity } from 'react-native';
+import { View, ScrollView, ImageBackground, Alert, Linking, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { BaseStyle, Images, useTheme } from '@config';
+import { BaseStyle, useTheme } from '@config';
+import axios from 'axios';
 import * as Utils from '@utils';
 import {
   Header,
@@ -32,11 +33,11 @@ export default function AboutUs({ navigation }) {
   useEffect(() => {
     const getCompany = async () => {
       try {
-        const request = await fetch('https://restwell.az/api/company')
-        if (!request.ok) {
+        const request = await axios.get('https://restwell.az/api/company')
+        if (request.status !== 200) {
           throw new Error('Request is Failed !')
         } else {
-          const response = await request.json()
+          const response = request.data
           setOurTeam(response)
         }
       } catch (err) {

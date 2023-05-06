@@ -1,31 +1,30 @@
-import React, {useEffect} from 'react';
-import {ActivityIndicator, View, Alert} from 'react-native';
-import {Images, useTheme, BaseSetting} from '@config';
-import {configActions} from '@actions';
-import {useDispatch, useSelector} from 'react-redux';
-import {Image, Text} from '@components';
-import {designSelect} from '@selectors';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, View, Alert } from 'react-native';
+import { useTheme } from '@config';
+import { useDispatch, useSelector } from 'react-redux';
+import { Image, Text } from '@components';
+import { designSelect } from '@selectors';
 import * as Font from 'expo-font';
 import Logo from '../../assets/images/restwelllogo.png';
 
 import styles from './styles';
 
-export default function Loading({navigation}) {
+export default function Loading({ navigation }) {
   const dispatch = useDispatch();
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const design = useSelector(designSelect);
 
   /**
    *
    * Override Alert
    */
-  Alert.alert = ({title, message, action, option, type}) => {
+  Alert.alert = ({ title, message, action, option, type }) => {
     navigation.navigate('Alert', {
       type: type ?? 'warning',
       title: title ?? '',
       message: message ?? '',
       action,
-      option: option ?? {cancelable: true},
+      option: option ?? { cancelable: true },
     });
   };
 
@@ -77,7 +76,9 @@ export default function Loading({navigation}) {
       'Roboto-Thin': require('app/assets/fonts/Roboto-Thin.ttf'),
       'Roboto-ThinItalic': require('app/assets/fonts/Roboto-ThinItalic.ttf'),
     });
-    navigation.replace('Main');
+    setTimeout(() => {
+      navigation.replace('Main');
+    }, 1500)
 
   };
 
@@ -91,7 +92,7 @@ export default function Loading({navigation}) {
 
   return (
     <View style={styles.container}>
-      <View style={{alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <Image source={Logo} style={styles.logo} resizeMode="contain" />
       </View>
       <ActivityIndicator

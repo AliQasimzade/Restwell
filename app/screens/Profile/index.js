@@ -83,7 +83,7 @@ export default function Profile({ navigation }) {
               onPress={() => {
                 navigation.navigate('AddListings');
               }}>
-              <Text body1>{t('Biznesini əlavə et')}</Text>
+              <Text body1>{t('add_your_business')}</Text>
               <Icon
                 name="angle-right"
                 size={18}

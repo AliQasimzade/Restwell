@@ -14,6 +14,7 @@ import {
   useColorScheme,
   Alert
 } from 'react-native';
+import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@config';
 import {
@@ -58,6 +59,8 @@ export default function AddListings({ navigation }) {
   const [price, setPrice] = useState('');
   const [uploadVideoLink, setUploadVideoLink] = useState('');
   const [locations, setLocations] = useState([]);
+  const [pricerelationShips] = useState(['₼', '₼₼','₼₼₼','₼₼₼₼','₼₼₼₼₼']);
+  const [selectedPriceRelation,setSelectedPriceRelation] = useState('')
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   //metnlerin rengi ucun 
@@ -142,29 +145,29 @@ export default function AddListings({ navigation }) {
   // heftenin gunleri ve is vacti ucun kod bitdi
 
   useEffect(() => {
-    const categories = fetch(
+    const categories = axios.get(
       'https://restwell.az/api/categories',
-    ).then(res => res.json());
-    const tags = fetch(
+    );
+    const tags = axios.get(
       'https://restwell.az/api/tags',
-    ).then(res => res.json());
-    const properties = fetch(
+    );
+    const properties = axios.get(
       'https://restwell.az/api/properties',
-    ).then(res => res.json());
+    );
 
     Promise.all([categories, tags, properties]).then(responses => {
       const [res1, res2, res3] = responses;
-      setCategory(res1);
-      setProperties(res3)
+      setCategory(res1.data);
+      setProperties(res3.data)
 
-      const formattedTags = res2.map((tag) => ({
+      const formattedTags = res2.data.map((tag) => ({
         label: tag.name,
         value: tag.name,
         selected: false,
       }));
       setTags(formattedTags);
 
-      const formattedProperties = res3.map((tag) => ({
+      const formattedProperties = res3.data.map((tag) => ({
         label: tag.name,
         value: tag.name,
         selected: false,
@@ -207,7 +210,7 @@ export default function AddListings({ navigation }) {
     );
 
     if (response.status === 200) {
-      const data = await response.json();
+      const data = await response.json()
 
       if (data.status === 'OK') {
         const addressComponents = data.results[0].address_components;
@@ -504,6 +507,7 @@ export default function AddListings({ navigation }) {
     setPrePrice(text);
   };
 
+  console.log(selectedPriceRelation, 'Added')
   const handlePriceChange = text => {
     setPrice(text);
   };
@@ -512,19 +516,15 @@ export default function AddListings({ navigation }) {
   };
   uploadVideoLink;
 
-  const handleSubmit = () => {
-
-    fetch('https://restwell.az/api/addnewlisting', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('https://restwell.az/api/addnewlisting', {
         listingTitle: title,
         category: selectedCategory,
         slogan: slogan,
         type: "lastadded",
         cityorstate: city,
+        priceRelationShip: selectedPriceRelation,
         roadorstreet: street,
         address: address,
         description: description,
@@ -550,16 +550,19 @@ export default function AddListings({ navigation }) {
           longtitude: longitude
         },
         timeschedule: results
-      }),
-
-    })
-      .then(response => response.json())
-      .then(data => {
-        Alert.alert({ title: "Göndərildi", message: 'Form submitted successfully!' });
-      })
-      .catch(error => {
-        Alert.alert({ title: 'Gonderilmedi', message: "Error submitting form data" });
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
+    
+      Alert.alert({ title: "Göndərildi", message: 'Form submitted successfully!' });
+    
+    } catch (error) {
+      Alert.alert({ title: 'Gonderilmedi', message: "Error submitting form data" });
+    }
+    
+    
 
   };
 
@@ -629,9 +632,35 @@ export default function AddListings({ navigation }) {
                       <Picker.Item key={cat._id} label={cat.name} value={cat.name} color={textColor} />
                     ))}
                   </Picker>
+
                 }
               </View>
             </View>
+
+
+            <View style={styles.formItem}>
+              <Text style={styles.formLabel}>Qiymət münasibətini seçin:</Text>
+              <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                {
+                  pricerelationShips.length > 0 &&
+                  <Picker
+                    selectedValue={selectedPriceRelation}
+                    style={[styles.locationPickerStyle, bgColor]}
+
+                    onValueChange={(itemValue) => setSelectedPriceRelation(itemValue)}
+                  >
+                    <Picker.Item label='Qiymət münasibətini seçin' color={textColor} />
+                    {pricerelationShips.map((cat, index) => (
+                      <Picker.Item key={index} label={cat} value={cat} color={textColor} />
+                    ))}
+                  </Picker>
+
+                }
+              </View>
+            </View>
+
+
+
             <View style={styles.formItem}>
               <Text style={styles.formLabel}>Şüar:</Text>
               <TextInput
@@ -913,12 +942,12 @@ export default function AddListings({ navigation }) {
                       marginTop: 25,
                     }}>
                     {
-                      selectedLogoImage && 
-                        <Image
-                          source={{ uri: selectedLogoImage }}
-                          style={{ width: 100, height: 100, margin: 5 }}
-                        />
-                     
+                      selectedLogoImage &&
+                      <Image
+                        source={{ uri: selectedLogoImage }}
+                        style={{ width: 100, height: 100, margin: 5 }}
+                      />
+
                     }
 
                   </View>

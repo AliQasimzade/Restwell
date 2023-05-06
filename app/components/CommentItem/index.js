@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Images, BaseColor, useTheme } from '@config';
+import { BaseColor, useTheme } from '@config';
 import { Text, Image, StarRating } from '@components';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
+import { useTranslation } from 'react-i18next';
+
 export default function CommentItem(props) {
   const { colors } = useTheme();
-  const [state] = useState(["Xidmətə görə","Qiymətə görə", "Ümumi","Porsiyaya görə"])
+  const { t } = useTranslation();
+  const [state] = useState(["according_to_the_service", "for_the_price", "general", "according_to_the_portion"])
   const cardColor = colors.card;
   const { style, image, name, rate, date, comments } = props;
   return (
@@ -19,7 +22,7 @@ export default function CommentItem(props) {
             <Text headline semibold numberOfLines={1}>
               {name}
             </Text>
-            
+
           </View>
         </View>
         <View >
@@ -30,20 +33,20 @@ export default function CommentItem(props) {
       </View>
       <View body2 grayColor>
         {comments.map((comment, index) => (
-          <View key={index} style={{marginTop: 8}}>
-            <Text style={{color: colors.primary}}>{state[index]}:</Text>
+          <View key={index} style={{ marginTop: 8 }}>
+            <Text style={{ color: colors.primary }}>{t(state[index])}:</Text>
             <View>
-            <Text>{comment.message}</Text>
-            <View style={styles.contentRate}>
-              <StarRating
-                disabled={true}
-                starSize={14}
-                maxStars={5}
-                rating={comment.rating_count}
-                selectedStar={rating => { }}
-                fullStarColor={BaseColor.yellowColor}
-              />
-            </View>
+              <Text>{comment.message}</Text>
+              <View style={styles.contentRate}>
+                <StarRating
+                  disabled={true}
+                  starSize={14}
+                  maxStars={5}
+                  rating={comment.rating_count}
+                  selectedStar={rating => { }}
+                  fullStarColor={BaseColor.yellowColor}
+                />
+              </View>
             </View>
           </View>
         ))}
@@ -54,7 +57,6 @@ export default function CommentItem(props) {
 
 CommentItem.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  image: PropTypes.node.isRequired,
   name: PropTypes.string,
   rate: PropTypes.string,
   date: PropTypes.string,
@@ -63,7 +65,6 @@ CommentItem.propTypes = {
 
 CommentItem.defaultProps = {
   style: {},
-  image: Images.profile2,
   name: '',
   rate: '0',
   date: '',

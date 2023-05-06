@@ -9,8 +9,8 @@
     "splash": {
       "image": "./app/assets/images/restwelllogo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "width": "120px"
+      "backgroundColor": "#000",
+      "width": "80px"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
