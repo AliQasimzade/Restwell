@@ -15,7 +15,7 @@ export const Banners = () => {
     const { colors } = useTheme();
     const getBanners = async () => {
         try {
-            const request = await axios.get('https://restwell.az/api/banners');
+            const request = await axios.get('http://192.168.0.123:3001/api/banners');
             if(request.status !== 200) {
                 throw new Error('Request is failed !')
             }

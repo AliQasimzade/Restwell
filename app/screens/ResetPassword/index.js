@@ -32,7 +32,7 @@ export default function ResetPassword({ navigation }) {
       } else {
 
         setIsEmail(true);
-        const request = await fetch('https://restwell.az/api/useremail', {
+        const request = await fetch('http://192.168.0.123:3001/api/useremail', {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
@@ -72,7 +72,7 @@ export default function ResetPassword({ navigation }) {
       } else {
         const passwordUser = { password }
 
-        const request = await fetch(`https://restwell.az/api/updateuser/${userId}`, {
+        const request = await fetch(`http://192.168.0.123:3001/api/updateuser/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

@@ -149,7 +149,7 @@ export default function ProfileEdit({ navigation }) {
           image: profileImage,
           isAdmin: false
         };
-        const request = await fetch(`https://restwell.az/api/updateuser/${user._id}`, {
+        const request = await fetch(`http://192.168.0.123:3001/api/updateuser/${user._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"

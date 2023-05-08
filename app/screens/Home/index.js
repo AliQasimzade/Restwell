@@ -37,9 +37,9 @@ export default function Home({ navigation }) {
     // Fetch data from API
 
     const listings = axios.get(
-      'https://restwell.az/api/listings',
+      'http://192.168.0.123:3001/api/listings',
     )
-    const modalbanners = axios.get('https://restwell.az/api/modalbanners')
+    const modalbanners = axios.get('http://192.168.0.123:3001/api/modalbanners')
 
     Promise.all([listings, modalbanners])
       .then(responses => {

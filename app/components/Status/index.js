@@ -7,7 +7,7 @@ export default function Status() {
 
     const getAllStatus = async () => {
         try {
-            const request = await axios.get('https://restwell.az/api/status');
+            const request = await axios.get('http://192.168.0.123:3001/api/status');
 
             if(request.status !== 200) {
                 throw new Error('Request is failed !')

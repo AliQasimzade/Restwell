@@ -24,7 +24,7 @@ export default function Categories() {
     const { t } = useTranslation();
     const getAllCategories = async () => {
         try {
-            const request = await axios.get('https://restwell.az/api/categories');
+            const request = await axios.get('http://192.168.0.123:3001/api/categories');
             if (request.status !== 200) {
                 throw new Error('Request is failed !')
             }

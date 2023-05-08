@@ -1,5 +1,5 @@
 {
-  "name": "listar",
+  "name": "Restwell",
   "version": "1.1.4",
   "scripts": {
     "start": "expo start --dev-client",

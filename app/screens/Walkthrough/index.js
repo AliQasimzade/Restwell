@@ -12,7 +12,7 @@ export default function Walkthrough({navigation}) {
   const [slide,setSlide] = useState([]);
 const getAllBanners = async () => {
    try {
-    const request = await fetch('https://restwell.az/api/banners');
+    const request = await fetch('http://192.168.0.123:3001/api/banners');
     if(!request.ok) {
       throw new Error("Request is failed !")
     }else {

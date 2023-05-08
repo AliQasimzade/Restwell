@@ -29,7 +29,7 @@ export default function Review({ navigation, route }) {
   useEffect(() => {
     const getListings = async () => {
       try {
-        const req = await axios.get('https://restwell.az/api/listings')
+        const req = await axios.get('http://192.168.0.123:3001/api/listings')
         if (req.status !== 200) {
           throw new Error('Request failed !')
         } else {

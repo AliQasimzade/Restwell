@@ -1,6 +1,6 @@
 import * as actionTypes from '@actions/actionTypes';
 const initialState = {
-  theme: null,
+  theme: "orange",
   font: null,
   force_dark: null,
   language: null,
