@@ -21,7 +21,6 @@ import {
     wish,
     designSelect,
 } from '@selectors';
-import { listActions } from '@actions';
 
 export default function List({ navigation, route }) {
     const { t } = useTranslation();

@@ -33,6 +33,8 @@ import {
 import { userInfo, wish, designSelect } from '@selectors';
 import styles from './styles';
 import { addWish, removeWish } from '../../actions/wish';
+import axios from 'axios';
+import {API_URL} from "@env";
 
 export default function ProductDetail({ navigation, route }) {
   const { t } = useTranslation();
@@ -51,13 +53,13 @@ export default function ProductDetail({ navigation, route }) {
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
 
-  const [week, setWeek] = useState(["mon", "tue", "wed", "thu", "fri", "sat", "sun"])
+  const [week] = useState(["mon", "tue", "wed", "thu", "fri", "sat", "sun"])
 
 
   useEffect(() => {
     const getAllListings = async () => {
-      const request = await fetch('https://restwell.az/api/listings')
-      const response = await request.json()
+      const request = await axios.get(`${API_URL}/api/listings`)
+      const response = request.data
       setLoading(false)
       const filterByCategory = response.filter(listing => listing.category == item?.category)
       setRelated(filterByCategory)

@@ -21,7 +21,8 @@ import {
   wish,
   designSelect,
 } from '@selectors';
-import { listActions } from '@actions';
+import axios from 'axios';
+import {API_URL} from "@env"
 
 export default function List({ navigation, route }) {
   const { t } = useTranslation();
@@ -69,8 +70,8 @@ export default function List({ navigation, route }) {
 
   useEffect(() => {
     const getAllListings = async () => {
-      const request = await fetch('https://restwell.az/api/listings')
-      const response = await request.json()
+      const request = await axios.get(`${API_URL}/api/listings`)
+      const response = request.data
       const verifiedListings = response.map(re => {
         if(re.verify){
           return re

@@ -8,6 +8,7 @@ import * as Google from 'expo-auth-session/providers/google';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../actions/user';
+import { API_URL,API_EXPO_CLIENT_ID,API_ANDROID_CLIENT_ID,API_IOS_CLIENT_ID,API_GOOGLE_AUTH_URL } from "@env";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -32,23 +33,23 @@ export default function SignUp({ navigation }) {
   });
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
-      '747668855049-sjgvub8ldim9dejbckikd4h4f4vjafj7.apps.googleusercontent.com',
+    API_EXPO_CLIENT_ID,
     iosClientId:
-      '747668855049-057av763rn321utna14c7n0gc8pn5mfq.apps.googleusercontent.com',
+    API_IOS_CLIENT_ID,
     androidClientId:
-      '747668855049-dbmjgst1esegrhl06abf6n7m3q4plj2g.apps.googleusercontent.com',
+    API_ANDROID_CLIENT_ID,
   });
 
   const getUserInfo = async (tok) => {
     try {
-      const req = await fetch('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + tok);
+      const req = await fetch(`${API_GOOGLE_AUTH_URL}` + tok);
       if (!req.ok) {
         throw new Error("Request is failed");
       } else {
         const res = await req.json();
 
         const usEr = { email: res.email, name: res.given_name, surname: res.family_name, image: res.picture }
-        const request = await fetch('https://restwell.az/api/createuser', {
+        const request = await fetch(`${API_URL}/api/createuser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ export default function SignUp({ navigation }) {
           image: "https://firebasestorage.googleapis.com/v0/b/adminpanel-da8aa.appspot.com/o/images%2FuserImageRestwell.jpg?alt=media&token=df0483ee-b298-41b0-94ea-cd5b3e973217"
         };
         const req = await fetch(
-          'https://restwell.az/api/createuser',
+          `${API_URL}/api/createuser`,
           {
             method: 'POST',
             headers: {
@@ -122,9 +123,9 @@ export default function SignUp({ navigation }) {
         } else {
           const res = await req.json();
           if (res == "This user already exsist") {
-            Alert.alert({type:"error", title: "Warning", message: res })
+            Alert.alert({ type: "error", title: "Warning", message: res })
           } else {
-            Alert.alert({type:"success", title: "Sign Up", message: res.message })
+            Alert.alert({ type: "success", title: "Sign Up", message: res.message })
             dispatch(loginUser(res.data));
             navigation.navigate('Profile')
           }
@@ -225,7 +226,7 @@ export default function SignUp({ navigation }) {
               onPress={() => onSignUp()}>
               {t('sign_up')}
             </Button>
-            {Platform.OS == "android" &&  <Button
+            {Platform.OS == "android" && <Button
               full
               style={{ marginTop: 20 }}
               loading={loading}
@@ -236,7 +237,7 @@ export default function SignUp({ navigation }) {
             >
               {t('Sign up with Google')}
             </Button>}
-           
+
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>

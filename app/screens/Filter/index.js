@@ -6,7 +6,7 @@ import * as Utils from '@utils';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-
+import { API_URL } from "@env"
 
 export default function Filter({ navigation }) {
   const { colors } = useTheme();
@@ -51,20 +51,20 @@ export default function Filter({ navigation }) {
   const [locations, setLocations] = useState([])
   const [scrollEnabled, setScrollEnabled] = useState(true);
   useEffect(() => {
-    const cats = fetch('https://restwell.az/api/categories').then(res => res.json())
-    const locs = fetch('https://restwell.az/api/locations').then(res => res.json())
-    const feat = fetch('https://restwell.az/api/properties').then(res => res.json())
-    const tagss = fetch('https://restwell.az/api/tags').then(res => res.json())
+    const cats = axios.get(`${API_URL}/api/categories`)
+    const locs = axios.get(`${API_URL}/api/locations`)
+    const feat = axios.get(`${API_URL}/api/properties`)
+    const tagss = axios.get(`${API_URL}/api/tags`)
 
 
 
     Promise.all([cats, locs, feat, tagss])
       .then(responses => {
         const [response1, response2, response3, response4] = responses;
-        setCategories(response1)
-        setLocations(response2)
-        setFeatures(response3)
-        setTags(response4)
+        setCategories(response1.data)
+        setLocations(response2.data)
+        setFeatures(response3.data)
+        setTags(response4.data)
 
       })
 
@@ -81,17 +81,21 @@ export default function Filter({ navigation }) {
 
   const onApply = async () => {
     try {
-      const request = await axios.get('https://restwell.az/api/listings')
+      const request = await axios.get(`${API_URL}/api/listings`)
       if (request.status !== 200) {
         throw new Error("Request is failed !")
       } else {
         const response = request.data;
-        // console.log(response, "Filter Bleet !");
+        const verifiedListings = response.map(res => {
+           if(res.verify) {
+            return res
+           }
+        }).filter(Boolean)
         const c = selectedCategory.length > 0 ? selectedCategory : null
         const f = selectedFacilities.length > 0 ? selectedFacilities : null
         const l = location.length > 0 ? location : null
         const t = selectedTags.length > 0 ? selectedTags : null
-        const results = searchProperties(response, c, l, t, priceBegin, priceEnd, f);
+        const results = searchProperties(verifiedListings, c, l, t, priceBegin, priceEnd, f);
         navigation.navigate('FilterSearchList', { results })
 
       }
@@ -214,9 +218,9 @@ export default function Filter({ navigation }) {
                       <Icon
                         name={Utils.iconConvert(item.icon)}
                         size={12}
-                        
+
                         solid
-                        style={{ marginRight: 5,color: selected ? "white" : colors.primary }}
+                        style={{ marginRight: 5, color: selected ? "white" : colors.primary }}
                       />
                     }
 

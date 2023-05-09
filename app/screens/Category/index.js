@@ -14,6 +14,8 @@ import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import {API_URL} from '@env';
+
 export default function Category({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -28,8 +30,8 @@ export default function Category({ navigation }) {
 
 
   useEffect(() => {
-    const categories = axios.get('https://restwell.az/api/categories')
-    const allistings = axios.get('https://restwell.az/api/listings')
+    const categories = axios.get(`${API_URL}/api/categories`)
+    const allistings = axios.get(`${API_URL}/api/listings`)
 
     Promise.all([categories, allistings])
       .then(responses => {

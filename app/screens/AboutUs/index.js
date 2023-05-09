@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { BaseStyle, useTheme } from '@config';
 import axios from 'axios';
 import * as Utils from '@utils';
+import {API_URL} from '@env';
+
 import {
   Header,
   SafeAreaView,
@@ -33,7 +35,7 @@ export default function AboutUs({ navigation }) {
   useEffect(() => {
     const getCompany = async () => {
       try {
-        const request = await axios.get('https://restwell.az/api/company')
+        const request = await axios.get(`${API_URL}/api/company`)
         if (request.status !== 200) {
           throw new Error('Request is Failed !')
         } else {

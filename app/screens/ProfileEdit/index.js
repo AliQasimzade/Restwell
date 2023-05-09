@@ -29,7 +29,7 @@ import { getStorage } from "firebase/storage";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-
+import { API_URL, API_GOOGLE_KEY, APP_MEASUREMENT_ID, API_AUTH_DOMAIN, API_PROJECT_ID, API_STORAGE_BUCKET, API_MESSAGING_SENDER_ID, API_APP_ID } from "@env";
 
 
 
@@ -63,13 +63,13 @@ export default function ProfileEdit({ navigation }) {
 
 
   const firebaseConfig = {
-    apiKey: "AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU",
-    authDomain: "restwellapp-9bfa9.firebaseapp.com",
-    projectId: "restwellapp-9bfa9",
-    storageBucket: "restwellapp-9bfa9.appspot.com",
-    messagingSenderId: "469388796562",
-    appId: "1:469388796562:web:8f43a85fdedbdc84f9bc4b",
-    measurementId: "G-SGJ6SBH2SM"
+    apiKey: API_GOOGLE_KEY,
+    authDomain: API_AUTH_DOMAIN,
+    projectId: API_PROJECT_ID,
+    storageBucket: API_STORAGE_BUCKET,
+    messagingSenderId: API_MESSAGING_SENDER_ID,
+    appId: API_APP_ID,
+    measurementId: APP_MEASUREMENT_ID
   };
 
   const app = initializeApp(firebaseConfig);
@@ -149,7 +149,7 @@ export default function ProfileEdit({ navigation }) {
           image: profileImage,
           isAdmin: false
         };
-        const request = await fetch(`https://restwell.az/api/updateuser/${user._id}`, {
+        const request = await fetch(`${API_URL}/api/updateuser/${user._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"

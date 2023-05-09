@@ -6,6 +6,8 @@ import { getStorage } from "firebase/storage";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
+import { API_URL, API_GOOGLE_KEY, APP_MEASUREMENT_ID, API_AUTH_DOMAIN, API_PROJECT_ID, API_STORAGE_BUCKET, API_MESSAGING_SENDER_ID, API_APP_ID } from "@env";
+
 import {
   View,
   ScrollView,
@@ -27,7 +29,6 @@ import { KeyboardAvoidingView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import CheckboxGroup from 'react-native-checkbox-group';
 import { Picker } from '@react-native-picker/picker';
-import { downloadAsync } from 'expo-file-system';
 export default function AddListings({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -59,8 +60,8 @@ export default function AddListings({ navigation }) {
   const [price, setPrice] = useState('');
   const [uploadVideoLink, setUploadVideoLink] = useState('');
   const [locations, setLocations] = useState([]);
-  const [pricerelationShips] = useState(['₼', '₼₼','₼₼₼','₼₼₼₼','₼₼₼₼₼']);
-  const [selectedPriceRelation,setSelectedPriceRelation] = useState('')
+  const [pricerelationShips] = useState(['₼', '₼₼', '₼₼₼', '₼₼₼₼', '₼₼₼₼₼']);
+  const [selectedPriceRelation, setSelectedPriceRelation] = useState('')
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   //metnlerin rengi ucun 
@@ -146,13 +147,13 @@ export default function AddListings({ navigation }) {
 
   useEffect(() => {
     const categories = axios.get(
-      'https://restwell.az/api/categories',
+      `${API_URL}/api/categories`,
     );
     const tags = axios.get(
-      'https://restwell.az/api/tags',
+      `${API_URL}/api/tags`,
     );
     const properties = axios.get(
-      'https://restwell.az/api/properties',
+      `${API_URL}/api/properties`,
     );
 
     Promise.all([categories, tags, properties]).then(responses => {
@@ -204,7 +205,7 @@ export default function AddListings({ navigation }) {
   }, []);
 
   async function fetchAddress(latitude, longitude) {
-    const apiKey = 'AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU';
+    const apiKey = API_GOOGLE_KEY;
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
     );
@@ -289,13 +290,13 @@ export default function AddListings({ navigation }) {
   }
   // location kodu bitdi
   const firebaseConfig = {
-    apiKey: "AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU",
-    authDomain: "restwellapp-9bfa9.firebaseapp.com",
-    projectId: "restwellapp-9bfa9",
-    storageBucket: "restwellapp-9bfa9.appspot.com",
-    messagingSenderId: "469388796562",
-    appId: "1:469388796562:web:8f43a85fdedbdc84f9bc4b",
-    measurementId: "G-SGJ6SBH2SM"
+    apiKey: API_GOOGLE_KEY,
+    authDomain: API_AUTH_DOMAIN,
+    projectId: API_PROJECT_ID,
+    storageBucket: API_STORAGE_BUCKET,
+    messagingSenderId: API_MESSAGING_SENDER_ID,
+    appId: API_APP_ID,
+    measurementId: APP_MEASUREMENT_ID
   };
 
   const app = initializeApp(firebaseConfig);
@@ -439,7 +440,7 @@ export default function AddListings({ navigation }) {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch('https://restwell.az/api/locations');
+        const response = await fetch(`${API_URL}/api/locations`);
         const data = await response.json();
         setLocations(data);
       } catch (error) {
@@ -518,7 +519,7 @@ export default function AddListings({ navigation }) {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('https://restwell.az/api/addnewlisting', {
+      const response = await axios.post(`${API_URL}/api/addnewlisting`, {
         listingTitle: title,
         category: selectedCategory,
         slogan: slogan,
@@ -555,14 +556,14 @@ export default function AddListings({ navigation }) {
           'Content-Type': 'application/json',
         }
       });
-    
+
       Alert.alert({ title: "Göndərildi", message: 'Form submitted successfully!' });
-    
+
     } catch (error) {
       Alert.alert({ title: 'Gonderilmedi', message: "Error submitting form data" });
     }
-    
-    
+
+
 
   };
 
@@ -882,13 +883,13 @@ export default function AddListings({ navigation }) {
                   callback={(selected) => {
                     setSelectedTags(selected);
                   }}
-                  iconColor={'white'}
+                  iconColor={colors.text}
                   iconSize={28}
                   checkedIcon="ios-checkbox-outline"
                   uncheckedIcon="ios-square-outline"
                   checkboxes={tags}
                   labelStyle={{
-                    color: 'white',
+                    color: colors.text,
                     marginLeft: 8,
                     marginRight: 15,
                     marginBottom: 10
@@ -1034,13 +1035,13 @@ export default function AddListings({ navigation }) {
                   callback={(selected) => {
                     setSelectedProperties(selected);
                   }}
-                  iconColor={'white'}
+                  iconColor={colors.text}
                   iconSize={28}
                   checkedIcon="ios-checkbox-outline"
                   uncheckedIcon="ios-square-outline"
                   checkboxes={properties}
                   labelStyle={{
-                    color: 'white',
+                    color: colors.text,
                     marginLeft: 8,
                     marginRight: 15,
                     marginBottom: 10

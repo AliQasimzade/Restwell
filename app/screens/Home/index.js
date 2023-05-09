@@ -5,7 +5,9 @@ import {
   Animated,
   TouchableOpacity,
 } from 'react-native';
-import axios from "axios"
+import axios from "axios";
+
+import { API_URL } from "@env"
 
 import { Image, Text, Icon, SafeAreaView, ListItem, Banners, Categories, Locations, NearByMe, Events, Status } from '@components';
 import { BaseStyle, useTheme } from '@config';
@@ -37,9 +39,9 @@ export default function Home({ navigation }) {
     // Fetch data from API
 
     const listings = axios.get(
-      'https://restwell.az/api/listings',
+      `${API_URL}/api/listings`,
     )
-    const modalbanners = axios.get('https://restwell.az/api/modalbanners')
+    const modalbanners = axios.get(`${API_URL}/api/modalbanners`)
 
     Promise.all([listings, modalbanners])
       .then(responses => {

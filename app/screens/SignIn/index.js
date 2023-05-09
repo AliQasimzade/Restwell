@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 
@@ -12,70 +12,71 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Button, TextInput} from '@components';
+import { useDispatch, useSelector } from 'react-redux';
+import { BaseStyle, useTheme } from '@config';
+import { Header, SafeAreaView, Icon, Text, Button, TextInput } from '@components';
 import styles from './styles';
-import {useTranslation} from 'react-i18next';
-import {loginUser} from '../../actions/user';
-import {designSelect,userInfo} from '@selectors';
+import { useTranslation } from 'react-i18next';
+import { loginUser } from '../../actions/user';
+import { designSelect } from '@selectors';
+import { API_URL,API_EXPO_CLIENT_ID,API_ANDROID_CLIENT_ID,API_IOS_CLIENT_ID,API_GOOGLE_AUTH_URL } from "@env";
 
-export default function SignIn({navigation, route}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
+export default function SignIn({ navigation, route }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const design = useSelector(designSelect);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [success, setSuccess] = useState({id: true, password: true});
+  const [success, setSuccess] = useState({ id: true, password: true });
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
-      '747668855049-sjgvub8ldim9dejbckikd4h4f4vjafj7.apps.googleusercontent.com',
+    API_EXPO_CLIENT_ID,
     iosClientId:
-      '747668855049-057av763rn321utna14c7n0gc8pn5mfq.apps.googleusercontent.com',
+    API_IOS_CLIENT_ID,
     androidClientId:
-      '747668855049-dbmjgst1esegrhl06abf6n7m3q4plj2g.apps.googleusercontent.com',
+    API_ANDROID_CLIENT_ID,
   });
 
   const getUserInfo = async (tok) => {
     try {
-      const req = await fetch('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + tok);
-      if(!req.ok) {
+      const req = await fetch(`${API_GOOGLE_AUTH_URL}` + tok);
+      if (!req.ok) {
         throw new Error("Request is failed");
-      }else {
+      } else {
         const res = await req.json();
-      
-        const usEr = {email: res.email}
-         const request = await fetch('https://restwell.az/api/loginuser', {
+
+        const usEr = { email: res.email }
+        const request = await fetch(`${API_URL}/api/loginuser`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(usEr),
         });
-        if(request.status === 404) {
+        if (request.status === 404) {
           throw new Error('Request failed !')
-        }else {
+        } else {
           const response = await request.json()
-          if(response.message == "This user is not registered") {
-            Alert.alert({title: "Error" ,message: response.message})
-          }if(response.message === "User logged in succesfully") {
-            Alert.alert({title: "Success" ,message: response.message})
+          if (response.message == "This user is not registered") {
+            Alert.alert({ title: "Error", message: response.message })
+          } if (response.message === "User logged in succesfully") {
+            Alert.alert({ title: "Success", message: response.message })
             dispatch(loginUser(response.user))
             navigation.navigate('Profile')
           }
-        
+
         }
       }
-    }catch(err) {
-      Alert.alert({title:"Error", message: err.message})
+    } catch (err) {
+      Alert.alert({ title: "Error", message: err.message })
     }
   }
   useEffect(() => {
     if (response?.type === 'success') {
-      const {authentication} = response;
+      const { authentication } = response;
       getUserInfo(authentication?.accessToken)
     }
   }, [response]);
@@ -99,7 +100,7 @@ export default function SignIn({navigation, route}) {
         };
 
         setLoading(true);
-        const request = await fetch('https://restwell.az/api/loginuser', {
+        const request = await fetch(`${API_URL}/api/loginuser`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -111,19 +112,19 @@ export default function SignIn({navigation, route}) {
           throw new Error('Request is failed !');
         } else {
           const response = await request.json();
-          if(response.message == "This user is not registered"){
-            Alert.alert({title:"Warning", message: response.message})
+          if (response.message == "This user is not registered") {
+            Alert.alert({ title: "Warning", message: response.message })
             setLoading(false);
-          }else{
-            Alert.alert({title:"Login", message: response.message})
+          } else {
+            Alert.alert({ title: "Login", message: response.message })
             navigation.navigate('Profile');
             dispatch(loginUser(response.user));
             setLoading(false);
-          }         
+          }
         }
       }
     } catch (err) {
-      Alert.alert({title: t('sign_in'), message: t(err?.message)});
+      Alert.alert({ title: t('sign_in'), message: t(err?.message) });
     }
   };
 
@@ -133,7 +134,7 @@ export default function SignIn({navigation, route}) {
   });
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('sign_in')}
         renderLeft={() => {
@@ -154,7 +155,7 @@ export default function SignIn({navigation, route}) {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'android' ? 'height' : 'padding'}
           keyboardVerticalOffset={offsetKeyboard}
-          style={{flex: 1}}>
+          style={{ flex: 1 }}>
           <View style={styles.contain}>
             <TextInput
               onChangeText={setEmail}
@@ -169,7 +170,7 @@ export default function SignIn({navigation, route}) {
               value={email}
             />
             <TextInput
-              style={{marginTop: 10}}
+              style={{ marginTop: 10 }}
               onChangeText={setPassword}
               onFocus={() => {
                 setSuccess({
@@ -183,14 +184,14 @@ export default function SignIn({navigation, route}) {
               value={password}
             />
             <Button
-              style={{marginTop: 20}}
+              style={{ marginTop: 20 }}
               full
               loading={loading}
               onPress={onLogin}>
               {t('sign_in')}
             </Button>
             {Platform.OS == "android" && <Button
-              style={{marginTop: 20}}
+              style={{ marginTop: 20 }}
               full
               loading={loading}
               disabled={!request}
@@ -201,7 +202,7 @@ export default function SignIn({navigation, route}) {
             </Button>}
             <TouchableOpacity
               onPress={() => navigation.navigate('ResetPassword')}>
-              <Text body1 grayColor style={{marginTop: 25}}>
+              <Text body1 grayColor style={{ marginTop: 25 }}>
                 {t('forgot_your_password')}
               </Text>
             </TouchableOpacity>

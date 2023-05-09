@@ -16,6 +16,7 @@ import {
   StarRating,
   TextInput,
 } from '@components';
+import {API_URL} from "@env"
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { userInfo } from '@selectors';
@@ -76,7 +77,7 @@ export default function Feedback({ navigation, route }) {
           user_image: user.image,  
           publish_date: new Date().toLocaleDateString()
         }
-        const request = await fetch(`https://restwell.az/api/newreview/${item._id}`, {
+        const request = await fetch(`${API_URL}/api/newreview/${item._id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
