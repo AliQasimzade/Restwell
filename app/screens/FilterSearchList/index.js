@@ -24,6 +24,7 @@ import {
 import { listActions } from '@actions';
 
 export default function List({ navigation, route }) {
+  console.log(route.params.results, "FilterSearchList Page !")
   const { t } = useTranslation();
   const { colors } = useTheme();
   const dispatch = useDispatch();
@@ -63,10 +64,9 @@ export default function List({ navigation, route }) {
   });
 
   useEffect(() => {
-    setTimeout(() => {
       setLoading(false)
       setlists(route?.params.results)
-    }, 1000)
+   
   }, [])
 
   /**

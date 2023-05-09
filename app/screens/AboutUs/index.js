@@ -33,7 +33,7 @@ export default function AboutUs({ navigation }) {
   useEffect(() => {
     const getCompany = async () => {
       try {
-        const request = await axios.get('http://192.168.0.123:3001/api/company')
+        const request = await axios.get('https://restwell.az/api/company')
         if (request.status !== 200) {
           throw new Error('Request is Failed !')
         } else {

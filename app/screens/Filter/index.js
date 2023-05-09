@@ -50,12 +50,11 @@ export default function Filter({ navigation }) {
   const [location, setLocation] = useState([]);
   const [locations, setLocations] = useState([])
   const [scrollEnabled, setScrollEnabled] = useState(true);
-
   useEffect(() => {
-    const cats = fetch('http://192.168.0.123:3001/api/categories').then(res => res.json())
-    const locs = fetch('http://192.168.0.123:3001/api/locations').then(res => res.json())
-    const feat = fetch('http://192.168.0.123:3001/api/properties').then(res => res.json())
-    const tagss = fetch('http://192.168.0.123:3001/api/tags').then(res => res.json())
+    const cats = fetch('https://restwell.az/api/categories').then(res => res.json())
+    const locs = fetch('https://restwell.az/api/locations').then(res => res.json())
+    const feat = fetch('https://restwell.az/api/properties').then(res => res.json())
+    const tagss = fetch('https://restwell.az/api/tags').then(res => res.json())
 
 
 
@@ -82,12 +81,12 @@ export default function Filter({ navigation }) {
 
   const onApply = async () => {
     try {
-      const request = await axios.get('http://192.168.0.123:3001/api/listings')
+      const request = await axios.get('https://restwell.az/api/listings')
       if (request.status !== 200) {
         throw new Error("Request is failed !")
       } else {
         const response = request.data;
-        console.log(response, "Filter Bleet !");
+        // console.log(response, "Filter Bleet !");
         const c = selectedCategory.length > 0 ? selectedCategory : null
         const f = selectedFacilities.length > 0 ? selectedFacilities : null
         const l = location.length > 0 ? location : null

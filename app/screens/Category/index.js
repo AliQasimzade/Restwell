@@ -28,8 +28,8 @@ export default function Category({ navigation }) {
 
 
   useEffect(() => {
-    const categories = axios.get('http://192.168.0.123:3001/api/categories')
-    const allistings = axios.get('http://192.168.0.123:3001/api/listings')
+    const categories = axios.get('https://restwell.az/api/categories')
+    const allistings = axios.get('https://restwell.az/api/listings')
 
     Promise.all([categories, allistings])
       .then(responses => {

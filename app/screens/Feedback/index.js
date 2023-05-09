@@ -76,7 +76,7 @@ export default function Feedback({ navigation, route }) {
           user_image: user.image,  
           publish_date: new Date().toLocaleDateString()
         }
-        const request = await fetch(`http://192.168.0.123:3001/api/newreview/${item._id}`, {
+        const request = await fetch(`https://restwell.az/api/newreview/${item._id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

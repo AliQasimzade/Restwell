@@ -12,7 +12,7 @@ export default function Events() {
     const {t} = useTranslation()
     const getAllEvents = async () => {
         try {
-            const request = await axios.get('http://192.168.0.123:3001/api/events');
+            const request = await axios.get('https://restwell.az/api/events');
             if (request.status !== 200) {
                 throw new Error('Request is failed !')
             } else {

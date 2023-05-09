@@ -56,7 +56,7 @@ export default function ProductDetail({ navigation, route }) {
 
   useEffect(() => {
     const getAllListings = async () => {
-      const request = await fetch('http://192.168.0.123:3001/api/listings')
+      const request = await fetch('https://restwell.az/api/listings')
       const response = await request.json()
       setLoading(false)
       const filterByCategory = response.filter(listing => listing.category == item?.category)

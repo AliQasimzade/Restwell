@@ -48,7 +48,7 @@ export default function SignIn({navigation, route}) {
         const res = await req.json();
       
         const usEr = {email: res.email}
-         const request = await fetch('http://192.168.0.123:3001/api/loginuser', {
+         const request = await fetch('https://restwell.az/api/loginuser', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ export default function SignIn({navigation, route}) {
         };
 
         setLoading(true);
-        const request = await fetch('http://192.168.0.123:3001/api/loginuser', {
+        const request = await fetch('https://restwell.az/api/loginuser', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

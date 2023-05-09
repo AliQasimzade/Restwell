@@ -146,13 +146,13 @@ export default function AddListings({ navigation }) {
 
   useEffect(() => {
     const categories = axios.get(
-      'http://192.168.0.123:3001/api/categories',
+      'https://restwell.az/api/categories',
     );
     const tags = axios.get(
-      'http://192.168.0.123:3001/api/tags',
+      'https://restwell.az/api/tags',
     );
     const properties = axios.get(
-      'http://192.168.0.123:3001/api/properties',
+      'https://restwell.az/api/properties',
     );
 
     Promise.all([categories, tags, properties]).then(responses => {
@@ -439,7 +439,7 @@ export default function AddListings({ navigation }) {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch('http://192.168.0.123:3001/api/locations');
+        const response = await fetch('https://restwell.az/api/locations');
         const data = await response.json();
         setLocations(data);
       } catch (error) {
@@ -518,7 +518,7 @@ export default function AddListings({ navigation }) {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://192.168.0.123:3001/api/addnewlisting', {
+      const response = await axios.post('https://restwell.az/api/addnewlisting', {
         listingTitle: title,
         category: selectedCategory,
         slogan: slogan,

@@ -17,7 +17,7 @@ export default function Locations({ listings }) {
 
     const getAllLocations = async () => {
         try {
-            const request = await axios.get('http://192.168.0.123:3001/api/locations');
+            const request = await axios.get('https://restwell.az/api/locations');
 
             if (request.status !== 200) {
                 throw new Error('Request is failed !')

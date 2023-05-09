@@ -48,7 +48,7 @@ export default function SignUp({ navigation }) {
         const res = await req.json();
 
         const usEr = { email: res.email, name: res.given_name, surname: res.family_name, image: res.picture }
-        const request = await fetch('http://192.168.0.123:3001/api/createuser', {
+        const request = await fetch('https://restwell.az/api/createuser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export default function SignUp({ navigation }) {
           image: "https://firebasestorage.googleapis.com/v0/b/adminpanel-da8aa.appspot.com/o/images%2FuserImageRestwell.jpg?alt=media&token=df0483ee-b298-41b0-94ea-cd5b3e973217"
         };
         const req = await fetch(
-          'http://192.168.0.123:3001/api/createuser',
+          'https://restwell.az/api/createuser',
           {
             method: 'POST',
             headers: {
