@@ -12,7 +12,9 @@ export default function PreviewImage({navigation, route}) {
   let swiperRef = null;
 
   const [images, setImages] = useState(route.params?.gallery ?? []);
+  console.log(images, "Gallery Page !")
   const [indexSelected, setIndexSelected] = useState(0);
+
 
   /**
    * call when select image
@@ -21,21 +23,7 @@ export default function PreviewImage({navigation, route}) {
    */
   const onSelect = indexSelected => {
     setIndexSelected(indexSelected);
-    setImages(
-      images.map((item, index) => {
-        if (index == indexSelected) {
-          return {
-            ...item,
-            selected: true,
-          };
-        } else {
-          return {
-            ...item,
-            selected: false,
-          };
-        }
-      }),
-    );
+   
     flatListRef.scrollToIndex({
       animated: true,
       index: indexSelected,

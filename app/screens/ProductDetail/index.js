@@ -380,7 +380,7 @@ export default function ProductDetail({ navigation, route }) {
               const loc2 = `${item.address}`
               const location = `${item?.locationCoords.latitude},${item?.locationCoords.longtitude}`;
               const url = Platform.select({
-                ios: `https://www.google.com/maps/@${location},6z`,
+                ios: `maps:${item?.locationCoords.latitude},${item?.locationCoords.longtitude}?q=${location}`,
                 android: `geo:${location}?center=${location}&q=${location}&z=16`,
               });
               onOpen('address', t('address'), url);
