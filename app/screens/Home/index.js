@@ -37,7 +37,6 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     // Fetch data from API
-
     const listings = axios.get(
       `${API_URL}/api/listings`,
     )
