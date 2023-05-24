@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, Alert, Image } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
 import { Header, SafeAreaView, Icon, Button, TextInput } from '@components';
 import styles from './styles';
@@ -8,9 +8,10 @@ import * as Google from 'expo-auth-session/providers/google';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../actions/user';
-import { API_URL,API_EXPO_CLIENT_ID,API_ANDROID_CLIENT_ID,API_IOS_CLIENT_ID,API_GOOGLE_AUTH_URL } from "@env";
-
+import { API_URL, API_EXPO_CLIENT_ID, API_ANDROID_CLIENT_ID, API_IOS_CLIENT_ID, API_GOOGLE_AUTH_URL } from "@env";
+import logo from '../../assets/images/restwelllogo.png'
 WebBrowser.maybeCompleteAuthSession();
+
 
 export default function SignUp({ navigation }) {
   const { colors } = useTheme();
@@ -33,11 +34,11 @@ export default function SignUp({ navigation }) {
   });
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
-    API_EXPO_CLIENT_ID,
+      API_EXPO_CLIENT_ID,
     iosClientId:
-    API_IOS_CLIENT_ID,
+      API_IOS_CLIENT_ID,
     androidClientId:
-    API_ANDROID_CLIENT_ID,
+      API_ANDROID_CLIENT_ID,
   });
 
   const getUserInfo = async (tok) => {
@@ -166,59 +167,63 @@ export default function SignUp({ navigation }) {
           keyboardVerticalOffset={offsetKeyboard}
           style={{ flex: 1 }}>
           <View style={styles.contain}>
-            <TextInput
-              onChangeText={text => setUsername(text)}
-              placeholder={t('Name')}
-              success={success.username}
-              value={username}
-              onFocus={() => {
-                setSuccess({
-                  ...success,
-                  username: true,
-                });
-              }}
-            />
-            <TextInput
-              style={{ marginTop: 10 }}
-              onChangeText={text => setSurname(text)}
-              placeholder={t('Surname')}
-              success={success.surname}
-              value={surname}
-              onFocus={() => {
-                setSuccess({
-                  ...success,
-                  surname: true,
-                });
-              }}
-            />
-            <TextInput
-              style={{ marginTop: 10 }}
-              onChangeText={text => setEmail(text)}
-              placeholder={t('input_email')}
-              keyboardType="email-address"
-              success={success.email}
-              value={email}
-              onFocus={() => {
-                setSuccess({
-                  ...success,
-                  email: true,
-                });
-              }}
-            />
-            <TextInput
-              style={{ marginTop: 10 }}
-              onChangeText={text => setPassword(text)}
-              secureTextEntry={true}
-              placeholder={t('input_password')}
-              success={success.password}
-              value={password}
-              onFocus={() => {
-                setSuccess({
-                  ...success,
-                  password: true,
-                });
-              }}
-            />
+            <Image source={logo} style={styles.logo} />
+            <View>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={text => setUsername(text)}
+                placeholder={t('Name')}
+                success={success.username}
+                value={username}
+                onFocus={() => {
+                  setSuccess({
+                    ...success,
+                    username: true,
+                  });
+                }}
+              />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={text => setSurname(text)}
+                placeholder={t('Surname')}
+                success={success.surname}
+                value={surname}
+                onFocus={() => {
+                  setSuccess({
+                    ...success,
+                    surname: true,
+                  });
+                }}
+              />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={text => setEmail(text)}
+                placeholder={t('input_email')}
+                keyboardType="email-address"
+                success={success.email}
+                value={email}
+                onFocus={() => {
+                  setSuccess({
+                    ...success,
+                    email: true,
+                  });
+                }}
+              />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={text => setPassword(text)}
+                secureTextEntry={true}
+                placeholder={t('input_password')}
+                success={success.password}
+                value={password}
+                onFocus={() => {
+                  setSuccess({
+                    ...success,
+                    password: true,
+                  });
+                }}
+              />
+            </View>
             <Button
               full
               style={{ marginTop: 20 }}
