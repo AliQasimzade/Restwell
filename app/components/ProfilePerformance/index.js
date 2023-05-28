@@ -1,11 +1,11 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Text} from '@components';
+import Text from '../Text';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
-export default function ProfilePerformance(props) {
+function ProfilePerformance(props) {
   const {t} = useTranslation();
   const renderValue = (type, value) => {
     switch (type) {
@@ -126,3 +126,4 @@ ProfilePerformance.defaultProps = {
   contentCenter: {},
   contentRight: {},
 };
+export default ProfilePerformance

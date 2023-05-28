@@ -2,24 +2,21 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   ScrollView,
-  FlatList,
   Animated,
   TouchableOpacity,
   Linking,
   Platform,
-  Dimensions,
 } from 'react-native';
 import { BaseColor, useTheme, BaseStyle } from '@config';
-import {
-  Header,
-  SafeAreaView,
-  Icon,
-  Text,
-  StarRating,
-  Tag,
-  Image,
-  ListItem,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import ListItem from '../../components/ListItem';
+import StarRating from '../../components/StarRating';
+import Tag from '../../components/Tag';
+import Image from '../../components/Image';
+
 import { useTranslation } from 'react-i18next';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import * as Utils from '@utils';
@@ -30,13 +27,13 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import { userInfo, wish, designSelect } from '@selectors';
+import { userInfo, wish, designSelect } from '../../selectors';
 import styles from './styles';
 import { addWish, removeWish } from '../../actions/wish';
 import axios from 'axios';
-import {API_URL} from "@env";
+import { API_URL } from "@env";
 
-export default function ProductDetail({ navigation, route }) {
+function ProductDetail({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const dispatch = useDispatch();
@@ -133,7 +130,7 @@ export default function ProductDetail({ navigation, route }) {
    * Open action
    * @param {*} item
    */
-  const onOpen = (type,title, link) => {
+  const onOpen = (type, title, link) => {
     switch (type) {
       case 'web':
         Linking.openURL(link);
@@ -150,7 +147,7 @@ export default function ProductDetail({ navigation, route }) {
       case 'whatsapp':
         Linking.openURL(link);
         break;
-        
+
     }
   };
 
@@ -402,82 +399,94 @@ export default function ProductDetail({ navigation, route }) {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.line}
-            onPress={() => {
-              onOpen('phone', t('tel'), item?.phone);
-            }}>
-            <View
-              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
-              <Icon name="mobile-alt" size={16} color={BaseColor.whiteColor} />
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <Text caption2 grayColor>
-                {t('tel')}
-              </Text>
-              <Text footnote semibold style={{ marginTop: 5 }}>
-                {item.phone}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.line}
-            onPress={() => {
-              onOpen('whatsapp', t('whatsapp'), 
-              Platform.select({
-                ios: `whatsapp://api.whatsapp.com/send?phone=${item?.whatsapp}`,
-                android: `https://api.whatsapp.com/send?phone=${item?.whatsapp}`,
-              }));
-            }}>
-            <View
-              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
-              <Icon name="whatsapp" size={16} color={BaseColor.whiteColor} />
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <Text caption2 grayColor>
-                {t('Whatsapp')}
-              </Text>
-              <Text footnote semibold style={{ marginTop: 5 }}>
-                {item.whatsapp}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.line}
-            onPress={() => {
-              onOpen('email', t('envelope'), item?.email);
-            }}>
-            <View
-              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
-              <Icon name="envelope" size={16} color={BaseColor.whiteColor} />
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <Text caption2 grayColor>
-                {t('email')}
-              </Text>
-              <Text footnote semibold style={{ marginTop: 5 }}>
-                {item?.email}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.line}
-            onPress={() => {
-              onOpen('web', t('website'), item?.website);
-            }}>
-            <View
-              style={[styles.contentIcon, { backgroundColor: colors.border }]}>
-              <Icon name="globe" size={16} color={BaseColor.whiteColor} />
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <Text caption2 grayColor>
-                {t('website')}
-              </Text>
-              <Text footnote semibold style={{ marginTop: 5 }}>
-                {item?.website}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {/* telefon */}
+          {item.phone && item.phone.length >= 5 && (
+            <TouchableOpacity
+              style={styles.line}
+              onPress={() => {
+                onOpen('phone', t('tel'), item?.phone);
+              }}>
+              <View
+                style={[styles.contentIcon, { backgroundColor: colors.border }]}>
+                <Icon name="mobile-alt" size={16} color={BaseColor.whiteColor} />
+              </View>
+              <View style={{ marginLeft: 10 }}>
+                <Text caption2 grayColor>
+                  {t('tel')}
+                </Text>
+                <Text footnote semibold style={{ marginTop: 5 }}>
+                  {item.phone}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          {/* whatsapp */}
+          {item.whatsapp && item.whatsapp.length >= 5 && (
+            <TouchableOpacity
+              style={styles.line}
+              onPress={() => {
+                onOpen('whatsapp', t('whatsapp'),
+                  Platform.select({
+                    ios: `whatsapp://api.whatsapp.com/send?phone=${item?.whatsapp}`,
+                    android: `https://api.whatsapp.com/send?phone=${item?.whatsapp}`,
+                  }));
+              }}>
+              <View
+                style={[styles.contentIcon, { backgroundColor: colors.border }]}>
+                <Icon name="whatsapp" size={16} color={BaseColor.whiteColor} />
+              </View>
+              <View style={{ marginLeft: 10 }}>
+                <Text caption2 grayColor>
+                  {t('Whatsapp')}
+                </Text>
+                <Text footnote semibold style={{ marginTop: 5 }}>
+                  {item.whatsapp}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          {/* email */}
+          {item.email && item.email.length >= 5 && (
+            <TouchableOpacity
+              style={styles.line}
+              onPress={() => {
+                onOpen('email', t('envelope'), item?.email);
+              }}>
+              <View
+                style={[styles.contentIcon, { backgroundColor: colors.border }]}>
+                <Icon name="envelope" size={16} color={BaseColor.whiteColor} />
+              </View>
+              <View style={{ marginLeft: 10 }}>
+                <Text caption2 grayColor>
+                  {t('email')}
+                </Text>
+                <Text footnote semibold style={{ marginTop: 5 }}>
+                  {item?.email}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          {/* vebsayt */}
+          {item.website && item.website.length >= 5 && (
+            <TouchableOpacity
+              style={styles.line}
+              onPress={() => {
+                onOpen('web', t('website'), item?.website);
+              }}>
+              <View
+                style={[styles.contentIcon, { backgroundColor: colors.border }]}>
+                <Icon name="globe" size={16} color={BaseColor.whiteColor} />
+              </View>
+              <View style={{ marginLeft: 10 }}>
+                <Text caption2 grayColor>
+                  {t('website')}
+                </Text>
+                <Text footnote semibold style={{ marginTop: 5 }}>
+                  {item?.website}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity style={styles.line} onPress={onCollapse}>
             <View
               style={[styles.contentIcon, { backgroundColor: colors.border }]}>
@@ -505,6 +514,7 @@ export default function ProductDetail({ navigation, route }) {
               overflow: 'hidden',
             }}>
             {item?.timeschedule.map((item, index) => {
+
               return (
                 <View
                   style={[styles.lineWorkHours, { borderColor: colors.border }]}
@@ -521,19 +531,23 @@ export default function ProductDetail({ navigation, route }) {
           </View>
         </View>
         <View style={[styles.contentDescription, { borderColor: colors.border }]}>
-          <Text body2 style={{ lineHeight: 20 }}>
-            {item?.description}
-          </Text>
+          {item.description && item.description.length >= 5 && (
+            <Text body2 style={{ lineHeight: 20 }}>
+              {item?.description}
+            </Text>
+          )}
           <View>
-            <View style={{ flex: 1,marginTop: 20 }}>
+            <View style={{ flex: 1, marginTop: 20 }}>
               <Text caption1 grayColor>
                 {t('date_established')}
               </Text>
-              <Text headline style={{ marginTop: 5 }}>
-                {item?.slogan}
-              </Text>
+              {item.slogan && item.slogan.length >= 5 && (
+                <Text headline style={{ marginTop: 5 }}>
+                  {item?.slogan}
+                </Text>
+              )}
             </View>
-            <View style={{ flex: 1, alignItems: 'flex-end', marginBottom: 20 }}>
+            <View style={{ flex: 1, alignItems: 'flex-start', marginVertical: 20 }}>
               <Text caption1 grayColor>
                 {t('price_range')}
               </Text>
@@ -579,7 +593,7 @@ export default function ProductDetail({ navigation, route }) {
           {item?.tags.map(item => {
             return (
               <Tag
-                key={item._id}
+                key={item}
                 chip
                 style={{
                   marginTop: 8,
@@ -603,7 +617,7 @@ export default function ProductDetail({ navigation, route }) {
           {item?.features.map(item => {
             return (
               <Tag
-                key={item._id}
+                key={item}
                 chip
                 style={{
                   marginTop: 8,
@@ -627,7 +641,7 @@ export default function ProductDetail({ navigation, route }) {
           {related.length > 0 && related.map(item => {
             return (
               <ListItem
-                key={item._id}
+                key={item}
                 small
                 image={item.profileImage}
                 title={item.listingTitle}
@@ -673,3 +687,4 @@ export default function ProductDetail({ navigation, route }) {
     </View>
   );
 }
+export default ProductDetail

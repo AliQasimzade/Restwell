@@ -2,11 +2,18 @@ import React, {useState} from 'react';
 import {View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import {BaseStyle, useTheme} from '@config';
 import {useTranslation} from 'react-i18next';
-import {Header, SafeAreaView, Icon, Text, Button, TextInput} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import TextInput from '../../components/TextInput';
+import Header from '../../components/Header';
+import { Button } from '../../components/Button';
+
+
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import styles from './styles';
 
-export default function ContactUs({navigation}) {
+function ContactUs({navigation}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
   const offsetKeyboard = Platform.select({
@@ -32,7 +39,7 @@ export default function ContactUs({navigation}) {
 
   /**
    * @description Called when user sumitted form
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    */
   const onSubmit = () => {
@@ -60,7 +67,7 @@ export default function ContactUs({navigation}) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -136,3 +143,4 @@ export default function ContactUs({navigation}) {
     </View>
   );
 }
+export default ContactUs

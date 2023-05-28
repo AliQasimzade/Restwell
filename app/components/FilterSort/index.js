@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import styles from './styles';
-import {Icon, Text, Button} from '@components';
+import Icon from '../Icon';
+import Text from '../Text';
+import {Button} from '../Button'
 import PropTypes from 'prop-types';
 import {BaseColor, useTheme} from '@config';
 import Modal from 'react-native-modal';
 import {useTranslation} from 'react-i18next';
 
-export default function FilterSort(props) {
+function FilterSort(props) {
   const {colors} = useTheme();
   const {t} = useTranslation();
 
@@ -128,14 +130,14 @@ export default function FilterSort(props) {
         <TouchableOpacity onPress={onChangeView} style={styles.contentModeView}>
           <Icon
             name={iconModeView(modeView)}
-            size={16}
+            size={22}
             color={BaseColor.grayColor}
             solid
           />
         </TouchableOpacity>
         <View style={styles.line} />
         <TouchableOpacity onPress={onFilter} style={styles.contentFilter}>
-          <Icon name="filter" size={16} color={BaseColor.grayColor} solid />
+          <Icon name="filter" size={20} color={BaseColor.grayColor} solid />
           <Text headline grayColor style={{marginLeft: 5}}>
             {t('filter')}
           </Text>
@@ -164,3 +166,4 @@ FilterSort.defaultProps = {
   onChangeView: () => {},
   onFilter: () => {},
 };
+export default FilterSort

@@ -9,12 +9,16 @@ import {
 } from 'react-native';
 import {ThemeSupport} from '@config';
 import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Button} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import { Button } from '../../components/Button'
 import {applicationActions} from '@actions';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 
-export default function ThemeSetting({navigation}) {
+function ThemeSetting({navigation}) {
   const themeStorage = useSelector(state => state.application.theme);
   const {colors} = useTheme();
   const dispatch = useDispatch();
@@ -104,7 +108,7 @@ export default function ThemeSetting({navigation}) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -118,7 +122,7 @@ export default function ThemeSetting({navigation}) {
         <FlatList
           contentContainerStyle={styles.contain}
           data={themeSupport}
-          keyExtractor={(item, index) => item.theme}
+          keyExtractor={(item) => item.theme}
           renderItem={({item}) => renderItem(item)}
         />
         <View style={{paddingHorizontal: 20, paddingVertical: 15}}>
@@ -130,3 +134,4 @@ export default function ThemeSetting({navigation}) {
     </View>
   );
 }
+export default ThemeSetting

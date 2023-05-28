@@ -3,14 +3,14 @@ import {  RefreshControl, View, Animated } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { BaseStyle, BaseColor, useTheme } from '@config';
 import Carousel from 'react-native-snap-carousel';
-import {
-  Header,
-  SafeAreaView,
-  Icon,
-  ListItem,
-  FilterSort,
-  Text,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import ListItem from '../../components/ListItem';
+import FilterSort from '../../components/FilterSort';
+
 import styles from './styles';
 import * as Utils from '@utils';
 import { useTranslation } from 'react-i18next';
@@ -20,11 +20,11 @@ import {
   userInfo,
   wish,
   designSelect,
-} from '@selectors';
+} from '../../selectors';
 import axios from 'axios';
 import {API_URL} from "@env"
 
-export default function List({ navigation, route }) {
+function List({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const datas = route?.params
@@ -126,7 +126,7 @@ export default function List({ navigation, route }) {
 
   /**
    * @description Open modal when filterring mode is applied
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-09-01
    */
   const onFilter = () => {
@@ -141,7 +141,7 @@ export default function List({ navigation, route }) {
 
   /**
    * @description Open modal when view mode is pressed
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-09-01
    */
   const onChangeView = () => {
@@ -222,7 +222,7 @@ export default function List({ navigation, route }) {
 
   /**
    * @description Render loading view
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-09-01
    * @returns
    */
@@ -459,7 +459,7 @@ export default function List({ navigation, route }) {
 
   /**
    * @description Render container view
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-09-01
    * @returns
    */
@@ -850,7 +850,7 @@ export default function List({ navigation, route }) {
           <View style={{ alignItems: 'center' }}>
             <Icon
               name="frown-open"
-              size={18}
+              size={24}
               color={colors.text}
               style={{ marginBottom: 4 }}
             />
@@ -871,7 +871,7 @@ export default function List({ navigation, route }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -884,13 +884,13 @@ export default function List({ navigation, route }) {
           return (
             <Icon
               name={mapView ? 'align-right' : 'map'}
-              size={20}
+              size={26}
               color={colors.primary}
             />
           );
         }}
         renderRightSecond={() => {
-          return <Icon name="search" size={20} color={colors.primary} />;
+          return <Icon name="search" size={26} color={colors.primary} />;
         }}
         onPressRightSecond={() => {
           navigation.navigate('SearchHistory', { listings: lists });
@@ -905,3 +905,4 @@ export default function List({ navigation, route }) {
     </View>
   );
 }
+export default List

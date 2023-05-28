@@ -1,10 +1,13 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text} from '@components';
+import Image from '../Image';
+import Text from '../Text';
+
+
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-export default function ProfileAuthor(props) {
+function ProfileAuthor(props) {
   const {
     style,
     image,
@@ -64,3 +67,4 @@ ProfileAuthor.defaultProps = {
   style: {},
   onPress: () => {},
 };
+export default ProfileAuthor

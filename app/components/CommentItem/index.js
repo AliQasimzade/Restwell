@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { BaseColor, useTheme } from '@config';
-import { Text, Image, StarRating } from '@components';
+import StarRating from '../StarRating'
+
+import Text from '../Text';
+import Image from '../Image'
 import PropTypes from 'prop-types';
 import styles from './styles';
 
 import { useTranslation } from 'react-i18next';
 
-export default function CommentItem(props) {
+function CommentItem(props) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const [state] = useState(["according_to_the_service", "for_the_price", "general", "according_to_the_portion"])
@@ -70,3 +73,4 @@ CommentItem.defaultProps = {
   date: '',
   comment: '',
 };
+export default CommentItem

@@ -7,22 +7,25 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { BaseStyle, BaseColor, useTheme } from '@config';
-import {
-  Image,
-  Header,
-  SafeAreaView,
-  Icon,
-  Text,
-  StarRating,
-  TextInput,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import TextInput from '../../components/TextInput';
+import { StarRating } from '../../components/StarRating';
+
+
+
+
 import {API_URL} from "@env"
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { userInfo } from '@selectors';
+import { userInfo } from '../../selectors';
 import { Alert } from 'react-native';
 
-export default function Feedback({ navigation, route }) {
+function Feedback({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const item = route?.params.item.reviews
@@ -43,7 +46,7 @@ export default function Feedback({ navigation, route }) {
 
   /**
    * @description Called when user sumitted form
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    */
   const onSubmit = async () => {
@@ -108,7 +111,7 @@ export default function Feedback({ navigation, route }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -182,3 +185,4 @@ export default function Feedback({ navigation, route }) {
     </View>
   );
 }
+export default Feedback

@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text} from '@components';
+import Image from '../../components/Image';
+import Text from '../../components/Text';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import {useTheme} from '@config';
@@ -10,7 +11,7 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-export default function ListThumbSquare(props) {
+function ListThumbSquare(props) {
   const {colors} = useTheme();
   const {
     style,
@@ -98,3 +99,4 @@ ListThumbSquare.defaultProps = {
   txtRight: '',
   onPress: () => {},
 };
+export default ListThumbSquare

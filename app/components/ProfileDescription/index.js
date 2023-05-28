@@ -1,9 +1,11 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text} from '@components';
+import Image from '../Image';
+import Text from '../Text';
+
 import styles from './styles';
 import PropTypes from 'prop-types';
-export default function ProfileDescription(props) {
+function ProfileDescription(props) {
   const {style, image, styleThumb, onPress, name, subName, description} = props;
   return (
     <TouchableOpacity
@@ -49,3 +51,4 @@ ProfileDescription.defaultProps = {
   onPress: () => {},
   style: {},
 };
+export default ProfileDescription

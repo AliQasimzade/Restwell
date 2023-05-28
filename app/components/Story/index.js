@@ -18,7 +18,6 @@ const Story = (props) => {
   };
 
   const handleSwipe = item => {
-    console.log(item, "Swipe Up !");
   }
 
   return (

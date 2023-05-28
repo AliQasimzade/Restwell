@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, View} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
-export default function Index(props) {
+function Index(props) {
   const {style} = props;
   return (
     <View style={[styles.contaner, style]}>
@@ -20,3 +20,4 @@ Index.defaultProps = {
   style: {},
   resizeMode: 'cover',
 };
+export default Index

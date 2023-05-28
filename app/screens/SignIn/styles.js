@@ -1,11 +1,8 @@
-import React from 'react';
 import {StyleSheet} from 'react-native';
-import {BaseColor} from '@config';
 
 export default StyleSheet.create({
   textInput: {
     height: 46,
-    backgroundColor: BaseColor.fieldColor,
     borderRadius: 5,
     marginTop: 10,
     padding: 10,
@@ -17,4 +14,9 @@ export default StyleSheet.create({
     padding: 20,
     flex: 1,
   },
+  logo:{
+    width:270,
+    height:150,
+    marginBottom: 20,
+  }
 });

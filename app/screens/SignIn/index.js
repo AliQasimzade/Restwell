@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-
+import logo from '../../assets/images/restwelllogo.png'
 WebBrowser.maybeCompleteAuthSession();
 
 import {
@@ -14,14 +14,20 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseStyle, useTheme } from '@config';
-import { Header, SafeAreaView, Icon, Text, Button, TextInput } from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import { Button } from '../../components/Button';
+import { TextInput } from '../../components';
+import { Image } from '../../components';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { loginUser } from '../../actions/user';
-import { designSelect } from '@selectors';
-import { API_URL,API_EXPO_CLIENT_ID,API_ANDROID_CLIENT_ID,API_IOS_CLIENT_ID,API_GOOGLE_AUTH_URL } from "@env";
+import { designSelect } from '../../selectors';
+import { API_URL, API_EXPO_CLIENT_ID, API_ANDROID_CLIENT_ID, API_IOS_CLIENT_ID, API_GOOGLE_AUTH_URL } from "@env";
 
-export default function SignIn({ navigation, route }) {
+function SignIn({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -33,11 +39,11 @@ export default function SignIn({ navigation, route }) {
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
-    API_EXPO_CLIENT_ID,
+      API_EXPO_CLIENT_ID,
     iosClientId:
-    API_IOS_CLIENT_ID,
+      API_IOS_CLIENT_ID,
     androidClientId:
-    API_ANDROID_CLIENT_ID,
+      API_ANDROID_CLIENT_ID,
   });
 
   const getUserInfo = async (tok) => {
@@ -141,7 +147,7 @@ export default function SignIn({ navigation, route }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -157,32 +163,36 @@ export default function SignIn({ navigation, route }) {
           keyboardVerticalOffset={offsetKeyboard}
           style={{ flex: 1 }}>
           <View style={styles.contain}>
-            <TextInput
-              onChangeText={setEmail}
-              onFocus={() => {
-                setSuccess({
-                  ...success,
-                  id: true,
-                });
-              }}
-              placeholder={t('Email')}
-              success={success.id}
-              value={email}
-            />
-            <TextInput
-              style={{ marginTop: 10 }}
-              onChangeText={setPassword}
-              onFocus={() => {
-                setSuccess({
-                  ...success,
-                  password: true,
-                });
-              }}
-              placeholder={t('input_password')}
-              secureTextEntry={true}
-              success={success.password}
-              value={password}
-            />
+            <Image source={logo} style={styles.logo} />
+            <View>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={setEmail}
+                onFocus={() => {
+                  setSuccess({
+                    ...success,
+                    id: true,
+                  });
+                }}
+                placeholder={t('Email')}
+                success={success.id}
+                value={email}
+              />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={setPassword}
+                onFocus={() => {
+                  setSuccess({
+                    ...success,
+                    password: true,
+                  });
+                }}
+                placeholder={t('input_password')}
+                secureTextEntry={true}
+                success={success.password}
+                value={password}
+              />
+            </View>
             <Button
               style={{ marginTop: 20 }}
               full
@@ -212,3 +222,4 @@ export default function SignIn({ navigation, route }) {
     </View>
   );
 }
+export default SignIn

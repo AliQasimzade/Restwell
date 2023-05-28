@@ -7,15 +7,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, ListItem, Text, Icon} from '@components';
-import {wish} from '@selectors';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import ListItem from '../../components/EventListItem';
+import Text from '../../components/Text';
+import Icon from '../../components/Icon';
+import {wish} from '../../selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import Modal from 'react-native-modal';
 import styles from './styles';
 import { removeAllWish, removeWish } from '../../actions/wish';
 
-export default function Wishlist({navigation}) {
+function Wishlist({navigation}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
   const dispatch = useDispatch();
@@ -81,7 +85,7 @@ export default function Wishlist({navigation}) {
               setModalVisible(false);
               setActionItem(null);
             }}>
-            <Icon name="times" size={12} color={colors.text} />
+            <Icon name="times" size={18} color={colors.text} />
           </TouchableOpacity>
          
           <TouchableOpacity
@@ -200,3 +204,4 @@ export default function Wishlist({navigation}) {
     </View>
   );
 }
+export default Wishlist

@@ -2,7 +2,7 @@
   "expo": {
     "name": "RestWell",
     "slug": "RestWell",
-    "version": "1.0.0",
+    "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/images/IconRestwell.png",
     "scheme": "com.auth.restwell",
@@ -25,7 +25,8 @@
         "googleMapsApiKey": "AIzaSyC4oQcs4T1zOMzpYxRpLT3xmSseW9TBUTc"
       }
     },
-    "android": {
+    "android": { 
+      "versionCode":3,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/images/IconRestwell.png",
         "backgroundColor": "#FFFFFF",
@@ -39,19 +40,19 @@
     },
     "web": {
       "oauth": {
-        "redirectUrl": "https://auth.expo.io/@aliqasimzade/com.auth.restwell"
+        "redirectUrl": "https://auth.expo.io/@ilkin944/com.auth.restwell"
       }
     },
     "favicon": "./app/assets/images/IconRestwell.png",
     "extra": {
       "eas": {
-        "projectId": "45a5911f-21be-4913-bc21-2257ec248fb5"
+        "projectId": "eac33d5a-d14e-46ad-ae1c-5bbd821ec284",
       }
     }
   },
   "extra": {
     "eas": {
-      "projectId": "45a5911f-21be-4913-bc21-2257ec248fb5"
+      "projectId": "eac33d5a-d14e-46ad-ae1c-5bbd821ec284"
     }
   }
 }

@@ -106,7 +106,7 @@ Tag.propTypes = {
   light: PropTypes.bool,
   gray: PropTypes.bool,
   chip: PropTypes.bool,
-  rate: PropTypes.bool,
+  rate: PropTypes.number,
   rateSmall: PropTypes.bool,
   status: PropTypes.bool,
   sale: PropTypes.bool,

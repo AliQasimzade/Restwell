@@ -4,19 +4,20 @@ import { useTranslation } from 'react-i18next';
 import { BaseStyle, useTheme } from '@config';
 import axios from 'axios';
 import * as Utils from '@utils';
-import {API_URL} from '@env';
+import { API_URL } from '@env';
 
-import {
-  Header,
-  SafeAreaView,
-  Icon,
-  Text,
-  Card,
-  ProfileDescription,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+
+
+
 import styles from './styles';
 
-export default function AboutUs({ navigation }) {
+function AboutUs({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const [ourTeam, setOurTeam] = useState([]);
@@ -58,7 +59,7 @@ export default function AboutUs({ navigation }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -158,3 +159,4 @@ export default function AboutUs({ navigation }) {
     </View>
   );
 }
+export default AboutUs

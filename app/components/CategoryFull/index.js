@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { BaseColor } from '@config';
-import { Text, Icon, Image } from '@components';
+import Text from '../Text';
+import Icon from '../Icon';
+import Image from '../Image';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import { Placeholder, Progressive, PlaceholderMedia } from 'rn-placeholder';
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
-export default function CategoryFull(props) {
+function CategoryFull(props) {
   const { t } = useTranslation();
   const { style, loading, image, icon, color, title, count, onPress } = props;
   if (loading) {
@@ -70,3 +72,4 @@ CategoryFull.defaultProps = {
   subtitle: '',
   onPress: () => { },
 };
+export default CategoryFull

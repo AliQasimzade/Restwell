@@ -1,76 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  ScrollView,
-  Animated,
-  TouchableOpacity,
-} from 'react-native';
-import axios from "axios";
+import React, {useState, useEffect} from 'react';
+import {View, ScrollView, Animated, TouchableOpacity} from 'react-native';
+import axios from 'axios';
 
-import { API_URL } from "@env"
+import {API_URL} from '@env';
 
-import { Image, Text, Icon, SafeAreaView, ListItem, Banners, Categories, Locations, NearByMe, Events, Status } from '@components';
-import { BaseStyle, useTheme } from '@config';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Events from '../../components/Events';
+import Image from '../../components/Image';
+import Text from '../../components/Text';
+import Icon from '../../components/Icon';
+import ListItem from '../../components/EventListItem';
+import {Banners} from '../../components/Banners';
+import Categories from '../../components/Categories';
+import Locations from '../../components/Locations';
+import NearByMe from '../../components/NearByMe';
+import Status from '../../components/Status';
+import {BaseStyle, useTheme} from '@config';
 import * as Utils from '@utils';
 import styles from './styles';
-import { useTranslation } from 'react-i18next';
-
+import {useTranslation} from 'react-i18next';
 
 const deltaY = new Animated.Value(0);
 
-export default function Home({ navigation }) {
-  const { colors } = useTheme();
-  const { t } = useTranslation();
+function Home({navigation}) {
+  const {colors} = useTheme();
+  const {t} = useTranslation();
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const heightImageBanner = Utils.scaleWithPixel(180);
   const marginTopBanner = heightImageBanner - heightHeader + 10;
   const [popularLocations, setPopularLocations] = useState([]);
   const [lastAdded, setLastAdded] = useState([]);
   const [featured, setFeatured] = useState([]);
-  const [listings, setListings] = useState([])
+  const [listings, setListings] = useState([]);
 
   // bannerleri tapib yukleme basladi
   const [firstBanner, setFirstBanner] = useState(null);
   const [secondBanner, setSecondBanner] = useState(null);
   const [thirdBanner, setThirdBanner] = useState(null);
 
-
   useEffect(() => {
     // Fetch data from API
-    const listings = axios.get(
-      `${API_URL}/api/listings`,
-    )
-    const modalbanners = axios.get(`${API_URL}/api/modalbanners`)
+    const listings = axios.get(`${API_URL}/api/listings`);
+    const modalbanners = axios.get(`${API_URL}/api/modalbanners`);
 
     Promise.all([listings, modalbanners])
       .then(responses => {
         const [response1, response2] = responses;
-        let mekanlar = response1.data.map(r => {
-          if (r.verify) {
-            return r
-          }
-        }).filter(Boolean)
-        const pop = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'popular') : []
-        const lastadd = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'lastadded') : []
-        const featureds = mekanlar.length > 0 ? mekanlar.filter(item => item.type == 'featured') : []
+        let mekanlar = response1.data
+          .map(r => {
+            if (r.verify) {
+              return r;
+            }
+          })
+          .filter(Boolean);
+        const pop =
+          mekanlar.length > 0
+            ? mekanlar.filter(item => item.type == 'popular')
+            : [];
+        const lastadd =
+          mekanlar.length > 0
+            ? mekanlar.filter(item => item.type == 'lastadded')
+            : [];
+        const featureds =
+          mekanlar.length > 0
+            ? mekanlar.filter(item => item.type == 'featured')
+            : [];
 
-        setListings(mekanlar)
+        setListings(mekanlar);
         setPopularLocations(pop.length == 0 ? null : pop);
         setLastAdded(lastadd.length == 0 ? null : lastadd);
         setFeatured(featureds.length == 0 ? null : featureds);
 
         response2.data.forEach(item => {
           if (item && item.sira === 1 && item.image) {
-
             setFirstBanner(item.image);
           } else if (item && item.sira === 2 && item.image) {
             setSecondBanner(item.image);
           } else if (item && item.sira === 3 && item.image) {
             setThirdBanner(item.image);
           }
-        })
-      }
-      )
+        });
+      })
 
       .catch(error => {
         // Handle error here
@@ -78,22 +88,22 @@ export default function Home({ navigation }) {
       });
   }, []);
 
-
   /**
-     * render List popular
-     * @returns
-     */
+   * render List popular
+   * @returns
+   */
 
   const renderPopular = () => {
     if (popularLocations == null) {
-      return <View style={styles.centerView}>
-        <View style={{ alignItems: 'center', paddingBottom: 8 }}>
-          <Text>{t('data_not_found')}</Text>
+      return (
+        <View style={styles.centerView}>
+          <View style={{alignItems: 'center', paddingBottom: 8}}>
+            <Text>{t('data_not_found')}</Text>
+          </View>
         </View>
-      </View>
+      );
     } else if (popularLocations.length > 0) {
       return popularLocations.map((item, index) => {
-
         return (
           <ListItem
             small
@@ -103,7 +113,7 @@ export default function Home({ navigation }) {
             subtitle={item.category}
             status={item.priceRelationShip}
             rate={item.rating_avg}
-            style={{ marginBottom: 15 }}
+            style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('ProductDetail', {
                 item: item,
@@ -120,7 +130,7 @@ export default function Home({ navigation }) {
           small
           loading={true}
           key={`recent${item}`}
-          style={{ marginBottom: 15 }}
+          style={{marginBottom: 15}}
         />
       );
     });
@@ -131,11 +141,13 @@ export default function Home({ navigation }) {
    */
   const renderRecent = () => {
     if (lastAdded == null) {
-      return <View style={styles.centerView}>
-        <View style={{ alignItems: 'center', paddingBottom: 8 }}>
-          <Text>{t('data_not_found')}</Text>
+      return (
+        <View style={styles.centerView}>
+          <View style={{alignItems: 'center', paddingBottom: 8}}>
+            <Text>{t('data_not_found')}</Text>
+          </View>
         </View>
-      </View>
+      );
     } else if (lastAdded.length > 0) {
       return lastAdded.map((item, index) => {
         return (
@@ -147,7 +159,7 @@ export default function Home({ navigation }) {
             subtitle={item.category}
             status={item.priceRelationShip}
             rate={item.rating_avg}
-            style={{ marginBottom: 15 }}
+            style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('ProductDetail', {
                 item: item,
@@ -164,7 +176,7 @@ export default function Home({ navigation }) {
           small
           loading={true}
           key={`recent${item}`}
-          style={{ marginBottom: 15 }}
+          style={{marginBottom: 15}}
         />
       );
     });
@@ -176,11 +188,13 @@ export default function Home({ navigation }) {
 
   const renderFeatured = () => {
     if (featured == null) {
-      return <View style={styles.centerView}>
-        <View style={{ alignItems: 'center', paddingBottom: 8 }}>
-          <Text>{t('data_not_found')}</Text>
+      return (
+        <View style={styles.centerView}>
+          <View style={{alignItems: 'center', paddingBottom: 8}}>
+            <Text>{t('data_not_found')}</Text>
+          </View>
         </View>
-      </View>
+      );
     } else if (featured.length > 0) {
       return featured.map((item, index) => {
         return (
@@ -192,7 +206,7 @@ export default function Home({ navigation }) {
             subtitle={item.category}
             status={item.priceRelationShip}
             rate={item.rating_avg}
-            style={{ marginBottom: 15, marginTop: 0 }}
+            style={{marginBottom: 15, marginTop: 0}}
             onPress={() => {
               navigation.navigate('ProductDetail', {
                 item: item,
@@ -209,22 +223,19 @@ export default function Home({ navigation }) {
           small
           loading={true}
           key={`recent${item}`}
-          style={{ marginBottom: 15 }}
+          style={{marginBottom: 15}}
         />
       );
     });
   };
 
-
-
   /**
- * render List recent
- * @returns
- */
-
+   * render List recent
+   * @returns
+   */
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <Animated.View
         style={[
           styles.imageBackground,
@@ -249,11 +260,11 @@ export default function Home({ navigation }) {
             [
               {
                 nativeEvent: {
-                  contentOffset: { y: deltaY },
+                  contentOffset: {y: deltaY},
                 },
               },
             ],
-            { useNativeDriver: false },
+            {useNativeDriver: false},
           )}
           onContentSizeChange={() => {
             setHeightHeader(Utils.heightHeader());
@@ -267,18 +278,21 @@ export default function Home({ navigation }) {
                 borderColor: colors.border,
                 shadowColor: colors.border,
               },
-              { marginTop: marginTopBanner },
+              {marginTop: marginTopBanner},
             ]}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SearchHistory', { listings })}>
+              onPress={() => navigation.navigate('SearchHistory', {listings})}>
               <View
-                style={[BaseStyle.textInput, { backgroundColor: colors.card }]}>
-                <Text body1 grayColor style={{ flex: 1 }}>
+                style={[
+                  BaseStyle.textInput,
+                  {backgroundColor: colors.card, height: 48},
+                ]}>
+                <Text body1 grayColor style={{flex: 1}}>
                   {t('search_location')}
                 </Text>
-                <View style={{ paddingVertical: 8 }}>
+                <View style={{paddingVertical: 8}}>
                   <View
-                    style={[styles.lineForm, { backgroundColor: colors.border }]}
+                    style={[styles.lineForm, {backgroundColor: colors.border}]}
                   />
                 </View>
                 <Icon
@@ -297,11 +311,18 @@ export default function Home({ navigation }) {
               {t('location')}
             </Text>
             <Text body2 grayColor>
-              {t("locationSubtitle")}
+              {t('locationSubtitle')}
             </Text>
           </View>
           <Locations listings={listings} />
-          {firstBanner ? <View style={styles.firstBannerImageContainer}><Image style={styles.bannerImageElement} source={{ uri: firstBanner }} /></View> : null}
+          {firstBanner ? (
+            <View style={styles.firstBannerImageContainer}>
+              <Image
+                style={styles.bannerImageElement}
+                source={{uri: firstBanner}}
+              />
+            </View>
+          ) : null}
           <View
             style={{
               paddingHorizontal: 20,
@@ -310,7 +331,7 @@ export default function Home({ navigation }) {
             <Text title3 semibold>
               {t('popular_location')}
             </Text>
-            <Text body2 grayColor style={{ marginBottom: 15 }}>
+            <Text body2 grayColor style={{marginBottom: 15}}>
               {t('popularSubtitle')}
             </Text>
             <ScrollView
@@ -327,7 +348,7 @@ export default function Home({ navigation }) {
             <Text title3 semibold>
               {t('recent_location')}
             </Text>
-            <Text body2 grayColor style={{ marginBottom: 15 }}>
+            <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recent_sologan')}
             </Text>
             <ScrollView
@@ -336,7 +357,14 @@ export default function Home({ navigation }) {
               {renderRecent()}
             </ScrollView>
           </View>
-          {secondBanner ? <View style={styles.secondBannerImageContainer}><Image style={styles.bannerImageElement} source={{ uri: secondBanner }} /></View> : null}
+          {secondBanner ? (
+            <View style={styles.secondBannerImageContainer}>
+              <Image
+                style={styles.bannerImageElement}
+                source={{uri: secondBanner}}
+              />
+            </View>
+          ) : null}
           <View
             style={{
               paddingHorizontal: 20,
@@ -345,7 +373,7 @@ export default function Home({ navigation }) {
             <Text title3 semibold>
               {t('nearByMe')}
             </Text>
-            <Text body2 grayColor style={{ marginBottom: 15 }}>
+            <Text body2 grayColor style={{marginBottom: 15}}>
               {t('nearByMeSubtitle')}
             </Text>
             <ScrollView
@@ -362,7 +390,7 @@ export default function Home({ navigation }) {
             <Text title3 semibold>
               {t('recommended_locations')}
             </Text>
-            <Text body2 grayColor style={{ marginBottom: 15 }}>
+            <Text body2 grayColor style={{marginBottom: 15}}>
               {t('recommended_locations_subtitle')}
             </Text>
             <ScrollView
@@ -371,7 +399,14 @@ export default function Home({ navigation }) {
               {renderFeatured()}
             </ScrollView>
           </View>
-          {thirdBanner ? <View style={styles.thirdBannerImageContainer}><Image style={styles.bannerImageElement} source={{ uri: thirdBanner }} /></View> : null}
+          {thirdBanner ? (
+            <View style={styles.thirdBannerImageContainer}>
+              <Image
+                style={styles.bannerImageElement}
+                source={{uri: thirdBanner}}
+              />
+            </View>
+          ) : null}
           <View
             style={{
               paddingHorizontal: 20,
@@ -380,7 +415,7 @@ export default function Home({ navigation }) {
             <Text title3 semibold>
               {t('event')}
             </Text>
-            <Text body2 grayColor style={{ marginBottom: 15 }}>
+            <Text body2 grayColor style={{marginBottom: 15}}>
               {t('eventSubtitle')}
             </Text>
             <ScrollView
@@ -394,3 +429,4 @@ export default function Home({ navigation }) {
     </View>
   );
 }
+export default Home

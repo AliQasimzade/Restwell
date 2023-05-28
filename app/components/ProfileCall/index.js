@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text, Icon} from '@components';
+import Image from '../Image';
+import Text from '../Text';
+import Icon from '../Icon'
 import PropTypes from 'prop-types';
 import styles from './styles';
 import {useTheme} from '@config';
 
-export default function Index(props) {
+function Index(props) {
   const {colors} = useTheme();
   const {style, image, title, subtitle, onPressMessenger, onPressPhone} = props;
   return (
@@ -55,3 +57,4 @@ Index.defaultProps = {
   onPressMessenger: () => {},
   onPressPhone: () => {},
 };
+export default Index

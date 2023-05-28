@@ -2,10 +2,10 @@ import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
-import {Image} from '@components';
+import Image from '../Image';
 import {Images, useTheme} from '@config';
 
-export default function Card(props) {
+function Card(props) {
   const {colors} = useTheme();
   const {style, children, styleContent, image, onPress} = props;
   return (
@@ -35,3 +35,5 @@ Card.defaultProps = {
   styleContent: {},
   onPress: () => {},
 };
+
+export default Card

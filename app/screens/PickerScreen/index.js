@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import {BaseStyle, useTheme, BaseColor} from '@config';
-import {Header, SafeAreaView, Icon, Text, TextInput, Button} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import TextInput from '../../components/TextInput';
+import { Button } from '../../components/Button';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 
-export default function PickerScreen({route, navigation}) {
+function PickerScreen({route, navigation}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
 
@@ -15,7 +20,7 @@ export default function PickerScreen({route, navigation}) {
 
   /**
    * @description Called when apply
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    * @param {object} select
    */
@@ -44,7 +49,7 @@ export default function PickerScreen({route, navigation}) {
 
   /**
    * @description Called when item is selected
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    * @param {object} select
    */
@@ -115,3 +120,4 @@ export default function PickerScreen({route, navigation}) {
     </View>
   );
 }
+export default PickerScreen

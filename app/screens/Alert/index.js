@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
-import {Text, Icon} from '@components';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
 import {TouchableOpacity, View, BackHandler} from 'react-native';
 import {useTheme, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
 
-export default function Alert({route, navigation}) {
+function Alert({route, navigation}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
   const {title, message, action, option, type} = route?.params;
@@ -92,3 +93,4 @@ export default function Alert({route, navigation}) {
     </View>
   );
 }
+export default Alert

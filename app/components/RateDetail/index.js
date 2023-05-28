@@ -1,12 +1,13 @@
 import React from 'react';
 import {View} from 'react-native';
 import PropTypes from 'prop-types';
-import {Text, Icon} from '@components';
+import Icon from '../Icon';
+import Text from '../Text';
 import {BaseColor, useTheme} from '@config';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 
-export default function RateDetail(props) {
+function RateDetail(props) {
   const {colors} = useTheme();
   const {t} = useTranslation();
   const {style, point, maxPoint, totalRating, data} = props;
@@ -156,3 +157,4 @@ RateDetail.defaultProps = {
   totalRating: 0,
   data: {},
 };
+export default RateDetail

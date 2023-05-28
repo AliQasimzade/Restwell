@@ -14,17 +14,20 @@ import {
     PlaceholderMedia
 } from 'rn-placeholder';
 
-import { Icon, SeeMoreIcon, Text } from '@components';
+import SeeMoreIcon from '../SeeMoreIcon';
+import Icon from '../Icon';
+import Text from '../Text'
 import { BaseColor, useTheme } from '@config';
+import {API_URL} from '@env';
 
-export default function Categories() {
+function Categories() {
     const [categories, setCategories] = useState([]);
     const navigation = useNavigation()
     const { colors } = useTheme();
     const { t } = useTranslation();
     const getAllCategories = async () => {
         try {
-            const request = await axios.get('https://restwell.az/api/categories');
+            const request = await axios.get(`${API_URL}/api/categories`);
             if (request.status !== 200) {
                 throw new Error('Request is failed !')
             }
@@ -120,3 +123,4 @@ export default function Categories() {
         </>
     )
 }
+export default Categories

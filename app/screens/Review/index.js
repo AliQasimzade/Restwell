@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
-import {
-  Header,
-  SafeAreaView,
-  Icon,
-  Text,
-  RateDetail,
-  CommentItem,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import { RateDetail } from '../../components/RateDetail';
+import CommentItem from '../../components/CommentItem';
+import Text from '../../components/Text';
+import Icon from '../../components/Icon'
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import {API_URL} from "@env"
-export default function Review({ navigation, route }) {
+import { API_URL } from "@env"
+function Review({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -77,7 +75,7 @@ export default function Review({ navigation, route }) {
               return message.rating_count
             }
           }).filter(Boolean)
-          const fiveStarsCounts =findByid.reviews.map(r => {
+          const fiveStarsCounts = findByid.reviews.map(r => {
             if (r.verify) {
               return r
             }
@@ -87,9 +85,9 @@ export default function Review({ navigation, route }) {
               return message.rating_count
             }
           }).filter(Boolean)
-          
+
           const total = [oneStarsCounts.length, twoStarsCounts.length, threeStarsCounts.length, fourStarsCounts.length, fiveStarsCounts.length]
-         
+
           setTotalStars(total)
           setLoading(false)
         }
@@ -181,7 +179,7 @@ export default function Review({ navigation, route }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -207,3 +205,4 @@ export default function Review({ navigation, route }) {
     </View>
   );
 }
+export default Review

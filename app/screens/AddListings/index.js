@@ -19,17 +19,17 @@ import {
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@config';
-import {
-  Header,
-  Icon,
-  Text,
-  TextInput,
-} from '@components';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import TextInput from '../../components/TextInput';
+
+
 import { KeyboardAvoidingView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import CheckboxGroup from 'react-native-checkbox-group';
 import { Picker } from '@react-native-picker/picker';
-export default function AddListings({ navigation }) {
+function AddListings({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const [selectedLogoImage, setSelectedLogoImage] = useState('');
@@ -329,14 +329,12 @@ export default function AddListings({ navigation }) {
         "state_changed",
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload progress: " + progress + "%");
         },
         (error) => {
           console.error("Upload error: ", error);
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          console.log("Upload complete. File available at: ", downloadURL);
           setSelectedLogoImage(downloadURL);
         }
       );
@@ -373,14 +371,12 @@ export default function AddListings({ navigation }) {
         "state_changed",
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload progress: " + progress + "%");
         },
         (error) => {
           console.error("Upload error: ", error);
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          console.log("Upload complete. File available at: ", downloadURL);
           setSelectedCoverImages(selectedCoverImages => selectedCoverImages = downloadURL);
         }
       );
@@ -417,14 +413,12 @@ export default function AddListings({ navigation }) {
         "state_changed",
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload progress: " + progress + "%");
         },
         (error) => {
           console.error("Upload error: ", error);
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          console.log("Upload complete. File available at: ", downloadURL);
           setSelectedGalleryImages([...selectedGalleryImages, downloadURL]);
         }
       );
@@ -508,7 +502,6 @@ export default function AddListings({ navigation }) {
     setPrePrice(text);
   };
 
-  console.log(selectedPriceRelation, 'Added')
   const handlePriceChange = text => {
     setPrice(text);
   };
@@ -1162,3 +1155,4 @@ const styles = StyleSheet.create({
     marginBottom: 20
   }
 });
+export default AddListings

@@ -6,22 +6,20 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { BaseStyle, BaseColor, useTheme } from '@config';
-import {
-  Header,
-  SafeAreaView,
-  TextInput,
-  Icon,
-  Text,
-  ListItem,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import { TextInput } from '../../components/TextInput';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import ListItem from '../../components/ListItem';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { wish } from '@selectors';
+import { wish } from '../../selectors';
 
 let timeout;
 
-export default function SearchHistory({ navigation, route }) {
+function SearchHistory({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const wishlist = useSelector(wish);
@@ -46,7 +44,7 @@ export default function SearchHistory({ navigation, route }) {
    */
   const onSearch = keyword => {
     setKeyword(keyword);
-    
+
     if (keyword != '') {
       setLoading(true);
       setFilter(
@@ -56,7 +54,7 @@ export default function SearchHistory({ navigation, route }) {
       );
       setLoading(false);
       setShowResult(true);
-    }else if(keyword == '') {
+    } else if (keyword == '') {
       setFilter(route?.params.listings)
     } else {
       setShowResult(false);
@@ -118,7 +116,7 @@ export default function SearchHistory({ navigation, route }) {
           <View style={{ alignItems: 'center' }}>
             <Icon
               name="frown-open"
-              size={18}
+              size={24}
               color={colors.text}
               style={{ marginBottom: 4 }}
             />
@@ -134,7 +132,7 @@ export default function SearchHistory({ navigation, route }) {
       <Header
         title={t('search')}
         renderLeft={() => {
-          return <Icon name="arrow-left" size={20} color={colors.primary} />;
+          return <Icon name="arrow-left" size={24} color={colors.primary} />;
         }}
         renderRight={() => {
           if (loading) {
@@ -158,7 +156,7 @@ export default function SearchHistory({ navigation, route }) {
                     onSearch('');
                   }}
                   style={styles.btnClearSearch}>
-                  <Icon name="times" size={18} color={BaseColor.grayColor} />
+                  <Icon name="times" size={24} color={BaseColor.grayColor} />
                 </TouchableOpacity>
               }
             />
@@ -169,3 +167,4 @@ export default function SearchHistory({ navigation, route }) {
     </View>
   );
 }
+export default SearchHistory

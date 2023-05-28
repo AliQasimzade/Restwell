@@ -5,14 +5,14 @@ import {useColorScheme} from 'react-native';
  * Define Const color use for whole application
  */
 export const BaseColor = {
-  grayColor: '#9B9B9B',
+  grayColor: '#6E6E6E',
   dividerColor: '#BDBDBD',
   whiteColor: '#FFFFFF',
   fieldColor: '#F5F5F5',
   yellowColor: '#FDC60A',
   navyBlue: '#3C5A99',
   kashmir: '#5D6D7E',
-  orangeColor: '#E5634D',
+  orangeColor: '#8F2714',
   blueColor: '#5DADE2',
   pinkColor: '#A569BD',
   greenColor: '#58D68D',
@@ -27,9 +27,9 @@ export const ThemeSupport = [
     light: {
       dark: false,
       colors: {
-        primary: '#E5634D',
+        primary: '#8F2714',
         primaryDark: '#C31C0D',
-        primaryLight: '#FF8A65',
+        primaryLight: '#9E2500',
         accent: '#4A90A4',
         background: 'white',
         card: '#F5F5F5',
@@ -40,9 +40,9 @@ export const ThemeSupport = [
     dark: {
       dark: true,
       colors: {
-        primary: '#E5634D',
+        primary: '#8F2714',
         primaryDark: '#C31C0D',
-        primaryLight: '#FF8A65',
+        primaryLight: '#9E2500',
         accent: '#4A90A4',
         background: '#010101',
         card: '#121212',
@@ -88,7 +88,7 @@ export const ThemeSupport = [
         primary: '#5DADE2',
         primaryDark: '#1281ac',
         primaryLight: '#68c9ef',
-        accent: '#FF8A65',
+        accent: '#9E2500',
         background: 'white',
         card: '#F5F5F5',
         text: '#212121',
@@ -101,7 +101,7 @@ export const ThemeSupport = [
         primary: '#5DADE2',
         primaryDark: '#1281ac',
         primaryLight: '#68c9ef',
-        accent: '#FF8A65',
+        accent: '#9E2500',
         background: '#010101',
         card: '#121212',
         text: '#e5e5e7',
@@ -177,9 +177,9 @@ export const DefaultTheme = {
   light: {
     dark: false,
     colors: {
-      primary: '#E5634D',
+      primary: '#8F2714',
       primaryDark: '#C31C0D',
-      primaryLight: '#FF8A65',
+      primaryLight: '#9E2500',
       accent: '#4A90A4',
       background: 'white',
       card: '#F5F5F5',
@@ -190,9 +190,9 @@ export const DefaultTheme = {
   dark: {
     dark: true,
     colors: {
-      primary: '#E5634D',
+      primary: '#8F2714',
       primaryDark: '#C31C0D',
-      primaryLight: '#FF8A65',
+      primaryLight: '#9E2500',
       accent: '#4A90A4',
       background: '#010101',
       card: '#121212',

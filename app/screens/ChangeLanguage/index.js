@@ -8,12 +8,20 @@ import {
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import {BaseStyle, useTheme, BaseSetting, BaseColor} from '@config';
-import {Header, SafeAreaView, TextInput, Icon, Text} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import TextInput from '../../components/TextInput';
+import Header from '../../components/Header';
+
+
 import {applicationActions} from '@actions';
 import styles from './styles';
 import * as Utils from '@utils';
 
-export default function ChangeLanguage({navigation}) {
+function ChangeLanguage({navigation}) {
   const dispatch = useDispatch();
   const {t, i18n} = useTranslation();
   const {colors} = useTheme();
@@ -25,7 +33,7 @@ export default function ChangeLanguage({navigation}) {
 
   /**
    * @description Called when setting language is selected
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    * @param {string} select
    */
@@ -68,7 +76,7 @@ export default function ChangeLanguage({navigation}) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -137,3 +145,4 @@ export default function ChangeLanguage({navigation}) {
     </View>
   );
 }
+export default ChangeLanguage

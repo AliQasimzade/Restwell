@@ -4,18 +4,19 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Entypo';
 import styles from './styles';
 
-export default function Index(props) {
+function SeeMoreIcon(props) {
   const {style, enableRTL, ...rest} = props;
   const layoutStyle = enableRTL ? styles.styleRTL : {};
   return <Icon style={StyleSheet.flatten([style, layoutStyle])} {...rest} />;
 }
 
-Index.propTypes = {
+SeeMoreIcon.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   enableRTL: PropTypes.bool,
 };
 
-Index.defaultProps = {
+SeeMoreIcon.defaultProps = {
   style: {},
   enableRTL: false,
 };
+export default SeeMoreIcon

@@ -2,17 +2,20 @@ import React, {useState} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import {BaseStyle, BaseColor, useTheme} from '@config';
 import Swiper from 'react-native-swiper';
-import {Image, Header, SafeAreaView, Icon, Text} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Image from '../../components/Image';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text'
 import styles from './styles';
 
-export default function PreviewImage({navigation, route}) {
+function PreviewImage({navigation, route}) {
   const {colors} = useTheme();
 
   let flatListRef = null;
   let swiperRef = null;
 
   const [images, setImages] = useState(route.params?.gallery ?? []);
-  console.log(images, "Gallery Page !")
   const [indexSelected, setIndexSelected] = useState(0);
 
 
@@ -32,7 +35,7 @@ export default function PreviewImage({navigation, route}) {
 
   /**
    * @description Called when image item is selected or activated
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    * @param {*} touched
    * @returns
@@ -127,3 +130,4 @@ export default function PreviewImage({navigation, route}) {
     </View>
   );
 }
+export default PreviewImage
