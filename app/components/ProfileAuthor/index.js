@@ -7,7 +7,7 @@ import Text from '../Text';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-export default function ProfileAuthor(props) {
+function ProfileAuthor(props) {
   const {
     style,
     image,
@@ -67,3 +67,4 @@ ProfileAuthor.defaultProps = {
   style: {},
   onPress: () => {},
 };
+export default ProfileAuthor

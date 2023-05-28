@@ -9,7 +9,7 @@ import Icon from '../../components/Icon';
 import Text from '../../components/Text'
 import styles from './styles';
 
-export default function PreviewImage({navigation, route}) {
+function PreviewImage({navigation, route}) {
   const {colors} = useTheme();
 
   let flatListRef = null;
@@ -130,3 +130,4 @@ export default function PreviewImage({navigation, route}) {
     </View>
   );
 }
+export default PreviewImage

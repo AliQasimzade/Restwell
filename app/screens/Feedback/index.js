@@ -22,10 +22,10 @@ import { StarRating } from '../../components/StarRating';
 import {API_URL} from "@env"
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { userInfo } from '@selectors';
+import { userInfo } from '../../selectors';
 import { Alert } from 'react-native';
 
-export default function Feedback({ navigation, route }) {
+function Feedback({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const item = route?.params.item.reviews
@@ -185,3 +185,4 @@ export default function Feedback({ navigation, route }) {
     </View>
   );
 }
+export default Feedback

@@ -29,7 +29,7 @@ import { KeyboardAvoidingView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import CheckboxGroup from 'react-native-checkbox-group';
 import { Picker } from '@react-native-picker/picker';
-export default function AddListings({ navigation }) {
+function AddListings({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const [selectedLogoImage, setSelectedLogoImage] = useState('');
@@ -1155,3 +1155,4 @@ const styles = StyleSheet.create({
     marginBottom: 20
   }
 });
+export default AddListings

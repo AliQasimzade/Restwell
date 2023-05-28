@@ -6,7 +6,7 @@ import Text from '../Text'
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-export default function Header(props) {
+function Header(props) {
   const forceDark = useSelector(state => state.application.force_dark);
   const {
     style,
@@ -111,3 +111,4 @@ Header.defaultProps = {
   subTitle: '',
   barStyle: '',
 };
+export default Header

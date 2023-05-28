@@ -22,7 +22,7 @@ import {useTranslation} from 'react-i18next';
 
 const deltaY = new Animated.Value(0);
 
-export default function Home({navigation}) {
+function Home({navigation}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
@@ -429,3 +429,4 @@ export default function Home({navigation}) {
     </View>
   );
 }
+export default Home

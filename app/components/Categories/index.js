@@ -20,7 +20,7 @@ import Text from '../Text'
 import { BaseColor, useTheme } from '@config';
 import {API_URL} from '@env';
 
-export default function Categories() {
+function Categories() {
     const [categories, setCategories] = useState([]);
     const navigation = useNavigation()
     const { colors } = useTheme();
@@ -123,3 +123,4 @@ export default function Categories() {
         </>
     )
 }
+export default Categories

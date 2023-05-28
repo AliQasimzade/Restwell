@@ -12,14 +12,14 @@ import Header from '../../components/Header';
 import ListItem from '../../components/EventListItem';
 import Text from '../../components/Text';
 import Icon from '../../components/Icon';
-import {wish} from '@selectors';
+import {wish} from '../../selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import Modal from 'react-native-modal';
 import styles from './styles';
 import { removeAllWish, removeWish } from '../../actions/wish';
 
-export default function Wishlist({navigation}) {
+function Wishlist({navigation}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
   const dispatch = useDispatch();
@@ -204,3 +204,4 @@ export default function Wishlist({navigation}) {
     </View>
   );
 }
+export default Wishlist

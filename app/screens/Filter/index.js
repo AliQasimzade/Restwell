@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { API_URL } from "@env"
 
-export default function Filter({ navigation }) {
+function Filter({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   function searchProperties(res, c, l, t, priceBegin, priceEnd, f) {
@@ -308,3 +308,4 @@ export default function Filter({ navigation }) {
     </View>
   );
 }
+export default Filter

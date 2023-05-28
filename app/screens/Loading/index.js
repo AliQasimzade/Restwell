@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Image from '../../components/Image';
 
-import { designSelect } from '@selectors';
+import { designSelect } from '../../selectors';
 import * as Font from 'expo-font';
 import Logo from '../../assets/images/restwelllogo.png';
 
 import styles from './styles';
 
-export default function Loading({ navigation }) {
+function Loading({ navigation }) {
   const dispatch = useDispatch();
   const { colors } = useTheme();
   const design = useSelector(designSelect);
@@ -105,3 +105,4 @@ export default function Loading({ navigation }) {
     </View>
   );
 }
+export default Loading

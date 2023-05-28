@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { Placeholder, Progressive, PlaceholderMedia } from 'rn-placeholder';
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
-export default function CategoryFull(props) {
+function CategoryFull(props) {
   const { t } = useTranslation();
   const { style, loading, image, icon, color, title, count, onPress } = props;
   if (loading) {
@@ -72,3 +72,4 @@ CategoryFull.defaultProps = {
   subtitle: '',
   onPress: () => { },
 };
+export default CategoryFull

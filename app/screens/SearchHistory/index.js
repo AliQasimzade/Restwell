@@ -15,11 +15,11 @@ import ListItem from '../../components/ListItem';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { wish } from '@selectors';
+import { wish } from '../../selectors';
 
 let timeout;
 
-export default function SearchHistory({ navigation, route }) {
+function SearchHistory({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const wishlist = useSelector(wish);
@@ -167,3 +167,4 @@ export default function SearchHistory({ navigation, route }) {
     </View>
   );
 }
+export default SearchHistory

@@ -11,7 +11,7 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-export default function ListThumbCircle(props) {
+function ListThumbCircle(props) {
   const {colors} = useTheme();
   const {
     style,
@@ -105,3 +105,4 @@ ListThumbCircle.defaultProps = {
   txtRight: '',
   onPress: () => {},
 };
+export default ListThumbCircle

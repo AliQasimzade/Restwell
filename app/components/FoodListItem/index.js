@@ -15,7 +15,7 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-export default function FoodListItem(props) {
+function FoodListItem(props) {
   const {t} = useTranslation();
   const {colors} = useTheme();
   const {
@@ -346,3 +346,4 @@ FoodListItem.defaultProps = {
   onPress: () => {},
   onPressTag: () => {},
 };
+export default FoodListItem

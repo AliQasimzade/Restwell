@@ -9,7 +9,7 @@ import {applicationActions} from '@actions';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 
-export default function SelectFontOption({navigation}) {
+function SelectFontOption({navigation}) {
   const storageFont = useSelector(state => state.application.font);
   const {colors} = useTheme();
   const dispatch = useDispatch();
@@ -74,3 +74,4 @@ export default function SelectFontOption({navigation}) {
     </SafeAreaView>
   );
 }
+export default SelectFontOption

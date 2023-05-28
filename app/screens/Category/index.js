@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { API_URL } from '@env';
 
-export default function Category({ navigation }) {
+function Category({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const dispatch = useDispatch();
@@ -217,3 +217,4 @@ export default function Category({ navigation }) {
     </View>
   );
 }
+export default Category

@@ -13,7 +13,7 @@ import {
   PlaceholderMedia,
 } from 'rn-placeholder';
 
-export default function CategoryIcon(props) {
+function CategoryIcon(props) {
   const {t} = useTranslation();
   const {style, loading, icon, title, subtitle, color, onPress} = props;
   if (loading) {
@@ -68,3 +68,4 @@ CategoryIcon.defaultProps = {
   subtitle: '',
   onPress: () => {},
 };
+export default CategoryIcon

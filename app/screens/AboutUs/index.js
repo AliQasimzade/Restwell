@@ -17,7 +17,7 @@ import Text from '../../components/Text';
 
 import styles from './styles';
 
-export default function AboutUs({ navigation }) {
+function AboutUs({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const [ourTeam, setOurTeam] = useState([]);
@@ -159,3 +159,4 @@ export default function AboutUs({ navigation }) {
     </View>
   );
 }
+export default AboutUs

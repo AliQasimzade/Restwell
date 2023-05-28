@@ -7,13 +7,13 @@ import Icon from '../../components/Icon';
 import Text from '../../components/Text';
 import TextInput from '../../components/TextInput';
 import Header from '../../components/Header';
-import Button from '../../components/Button';
+import { Button } from '../../components/Button';
 
 
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import styles from './styles';
 
-export default function ContactUs({navigation}) {
+function ContactUs({navigation}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
   const offsetKeyboard = Platform.select({
@@ -143,3 +143,4 @@ export default function ContactUs({navigation}) {
     </View>
   );
 }
+export default ContactUs

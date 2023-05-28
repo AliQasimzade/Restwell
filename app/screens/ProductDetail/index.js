@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   ScrollView,
-  FlatList,
   Animated,
   TouchableOpacity,
   Linking,
   Platform,
-  Dimensions,
 } from 'react-native';
 import { BaseColor, useTheme, BaseStyle } from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -29,13 +27,13 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import { userInfo, wish, designSelect } from '@selectors';
+import { userInfo, wish, designSelect } from '../../selectors';
 import styles from './styles';
 import { addWish, removeWish } from '../../actions/wish';
 import axios from 'axios';
 import { API_URL } from "@env";
 
-export default function ProductDetail({ navigation, route }) {
+function ProductDetail({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const dispatch = useDispatch();
@@ -516,6 +514,7 @@ export default function ProductDetail({ navigation, route }) {
               overflow: 'hidden',
             }}>
             {item?.timeschedule.map((item, index) => {
+
               return (
                 <View
                   style={[styles.lineWorkHours, { borderColor: colors.border }]}
@@ -618,7 +617,7 @@ export default function ProductDetail({ navigation, route }) {
           {item?.features.map(item => {
             return (
               <Tag
-                key={item._id}
+                key={item}
                 chip
                 style={{
                   marginTop: 8,
@@ -642,7 +641,7 @@ export default function ProductDetail({ navigation, route }) {
           {related.length > 0 && related.map(item => {
             return (
               <ListItem
-                key={item._id}
+                key={item}
                 small
                 image={item.profileImage}
                 title={item.listingTitle}
@@ -688,3 +687,4 @@ export default function ProductDetail({ navigation, route }) {
     </View>
   );
 }
+export default ProductDetail

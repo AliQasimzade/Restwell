@@ -9,24 +9,24 @@ import {useTheme, BaseSetting} from '@config';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import {useSelector} from 'react-redux';
-import {languageSelect, designSelect} from '@selectors';
+import {languageSelect, designSelect} from '../selectors';
 
 /* Main Stack Navigator */
 import Main from 'app/navigation/main';
-import AddListings from '@screens/AddListings';
+import AddListings from '../screens/AddListings';
 /* Modal Screen only affect iOS */
-import Loading from '@screens/Loading';
-import Filter from '@screens/Filter';
-import PickerScreen from '@screens/PickerScreen';
-import SearchHistory from '@screens/SearchHistory';
-import PreviewImage from '@screens/PreviewImage';
-import SelectDarkOption from '@screens/SelectDarkOption';
-import SelectFontOption from '@screens/SelectFontOption';
-import AlertScreen from '@screens/Alert';
-import SignIn from '@screens/SignIn';
-import SignUp from '@screens/SignUp';
-import ResetPassword from '@screens/ResetPassword';
-import ProductDetail from '@screens/ProductDetail';
+import Loading from '../screens/Loading';
+import Filter from '../screens/Filter';
+import PickerScreen from '../screens/PickerScreen';
+import SearchHistory from '../screens/SearchHistory';
+import PreviewImage from '../screens/PreviewImage';
+import SelectDarkOption from '../screens/SelectDarkOption';
+import SelectFontOption from '../screens/SelectFontOption';
+import AlertScreen from '../screens/Alert';
+import SignIn from '../screens/SignIn';
+import SignUp from '../screens/SignUp';
+import ResetPassword from '../screens/ResetPassword';
+import ProductDetail from '../screens/ProductDetail';
 
 const RootStack = createStackNavigator();
 

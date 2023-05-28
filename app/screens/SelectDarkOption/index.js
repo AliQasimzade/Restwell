@@ -9,7 +9,7 @@ import { applicationActions } from '@actions';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 
-export default function SelectDarkOption({ navigation }) {
+function SelectDarkOption({ navigation }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const dispatch = useDispatch();
@@ -96,3 +96,4 @@ export default function SelectDarkOption({ navigation }) {
     </SafeAreaView>
   );
 }
+export default SelectDarkOption

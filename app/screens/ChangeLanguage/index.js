@@ -21,7 +21,7 @@ import {applicationActions} from '@actions';
 import styles from './styles';
 import * as Utils from '@utils';
 
-export default function ChangeLanguage({navigation}) {
+function ChangeLanguage({navigation}) {
   const dispatch = useDispatch();
   const {t, i18n} = useTranslation();
   const {colors} = useTheme();
@@ -145,3 +145,4 @@ export default function ChangeLanguage({navigation}) {
     </View>
   );
 }
+export default ChangeLanguage

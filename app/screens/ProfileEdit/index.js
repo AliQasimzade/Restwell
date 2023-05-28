@@ -15,10 +15,10 @@ import Image from '../../components/Image';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
-import Button from '../../components/Button';
+import { Button } from '../../components/Button';
 import TextInput from '../../components/TextInput'
 import styles from './styles';
-import { userInfo } from '@selectors';
+import { userInfo } from '../../selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { changeUserInfo } from '../../actions/user';
@@ -31,7 +31,7 @@ import { API_URL, API_GOOGLE_KEY, APP_MEASUREMENT_ID, API_AUTH_DOMAIN, API_PROJE
 
 
 
-export default function ProfileEdit({ navigation }) {
+function ProfileEdit({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -279,3 +279,5 @@ export default function ProfileEdit({ navigation }) {
     </View>
   );
 }
+
+export default ProfileEdit

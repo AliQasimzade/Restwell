@@ -28,7 +28,7 @@ import {
 } from 'rn-placeholder';
 import styles from './styles';
 
-export default function EventDetail({ navigation, route }) {
+function EventDetail({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const item = route.params?.item;
@@ -288,3 +288,4 @@ export default function EventDetail({ navigation, route }) {
     </View>
   );
 }
+export default EventDetail

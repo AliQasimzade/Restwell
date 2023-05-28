@@ -5,10 +5,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import { TextInput } from '../../components/TextInput';
 import Icon from '../../components/Icon';
-import Button from '../../components/Button'
+import { Button } from '../../components/Button'
 import { useTranslation } from 'react-i18next';
 
-export default function ResetPassword({ navigation }) {
+function ResetPassword({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const offsetKeyboard = Platform.select({
@@ -180,3 +180,4 @@ export default function ResetPassword({ navigation }) {
     </View>
   );
 }
+export default ResetPassword

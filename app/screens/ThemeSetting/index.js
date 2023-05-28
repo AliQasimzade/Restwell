@@ -13,12 +13,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
-import Button from '../../components/Button'
+import { Button } from '../../components/Button'
 import {applicationActions} from '@actions';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 
-export default function ThemeSetting({navigation}) {
+function ThemeSetting({navigation}) {
   const themeStorage = useSelector(state => state.application.theme);
   const {colors} = useTheme();
   const dispatch = useDispatch();
@@ -134,3 +134,4 @@ export default function ThemeSetting({navigation}) {
     </View>
   );
 }
+export default ThemeSetting

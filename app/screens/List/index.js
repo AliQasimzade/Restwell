@@ -20,11 +20,11 @@ import {
   userInfo,
   wish,
   designSelect,
-} from '@selectors';
+} from '../../selectors';
 import axios from 'axios';
 import {API_URL} from "@env"
 
-export default function List({ navigation, route }) {
+function List({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const datas = route?.params
@@ -905,3 +905,4 @@ export default function List({ navigation, route }) {
     </View>
   );
 }
+export default List

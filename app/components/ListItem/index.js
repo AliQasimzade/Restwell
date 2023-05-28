@@ -18,7 +18,7 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-export default function ListItem(props) {
+function ListItem(props) {
 
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -396,3 +396,4 @@ ListItem.defaultProps = {
   onPressTag: () => { },
   omPressMore: () => { },
 };
+export default ListItem

@@ -18,16 +18,16 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
-import Button from '../../components/Button';
+import { Button } from '../../components/Button';
 import { TextInput } from '../../components';
 import { Image } from '../../components';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { loginUser } from '../../actions/user';
-import { designSelect } from '@selectors';
+import { designSelect } from '../../selectors';
 import { API_URL, API_EXPO_CLIENT_ID, API_ANDROID_CLIENT_ID, API_IOS_CLIENT_ID, API_GOOGLE_AUTH_URL } from "@env";
 
-export default function SignIn({ navigation, route }) {
+function SignIn({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -222,3 +222,4 @@ export default function SignIn({ navigation, route }) {
     </View>
   );
 }
+export default SignIn

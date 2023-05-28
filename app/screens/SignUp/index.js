@@ -4,7 +4,7 @@ import { BaseStyle, useTheme } from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
-import Button from '../../components/Button';
+import { Button } from '../../components/Button';
 import TextInput from '../../components/TextInput';
 import styles from './styles';
 import * as WebBrowser from 'expo-web-browser';
@@ -17,7 +17,7 @@ import logo from '../../assets/images/restwelllogo.png'
 WebBrowser.maybeCompleteAuthSession();
 
 
-export default function SignUp({ navigation }) {
+function SignUp({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -253,3 +253,4 @@ export default function SignUp({ navigation }) {
     </View>
   );
 }
+export default SignUp

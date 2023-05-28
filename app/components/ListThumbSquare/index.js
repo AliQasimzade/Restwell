@@ -11,7 +11,7 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-export default function ListThumbSquare(props) {
+function ListThumbSquare(props) {
   const {colors} = useTheme();
   const {
     style,
@@ -99,3 +99,4 @@ ListThumbSquare.defaultProps = {
   txtRight: '',
   onPress: () => {},
 };
+export default ListThumbSquare

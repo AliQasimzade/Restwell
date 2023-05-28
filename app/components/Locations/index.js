@@ -12,7 +12,7 @@ import {
 } from 'rn-placeholder';
 
 import styles from '@screens/Home/styles'
-export default function Locations({ listings }) {
+function Locations({ listings }) {
     const [locations, setLocations] = useState([]);
     const navigation = useNavigation();
 
@@ -85,3 +85,4 @@ export default function Locations({ listings }) {
         </>
     )
 }
+export default Locations

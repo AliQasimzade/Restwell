@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { API_URL } from "@env"
-export default function Review({ navigation, route }) {
+function Review({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -205,3 +205,4 @@ export default function Review({ navigation, route }) {
     </View>
   );
 }
+export default Review

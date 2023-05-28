@@ -20,10 +20,10 @@ import {
   userInfo,
   wish,
   designSelect,
-} from '@selectors';
+} from '../../selectors';
 import { listActions } from '@actions';
 
-export default function List({ navigation, route }) {
+function List({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const dispatch = useDispatch();
@@ -900,3 +900,4 @@ export default function List({ navigation, route }) {
     </View>
   );
 }
+export default List

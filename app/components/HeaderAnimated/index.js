@@ -3,7 +3,7 @@ import {Animated, View} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-export default function HeaderAnimated(props) {
+function HeaderAnimated(props) {
   const {
     componentRight,
     componentLeft,
@@ -107,3 +107,4 @@ HeaderAnimated.defaultProps = {
   widthRight: 80,
   heightScroll: 140,
 };
+export default HeaderAnimated

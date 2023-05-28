@@ -6,11 +6,11 @@ import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
 import TextInput from '../../components/TextInput';
-import Button from '../../components/Button';
+import { Button } from '../../components/Button';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 
-export default function PickerScreen({route, navigation}) {
+function PickerScreen({route, navigation}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
 
@@ -120,3 +120,4 @@ export default function PickerScreen({route, navigation}) {
     </View>
   );
 }
+export default PickerScreen

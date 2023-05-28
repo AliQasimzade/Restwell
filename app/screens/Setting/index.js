@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import * as Utils from '@utils';
 import styles from './styles';
 
-export default function Setting({ navigation }) {
+function Setting({ navigation }) {
   const { t, i18n } = useTranslation();
   const { colors } = useTheme();
   const forceDark = useSelector(state => state.application.force_dark);
@@ -116,3 +116,4 @@ export default function Setting({ navigation }) {
     </View>
   );
 }
+export default Setting

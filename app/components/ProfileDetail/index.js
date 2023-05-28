@@ -9,7 +9,7 @@ import styles from './styles';
 import PropTypes from 'prop-types';
 import {BaseColor, useTheme} from '@config';
 
-export default function ProfileDetail(props) {
+function ProfileDetail(props) {
   const {colors} = useTheme();
   const {
     style,
@@ -79,3 +79,4 @@ ProfileDetail.defaultProps = {
   styleRight: {},
   onPress: () => {},
 };
+export default ProfileDetail

@@ -5,7 +5,7 @@ import Text from '../Text';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-export default function ProfileGroup(props) {
+function ProfileGroup(props) {
   const {style, users, onPress, name, detail} = props;
   return (
     <TouchableOpacity
@@ -54,3 +54,4 @@ ProfileGroup.defaultProps = {
   detail: '',
   onPress: () => {},
 };
+export default ProfileGroup
