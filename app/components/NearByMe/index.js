@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import * as Location from "expo-location";
-import { ListItem } from "@components";
+import ListItem  from "../ListItem";
 import { useNavigation } from '@react-navigation/native';
 
-export default function NearByMe({ listings }) {
+function NearByMe({ listings }) {
     const [nearByMe, setNearByMe] = useState([]);
     const navigation = useNavigation();
     const getPermissions = async () => {
@@ -87,3 +87,4 @@ export default function NearByMe({ listings }) {
         </>
     )
 }
+export default NearByMe

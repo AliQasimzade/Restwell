@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios";
 import { useNavigation } from '@react-navigation/native';
-import { Alert,View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import {ListItem,EventListItem,Text} from "@components";
+import ListItem from '../ListItem'
+import EventListItem from '../EventListItem'
+import Text from '../Text';
 import styles from "@screens/Home/styles";
 
-export default function Events() {
-    const [events, setEvents] = useState([]);
-    const navigation = useNavigation();
-    const {t} = useTranslation()
-    const getAllEvents = async () => {
-        try {
-            const request = await axios.get('https://restwell.az/api/events');
-            if (request.status !== 200) {
-                throw new Error('Request is failed !')
-            } else {
-                const response = request.data;
+function Events() {
+  const [events, setEvents] = useState([]);
+  const navigation = useNavigation();
+  const { t } = useTranslation()
+  const getAllEvents = async () => {
+    try {
+      const request = await axios.get('https://restwell.az/api/events');
+      if (request.status !== 200) {
+        throw new Error('Request is failed !')
+      } else {
+        const response = request.data;
 
-                setEvents(response.length > 0 ? response : null)
-            }
-        } catch (err) {
-            Alert.alert({ type: 'error', title: 'Error', message: err.message })
-        }
+        setEvents(response.length > 0 ? response : null)
+      }
+    } catch (err) {
+      Alert.alert({ type: 'error', title: 'Error', message: err.message })
     }
-    useEffect(() => {
-        getAllEvents();
-    }, [])
-    return (
-        <>
-        {events == null ? <View style={styles.centerView}>
+  }
+  useEffect(() => {
+    getAllEvents();
+  }, [])
+  return (
+    <>
+      {events == null ? <View style={styles.centerView}>
         <View style={{ alignItems: 'center', paddingBottom: 8 }}>
           <Text>{t('data_not_found')}</Text>
         </View>
@@ -59,6 +61,7 @@ export default function Events() {
           />
         );
       })}
-        </>
-    )
+    </>
+  )
 }
+export default Events

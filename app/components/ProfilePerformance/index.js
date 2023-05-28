@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Text} from '@components';
+import Text from '../Text';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';

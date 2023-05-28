@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text} from '@components';
+import Image from '../../components/Image';
+import Text from '../../components/Text';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import {useTheme} from '@config';

@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import {Text, Icon} from '@components';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
 import {TouchableOpacity, View, BackHandler} from 'react-native';
 import {useTheme, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';

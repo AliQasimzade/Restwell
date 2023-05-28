@@ -7,15 +7,18 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { BaseStyle, BaseColor, useTheme } from '@config';
-import {
-  Image,
-  Header,
-  SafeAreaView,
-  Icon,
-  Text,
-  StarRating,
-  TextInput,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import TextInput from '../../components/TextInput';
+import { StarRating } from '../../components/StarRating';
+
+
+
+
 import {API_URL} from "@env"
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -108,7 +111,7 @@ export default function Feedback({ navigation, route }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />

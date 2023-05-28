@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { BaseColor, useTheme } from '@config';
-import { Text, Image, StarRating } from '@components';
+import StarRating from '../StarRating'
+
+import Text from '../Text';
+import Image from '../Image'
 import PropTypes from 'prop-types';
 import styles from './styles';
 

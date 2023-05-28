@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { BaseStyle, BaseColor, useTheme } from '@config';
-import { Header, SafeAreaView, Icon, Text, Tag, RangeSlider } from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import Tag from '../../components/Tag';
+import RangeSlider from '../../components/RangeSlider';
+
+
+
+
 import * as Utils from '@utils';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
@@ -87,9 +96,9 @@ export default function Filter({ navigation }) {
       } else {
         const response = request.data;
         const verifiedListings = response.map(res => {
-           if(res.verify) {
+          if (res.verify) {
             return res
-           }
+          }
         }).filter(Boolean)
         const c = selectedCategory.length > 0 ? selectedCategory : null
         const f = selectedFacilities.length > 0 ? selectedFacilities : null
@@ -181,9 +190,9 @@ export default function Filter({ navigation }) {
           onContentSizeChange={(contentWidth, contentHeight) =>
             setScrollEnabled(Utils.scrollEnabled(contentWidth, contentHeight))
           }>
-          <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 15, height: 45 }}>
             <Text headline semibold>
-              {t('category').toUpperCase()}LAR
+              {t('categories').toUpperCase()}
             </Text>
             <View style={styles.wrapContent}>
               {categories.length > 0 && categories.map(item => {
@@ -203,7 +212,7 @@ export default function Filter({ navigation }) {
                 );
               })}
             </View>
-            <Text headline semibold style={{ marginTop: 20 }}>
+            <Text headline semibold style={{ marginTop: 20, height: 45 }}>
               {t('facilities').toUpperCase()}
             </Text>
             <View style={styles.wrapContent}>
@@ -236,7 +245,7 @@ export default function Filter({ navigation }) {
             </View>
 
 
-            <Text headline semibold style={{ marginTop: 20 }}>
+            <Text headline semibold style={{ marginTop: 20, height: 45 }}>
               {t('tags').toUpperCase()}
             </Text>
             <View style={styles.wrapContent}>
@@ -268,7 +277,7 @@ export default function Filter({ navigation }) {
               </View>
               <Icon name="angle-right" size={18} color={BaseColor.grayColor} />
             </TouchableOpacity>
-            <Text headline semibold style={{ marginTop: 20 }}>
+            <Text headline semibold style={{ marginTop: 20, height: 45 }}>
               {t('price').toUpperCase()}
             </Text>
             <View style={styles.contentRange}>

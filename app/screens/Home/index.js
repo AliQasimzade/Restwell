@@ -9,7 +9,17 @@ import axios from "axios";
 
 import { API_URL } from "@env"
 
-import { Image, Text, Icon, SafeAreaView, ListItem, Banners, Categories, Locations, NearByMe, Events, Status } from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Events from '../../components/Events';
+import Image from '../../components/Image';
+import Text from '../../components/Text';
+import Icon from '../../components/Icon'
+import ListItem from '../../components/EventListItem';
+import { Banners } from '../../components/Banners';
+import Categories from '../../components/Categories';
+import Locations from '../../components/Locations';
+import NearByMe from '../../components/NearByMe';
+import Status from '../../components/Status';
 import { BaseStyle, useTheme } from '@config';
 import * as Utils from '@utils';
 import styles from './styles';
@@ -272,7 +282,7 @@ export default function Home({ navigation }) {
             <TouchableOpacity
               onPress={() => navigation.navigate('SearchHistory', { listings })}>
               <View
-                style={[BaseStyle.textInput, { backgroundColor: colors.card }]}>
+                style={[BaseStyle.textInput, { backgroundColor: colors.card, height: 48 }]}>
                 <Text body1 grayColor style={{ flex: 1 }}>
                   {t('search_location')}
                 </Text>

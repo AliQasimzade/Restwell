@@ -7,7 +7,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, ListItem, Text, Icon} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import ListItem from '../../components/EventListItem';
+import Text from '../../components/Text';
+import Icon from '../../components/Icon';
 import {wish} from '@selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -81,7 +85,7 @@ export default function Wishlist({navigation}) {
               setModalVisible(false);
               setActionItem(null);
             }}>
-            <Icon name="times" size={12} color={colors.text} />
+            <Icon name="times" size={18} color={colors.text} />
           </TouchableOpacity>
          
           <TouchableOpacity

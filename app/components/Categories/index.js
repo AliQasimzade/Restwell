@@ -14,7 +14,9 @@ import {
     PlaceholderMedia
 } from 'rn-placeholder';
 
-import { Icon, SeeMoreIcon, Text } from '@components';
+import SeeMoreIcon from '../SeeMoreIcon';
+import Icon from '../Icon';
+import Text from '../Text'
 import { BaseColor, useTheme } from '@config';
 
 export default function Categories() {

@@ -8,7 +8,15 @@ import {
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import {BaseStyle, useTheme, BaseSetting, BaseColor} from '@config';
-import {Header, SafeAreaView, TextInput, Icon, Text} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import TextInput from '../../components/TextInput';
+import Header from '../../components/Header';
+
+
 import {applicationActions} from '@actions';
 import styles from './styles';
 import * as Utils from '@utils';
@@ -68,7 +76,7 @@ export default function ChangeLanguage({navigation}) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />

@@ -17,6 +17,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 25,
+    height:45
   },
   img: {
     width: Utils.scaleWithPixel(200),

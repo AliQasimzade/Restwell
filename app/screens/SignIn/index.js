@@ -14,7 +14,13 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseStyle, useTheme } from '@config';
-import { Header, SafeAreaView, Icon, Text, Button, TextInput, Image } from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import Button from '../../components/Button';
+import { TextInput } from '../../components';
+import { Image } from '../../components';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { loginUser } from '../../actions/user';
@@ -141,7 +147,7 @@ export default function SignIn({ navigation, route }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />

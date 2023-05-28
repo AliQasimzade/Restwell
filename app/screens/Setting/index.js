@@ -1,15 +1,18 @@
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
-import {View, TouchableOpacity, Switch, ScrollView} from 'react-native';
-import {BaseStyle, BaseSetting, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text} from '@components';
-import {useTranslation} from 'react-i18next';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
+import { BaseStyle, useTheme } from '@config';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import  Text from '../../components/Text';
+import { useTranslation } from 'react-i18next';
 import * as Utils from '@utils';
 import styles from './styles';
 
-export default function Setting({navigation}) {
-  const {t, i18n} = useTranslation();
-  const {colors} = useTheme();
+export default function Setting({ navigation }) {
+  const { t, i18n } = useTranslation();
+  const { colors } = useTheme();
   const forceDark = useSelector(state => state.application.force_dark);
 
   /**
@@ -20,18 +23,18 @@ export default function Setting({navigation}) {
   const darkOption = forceDark
     ? t('Dark')
     : forceDark != null
-    ? t('Light')
-    : t('dynamic_system');
+      ? t('Light')
+      : t('dynamic_system');
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title={t('setting')}
         renderLeft={() => {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />
@@ -46,7 +49,7 @@ export default function Setting({navigation}) {
           <TouchableOpacity
             style={[
               styles.profileItem,
-              {borderBottomColor: colors.border, borderBottomWidth: 1},
+              { borderBottomColor: colors.border, borderBottomWidth: 1 },
             ]}
             onPress={() => {
               navigation.navigate('ChangeLanguage');
@@ -64,7 +67,7 @@ export default function Setting({navigation}) {
                 name="angle-right"
                 size={18}
                 color={colors.primary}
-                style={{marginLeft: 5}}
+                style={{ marginLeft: 5 }}
                 enableRTL={true}
               />
             </View>
@@ -72,20 +75,20 @@ export default function Setting({navigation}) {
           <TouchableOpacity
             style={[
               styles.profileItem,
-              {borderBottomColor: colors.border, borderBottomWidth: 1},
+              { borderBottomColor: colors.border, borderBottomWidth: 1 },
             ]}
             onPress={() => {
               navigation.navigate('ThemeSetting');
             }}>
             <Text body1>{t('theme')}</Text>
             <View
-              style={[styles.themeIcon, {backgroundColor: colors.primary}]}
+              style={[styles.themeIcon, { backgroundColor: colors.primary }]}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.profileItem,
-              {borderBottomColor: colors.border, borderBottomWidth: 1},
+              { borderBottomColor: colors.border, borderBottomWidth: 1 },
             ]}
             onPress={() => {
               navigation.navigate('SelectDarkOption');
@@ -103,7 +106,7 @@ export default function Setting({navigation}) {
                 name="angle-right"
                 size={18}
                 color={colors.primary}
-                style={{marginLeft: 5}}
+                style={{ marginLeft: 5 }}
                 enableRTL={true}
               />
             </View>

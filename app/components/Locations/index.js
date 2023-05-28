@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { FlatList, View } from 'react-native';
-import { Card, Text } from '@components';
+import Card from '../Card';
+import Text from '../Text';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import {

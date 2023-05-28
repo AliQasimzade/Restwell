@@ -2,7 +2,11 @@ import React, {useState} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import {BaseStyle, BaseColor, useTheme} from '@config';
 import Swiper from 'react-native-swiper';
-import {Image, Header, SafeAreaView, Icon, Text} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Image from '../../components/Image';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text'
 import styles from './styles';
 
 export default function PreviewImage({navigation, route}) {
@@ -12,7 +16,6 @@ export default function PreviewImage({navigation, route}) {
   let swiperRef = null;
 
   const [images, setImages] = useState(route.params?.gallery ?? []);
-  console.log(images, "Gallery Page !")
   const [indexSelected, setIndexSelected] = useState(0);
 
 

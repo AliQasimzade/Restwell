@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {View, TouchableOpacity} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {SafeAreaView, Icon, Text} from '@components';
-import {applicationActions} from '@actions';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { View, TouchableOpacity } from 'react-native';
+import { BaseStyle, useTheme } from '@config';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text'
+import { applicationActions } from '@actions';
 import styles from './styles';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-export default function SelectDarkOption({navigation}) {
-  const {t} = useTranslation();
-  const {colors} = useTheme();
+export default function SelectDarkOption({ navigation }) {
+  const { t } = useTranslation();
+  const { colors } = useTheme();
   const dispatch = useDispatch();
 
   const storageForceDark = useSelector(state => state.application.force_dark);
@@ -27,16 +29,16 @@ export default function SelectDarkOption({navigation}) {
   return (
     <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>
       <View style={styles.contain}>
-        <View style={[styles.contentModal, {backgroundColor: colors.card}]}>
-          <View style={{padding: 8}}>
+        <View style={[styles.contentModal, { backgroundColor: colors.card }]}>
+          <View style={{ padding: 8 }}>
             <TouchableOpacity
               style={[
                 styles.item,
-                {borderBottomColor: colors.border, borderBottomWidth: 1},
+                { borderBottomColor: colors.border, borderBottomWidth: 1 },
               ]}
               onPress={() => setForceDarkMode(null)}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text body1 style={{marginHorizontal: 8}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text body1 style={{ marginHorizontal: 8 }}>
                   {t('dynamic_system')}
                 </Text>
               </View>
@@ -47,11 +49,11 @@ export default function SelectDarkOption({navigation}) {
             <TouchableOpacity
               style={[
                 styles.item,
-                {borderBottomColor: colors.border, borderBottomWidth: 1},
+                { borderBottomColor: colors.border, borderBottomWidth: 1 },
               ]}
               onPress={() => setForceDarkMode(true)}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text body1 style={{marginHorizontal: 8}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text body1 style={{ marginHorizontal: 8 }}>
                   {t('always_on')}
                 </Text>
               </View>
@@ -62,8 +64,8 @@ export default function SelectDarkOption({navigation}) {
             <TouchableOpacity
               style={styles.item}
               onPress={() => setForceDarkMode(false)}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text body1 style={{marginHorizontal: 8}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text body1 style={{ marginHorizontal: 8 }}>
                   {t('always_off')}
                 </Text>
               </View>
@@ -74,7 +76,7 @@ export default function SelectDarkOption({navigation}) {
           </View>
           <View style={styles.contentAction}>
             <TouchableOpacity
-              style={{padding: 8, marginHorizontal: 24}}
+              style={{ padding: 8, marginHorizontal: 24 }}
               onPress={() => navigation.goBack()}>
               <Text body1 grayColor>
                 {t('cancel')}
@@ -82,7 +84,7 @@ export default function SelectDarkOption({navigation}) {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{padding: 8}}
+              style={{ padding: 8 }}
               onPress={() => onChange(forceDarkMode)}>
               <Text body1 primaryColor>
                 {t('apply')}

@@ -10,15 +10,13 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
-import {
-  Image,
-  Header,
-  SafeAreaView,
-  Icon,
-  Text,
-  Button,
-  TextInput,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Image from '../../components/Image';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import Button from '../../components/Button';
+import TextInput from '../../components/TextInput'
 import styles from './styles';
 import { userInfo } from '@selectors';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,7 +52,7 @@ export default function ProfileEdit({ navigation }) {
     email: true,
     surname: true,
     password: true,
-    profileImage:true
+    profileImage: true
   });
 
   /**
@@ -102,14 +100,12 @@ export default function ProfileEdit({ navigation }) {
         "state_changed",
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload progress: " + progress + "%");
         },
         (error) => {
           console.error("Upload error: ", error);
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          console.log("Upload complete. File available at: ", downloadURL);
           setProfileImage(downloadURL);
         }
       );
@@ -181,7 +177,7 @@ export default function ProfileEdit({ navigation }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />

@@ -2,7 +2,14 @@ import React, {useState} from 'react';
 import {View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import {BaseStyle, useTheme} from '@config';
 import {useTranslation} from 'react-i18next';
-import {Header, SafeAreaView, Icon, Text, Button, TextInput} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import TextInput from '../../components/TextInput';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
+
+
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import styles from './styles';
 
@@ -60,7 +67,7 @@ export default function ContactUs({navigation}) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />

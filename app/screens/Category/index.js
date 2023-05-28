@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, RefreshControl, View, TouchableOpacity, Alert, Text } from 'react-native';
 import { BaseStyle, BaseColor, useTheme } from '@config';
-import {
-  Header,
-  SafeAreaView,
-  Icon,
-  CategoryFull,
-  CategoryIcon,
-  TextInput,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import CategoryFull from '../../components/CategoryFull';
+import CategoryIcon from '../../components/CategoryIcon';
+import TextInput from '../../components/TextInput';
+
 import * as Utils from '@utils';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import {API_URL} from '@env';
+import { API_URL } from '@env';
 
 export default function Category({ navigation }) {
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ export default function Category({ navigation }) {
         const [response1, response2] = responses;
         setFilter(response1.data)
         const verifiedListings = response2.data.map(re => {
-          if(re.verify) {
+          if (re.verify) {
             return re
           }
         }).filter(Boolean)
@@ -75,15 +75,15 @@ export default function Category({ navigation }) {
    * call when search category
    */
   const onSearch = search => {
-  
+
     if (!search) {
       setFilter(listings)
-     
+
     } else {
       const res = listings.filter(item => {
         return item.name.toUpperCase().includes(search.toUpperCase());
       })
-    
+
       setFilter(res)
     }
   };
@@ -151,22 +151,22 @@ export default function Category({ navigation }) {
     );
     if (filter.length > 0) {
       list = (
-        
-          <FlatList
-            contentContainerStyle={{
-              paddingHorizontal: 20,
-            }}
-            refreshControl={
-              <RefreshControl
-                colors={[colors.primary]}
-                tintColor={colors.primary}
-                refreshing={refreshing}
-              />
-            }
-            data={filter}
-            keyExtractor={(item, index) => `Category ${index}`}
-            renderItem={({ item, index }) => renderItem(item, index)}
-          />
+
+        <FlatList
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+          }}
+          refreshControl={
+            <RefreshControl
+              colors={[colors.primary]}
+              tintColor={colors.primary}
+              refreshing={refreshing}
+            />
+          }
+          data={filter}
+          keyExtractor={(item, index) => `Category ${index}`}
+          renderItem={({ item, index }) => renderItem(item, index)}
+        />
       );
     }
 

@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {View, TouchableOpacity, StatusBar, useColorScheme} from 'react-native';
-import {Text, SafeAreaView} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Text from '../Text'
 import styles from './styles';
 import PropTypes from 'prop-types';
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { Image, Text, Icon, StarRating, Tag } from '@components';
+import Image from '../Image';
+import Text from '../Text';
+import Icon from '../Icon';
+import Tag from '../Tag'
 import { BaseColor, useTheme } from '@config';
 import PropTypes from 'prop-types';
 import styles from './styles';

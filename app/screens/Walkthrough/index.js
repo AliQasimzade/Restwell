@@ -1,6 +1,9 @@
 import React, {useState,useEffect} from 'react';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
-import {SafeAreaView, Text, Button, Image} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Text from "../../components/Text";
+import Button from '../../components/Button'
+import Image from '../../components/Image'
 import styles from './styles';
 import Swiper from 'react-native-swiper';
 import {BaseColor, BaseStyle, Images, useTheme} from '@config';
@@ -14,7 +17,7 @@ const getAllBanners = async () => {
    try {
     const request = await fetch('https://restwell.az/api/banners');
     if(!request.ok) {
-      throw new Error("Request is failed !")
+      throw new Error("Sorğuda xəta yarandı!")
     }else {
        const response = await request.json();
        const filterRes = response.filter((_, index) => index < 4).map(re => {

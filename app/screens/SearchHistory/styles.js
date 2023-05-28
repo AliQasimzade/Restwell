@@ -7,7 +7,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 30,
-    height: '100%',
+    height: 48,
   },
   loadMoreContent: {
     flexDirection: 'row',

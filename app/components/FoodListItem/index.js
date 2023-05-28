@@ -1,6 +1,10 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text, Icon, StarRating, Tag} from '@components';
+import StarRating from '../StarRating'
+import Image from '../Image'
+import Text from '../Text';
+import Icon from '../Icon';
+import Tag from '../Tag'; 
 import {BaseColor, useTheme} from '@config';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -74,14 +78,14 @@ export default function FoodListItem(props) {
               solid
               name="heart"
               color={BaseColor.whiteColor}
-              size={18}
+              size={22}
               style={styles.iconLike}
             />
           ) : (
             <Icon
               name="heart"
               color={BaseColor.whiteColor}
-              size={18}
+              size={22}
               style={styles.iconLike}
             />
           )}
@@ -125,7 +129,7 @@ export default function FoodListItem(props) {
             {title}
           </Text>
           <View style={styles.blockLineMap}>
-            <Icon name="map-marker-alt" color={colors.primaryLight} size={12} />
+            <Icon name="map-marker-alt" color={colors.primaryLight} size={18} />
             <Text caption1 grayColor style={{paddingHorizontal: 4}}>
               {address}
             </Text>

@@ -3,14 +3,17 @@ import { FlatList, RefreshControl, View, Animated } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { BaseStyle, BaseColor, useTheme } from '@config';
 import Carousel from 'react-native-snap-carousel';
-import {
-    Header,
-    SafeAreaView,
-    Icon,
-    ListItem,
-    FilterSort,
-    Text,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import ListItem from '../../components/ListItem';
+import FilterSort from '../../components/FilterSort';
+import Text from '../../components/Text';
+
+
+
 import styles from './styles';
 import * as Utils from '@utils';
 import { useTranslation } from 'react-i18next';
@@ -885,13 +888,13 @@ export default function List({ navigation, route }) {
                     return (
                         <Icon
                             name={mapView ? 'align-right' : 'map'}
-                            size={20}
+                            size={26}
                             color={colors.primary}
                         />
                     );
                 }}
                 renderRightSecond={() => {
-                    return <Icon name="search" size={20} color={colors.primary} />;
+                    return <Icon name="search" size={26} color={colors.primary} />;
                 }}
                 onPressRightSecond={() => {
                     navigation.navigate('SearchHistory', {listings: lists});

@@ -2,24 +2,21 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   ScrollView,
-  FlatList,
   Animated,
   TouchableOpacity,
-  Linking,
-  Platform,
-  Dimensions,
+  Linking
 } from 'react-native';
 import { BaseColor, useTheme, BaseStyle } from '@config';
-import {
-  Header,
-  SafeAreaView,
-  Icon,
-  Text,
-  StarRating,
-  Tag,
-  Image,
-  ListItem,
-} from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Icon from '../../components/Icon';
+import Text from '../../components/Text';
+import Image from '../../components/Image';
+
+
+
+
+
+
 import { useTranslation } from 'react-i18next';
 
 import * as Utils from '@utils';

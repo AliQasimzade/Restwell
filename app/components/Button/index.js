@@ -2,7 +2,7 @@ import React from 'react';
 import {TouchableOpacity, StyleSheet, ActivityIndicator} from 'react-native';
 import {BaseColor, useTheme} from '@config';
 import PropTypes from 'prop-types';
-import {Text} from '@components';
+import Text from '../Text';
 import styles from './styles';
 
 export const Button = (props) => {

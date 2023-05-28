@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, KeyboardAvoidingView, Platform, Alert, Image } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
-import { Header, SafeAreaView, Icon, Button, TextInput } from '@components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import Icon from '../../components/Icon';
+import Button from '../../components/Button';
+import TextInput from '../../components/TextInput';
 import styles from './styles';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
@@ -151,7 +155,7 @@ export default function SignUp({ navigation }) {
           return (
             <Icon
               name="arrow-left"
-              size={20}
+              size={26}
               color={colors.primary}
               enableRTL={true}
             />

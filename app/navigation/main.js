@@ -1,10 +1,9 @@
-import React, {useEffect,useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BaseColor, useTheme, useFont} from '@config';
 import {useTranslation} from 'react-i18next';
-import {Icon} from '@components';
+import Icon from '../components/Icon';
 import { designSelect,userInfo} from '@selectors';
 import {useSelector} from 'react-redux';
 

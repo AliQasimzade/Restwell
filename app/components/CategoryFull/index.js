@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { BaseColor } from '@config';
-import { Text, Icon, Image } from '@components';
+import Text from '../Text';
+import Icon from '../Icon';
+import Image from '../Image';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import { Placeholder, Progressive, PlaceholderMedia } from 'rn-placeholder';
