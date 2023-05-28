@@ -8,7 +8,7 @@ import {
 import { BaseStyle, BaseColor, useTheme } from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
-import { TextInput } from '../../components/TextInput';
+import TextInput  from '../../components/TextInput';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
 import ListItem from '../../components/ListItem';
@@ -17,25 +17,22 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { wish } from '../../selectors';
 
-let timeout;
 
-function SearchHistory({ navigation, route }) {
+function SearchHistory({ navigation,route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const wishlist = useSelector(wish);
   const [history, setHistory] = useState([]);
-  const [result, setResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [filter, setFilter] = useState(route?.params.listings)
   const [loading, setLoading] = useState(false);
-
   /**
    * check wishlist state
    * only UI kit
    */
   const isFavorite = item => {
-    return wishlist.list?.some(i => i.id == item.id);
+    return wishlist.some(i => i.id == item.id);
   };
 
   /**
@@ -167,4 +164,5 @@ function SearchHistory({ navigation, route }) {
     </View>
   );
 }
-export default SearchHistory
+
+export default SearchHistory;

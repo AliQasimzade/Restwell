@@ -65,9 +65,6 @@ function List({ navigation, route }) {
     longitudeDelta: 0.004,
   });
 
-  
-
-
   useEffect(() => {
     const getAllListings = async () => {
       const request = await axios.get(`${API_URL}/api/listings`)

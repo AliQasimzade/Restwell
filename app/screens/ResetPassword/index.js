@@ -3,9 +3,9 @@ import { View, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
-import { TextInput } from '../../components/TextInput';
+import TextInput  from '../../components/TextInput';
 import Icon from '../../components/Icon';
-import { Button } from '../../components/Button'
+import Button  from '../../components/Button'
 import { useTranslation } from 'react-i18next';
 
 function ResetPassword({ navigation }) {

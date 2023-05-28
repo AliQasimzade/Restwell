@@ -12,20 +12,9 @@ import Icon from '../../components/Icon';
 import Text from '../../components/Text';
 import Image from '../../components/Image';
 
-
-
-
-
-
 import { useTranslation } from 'react-i18next';
 
 import * as Utils from '@utils';
-import {
-  Placeholder,
-  PlaceholderLine,
-  Progressive,
-  PlaceholderMedia,
-} from 'rn-placeholder';
 import styles from './styles';
 
 function EventDetail({ navigation, route }) {

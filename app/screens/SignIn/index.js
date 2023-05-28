@@ -14,20 +14,20 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseStyle, useTheme } from '@config';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
-import { Button } from '../../components/Button';
-import { TextInput } from '../../components';
-import { Image } from '../../components';
+import Button from '../../components/Button';
+import TextInput from '../../components/TextInput';
+import Image from '../../components/Image';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import { loginUser } from '../../actions/user';
 import { designSelect } from '../../selectors';
 import { API_URL, API_EXPO_CLIENT_ID, API_ANDROID_CLIENT_ID, API_IOS_CLIENT_ID, API_GOOGLE_AUTH_URL } from "@env";
 
-function SignIn({ navigation, route }) {
+function SignIn({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();

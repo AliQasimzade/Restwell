@@ -10,7 +10,7 @@ import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Icon from '../../components/Icon';
 import ListItem from '../../components/EventListItem';
-import {Banners} from '../../components/Banners';
+import Banners from '../../components/Banners';
 import Categories from '../../components/Categories';
 import Locations from '../../components/Locations';
 import NearByMe from '../../components/NearByMe';
