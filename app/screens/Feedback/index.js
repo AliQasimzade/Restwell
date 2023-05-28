@@ -46,7 +46,7 @@ export default function Feedback({ navigation, route }) {
 
   /**
    * @description Called when user sumitted form
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    */
   const onSubmit = async () => {

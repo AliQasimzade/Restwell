@@ -2,7 +2,7 @@
   "expo": {
     "name": "RestWell",
     "slug": "RestWell",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/images/IconRestwell.png",
     "scheme": "com.auth.restwell",
@@ -25,7 +25,8 @@
         "googleMapsApiKey": "AIzaSyC4oQcs4T1zOMzpYxRpLT3xmSseW9TBUTc"
       }
     },
-    "android": {
+    "android": { 
+      "versionCode":2,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/images/IconRestwell.png",
         "backgroundColor": "#FFFFFF",

@@ -5,7 +5,7 @@ export const BaseSetting = {
     name: 'restwell',
     displayName: 'Restwell',
     appVersion: '1.0.0',
-    domain: 'rgagency.org',
+    domain: 'restwell.az',
     protocol: 'http',
     defaultLanguage: 'az',
     defaultDesign: 'basic',

@@ -33,7 +33,7 @@ export default function ChangeLanguage({navigation}) {
 
   /**
    * @description Called when setting language is selected
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    * @param {string} select
    */

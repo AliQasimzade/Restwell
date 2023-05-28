@@ -115,7 +115,7 @@ export default function Filter({ navigation }) {
 
   /**
    * @description Called when filtering option > location
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2020-02-01
    * @param {*} select
    */
@@ -131,7 +131,7 @@ export default function Filter({ navigation }) {
 
   /**
    * @description Called when filtering option > category
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-09-01
    * @param {*} select
    */

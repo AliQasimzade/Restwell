@@ -35,7 +35,7 @@ export default function PreviewImage({navigation, route}) {
 
   /**
    * @description Called when image item is selected or activated
-   * @author Passion UI <rgagency.org>
+   * @author RG Agency <rgagency.org>
    * @date 2019-08-03
    * @param {*} touched
    * @returns
