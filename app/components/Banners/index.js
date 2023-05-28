@@ -6,6 +6,7 @@ import {
     PlaceholderLine,
     Loader
 } from 'rn-placeholder';
+import {API_URL} from '@env';
 import Swiper from 'react-native-swiper';
 import { useTheme } from '@config';
 import Image from "../Image"
@@ -15,7 +16,7 @@ export const Banners = () => {
     const { colors } = useTheme();
     const getBanners = async () => {
         try {
-            const request = await axios.get('https://restwell.az/api/banners');
+            const request = await axios.get(`${API_URL}/api/banners`);
             if (request.status !== 200) {
                 throw new Error('Request is failed !')
             }

@@ -18,6 +18,7 @@ import SeeMoreIcon from '../SeeMoreIcon';
 import Icon from '../Icon';
 import Text from '../Text'
 import { BaseColor, useTheme } from '@config';
+import {API_URL} from '@env';
 
 export default function Categories() {
     const [categories, setCategories] = useState([]);
@@ -26,7 +27,7 @@ export default function Categories() {
     const { t } = useTranslation();
     const getAllCategories = async () => {
         try {
-            const request = await axios.get('https://restwell.az/api/categories');
+            const request = await axios.get(`${API_URL}/api/categories`);
             if (request.status !== 200) {
                 throw new Error('Request is failed !')
             }
