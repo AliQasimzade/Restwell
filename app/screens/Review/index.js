@@ -3,7 +3,7 @@ import { FlatList, RefreshControl, ActivityIndicator, View, Alert } from 'react-
 import { BaseStyle, useTheme } from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
-import { RateDetail } from '../../components/RateDetail';
+import RateDetail from '../../components/RateDetail';
 import CommentItem from '../../components/CommentItem';
 import Text from '../../components/Text';
 import Icon from '../../components/Icon'

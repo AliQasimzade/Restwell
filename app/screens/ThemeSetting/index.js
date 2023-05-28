@@ -13,7 +13,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
-import { Button } from '../../components/Button'
+import Button  from '../../components/Button'
 import {applicationActions} from '@actions';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';

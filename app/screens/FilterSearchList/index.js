@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FlatList, RefreshControl, View, Animated } from 'react-native';
+import { RefreshControl, View, Animated } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { BaseStyle, BaseColor, useTheme } from '@config';
 import Carousel from 'react-native-snap-carousel';

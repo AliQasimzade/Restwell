@@ -2,11 +2,11 @@ import React, {useState,useEffect} from 'react';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Text from "../../components/Text";
-import { Button } from '../../components/Button'
+import Button  from '../../components/Button'
 import Image from '../../components/Image'
 import styles from './styles';
 import Swiper from 'react-native-swiper';
-import {BaseColor, BaseStyle, Images, useTheme} from '@config';
+import {BaseColor, BaseStyle, useTheme} from '@config';
 import * as Utils from '@utils';
 import {useTranslation} from 'react-i18next';
 

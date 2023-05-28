@@ -11,7 +11,7 @@ import Swiper from 'react-native-swiper';
 import { useTheme } from '@config';
 import Image from "../Image"
 import styles from '../../screens/Home/styles';
-export const Banners = () => {
+function Banners (){
     const [banners, setBanners] = useState([]);
     const { colors } = useTheme();
     const getBanners = async () => {
@@ -57,4 +57,7 @@ export const Banners = () => {
         </>
     )
 }
+
+
+export default Banners
 

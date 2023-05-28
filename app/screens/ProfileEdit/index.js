@@ -15,7 +15,7 @@ import Image from '../../components/Image';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
-import { Button } from '../../components/Button';
+import Button  from '../../components/Button';
 import TextInput from '../../components/TextInput'
 import styles from './styles';
 import { userInfo } from '../../selectors';

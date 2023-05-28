@@ -3,7 +3,7 @@ import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ProfileDetail from '../../components/ProfileDetail';
-import { Button } from '../../components/Button';
+import  Button  from '../../components/Button';
 import Text from '../../components/Text';
 import Icon from '../../components/Icon';
 import Header from '../../components/Header';

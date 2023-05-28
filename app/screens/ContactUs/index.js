@@ -7,7 +7,7 @@ import Icon from '../../components/Icon';
 import Text from '../../components/Text';
 import TextInput from '../../components/TextInput';
 import Header from '../../components/Header';
-import { Button } from '../../components/Button';
+import Button  from '../../components/Button';
 
 
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';

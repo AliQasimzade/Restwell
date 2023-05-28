@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { BaseStyle, BaseColor, useTheme } from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
@@ -7,10 +7,6 @@ import Icon from '../../components/Icon';
 import Text from '../../components/Text';
 import Tag from '../../components/Tag';
 import RangeSlider from '../../components/RangeSlider';
-
-
-
-
 import * as Utils from '@utils';
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
@@ -190,7 +186,7 @@ function Filter({ navigation }) {
           onContentSizeChange={(contentWidth, contentHeight) =>
             setScrollEnabled(Utils.scrollEnabled(contentWidth, contentHeight))
           }>
-          <View style={{ paddingHorizontal: 20, paddingVertical: 15, height: 45 }}>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
             <Text headline semibold>
               {t('categories').toUpperCase()}
             </Text>
