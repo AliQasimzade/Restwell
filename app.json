@@ -46,7 +46,7 @@
     "favicon": "./app/assets/images/IconRestwell.png",
     "extra": {
       "eas": {
-        "projectId": "eac33d5a-d14e-46ad-ae1c-5bbd821ec284",
+        "projectId": "eac33d5a-d14e-46ad-ae1c-5bbd821ec284"
       }
     }
   },

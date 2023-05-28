@@ -65,8 +65,7 @@
     "redux-persist": "6.0.0",
     "redux-saga": "1.2.3",
     "rn-placeholder": "3.0.3",
-    "rn-range-slider": "https://github.com/wem2017/rn-range-slider.git",
-    "expo-constants": "~14.2.1"
+    "rn-range-slider": "https://github.com/wem2017/rn-range-slider.git"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
