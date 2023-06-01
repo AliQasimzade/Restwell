@@ -1,8 +1,6 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import { ViewPropTypes } from 'deprecated-react-native-prop-types';
-import PropTypes from 'prop-types';
-import {View as AnimatableView} from 'react-native-animatable';
+import { View, StyleSheet } from 'react-native';
+import { View as AnimatableView } from 'react-native-animatable';
 import StarButton from './StarButton';
 
 const ANIMATION_TYPES = [
@@ -17,65 +15,6 @@ const ANIMATION_TYPES = [
   'tada',
   'wobble',
 ];
-
-const propTypes = {
-  activeOpacity: PropTypes.number,
-  animation: PropTypes.oneOf(ANIMATION_TYPES),
-  buttonStyle: ViewPropTypes.style,
-  containerStyle: ViewPropTypes.style,
-  disabled: PropTypes.bool,
-  emptyStar: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-  ]),
-  emptyStarColor: PropTypes.string,
-  fullStar: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-  ]),
-  fullStarColor: PropTypes.string,
-  halfStar: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-  ]),
-  halfStarColor: PropTypes.string,
-  halfStarEnabled: PropTypes.bool,
-  icoMoonJson: PropTypes.object,
-  iconSet: PropTypes.string,
-  maxStars: PropTypes.number,
-  rating: PropTypes.number,
-  reversed: PropTypes.bool,
-  starSize: PropTypes.number,
-  starStyle: ViewPropTypes.style,
-  selectedStar: PropTypes.func,
-};
-
-const defaultProps = {
-  activeOpacity: 0.2,
-  animation: undefined,
-  buttonStyle: {},
-  containerStyle: {},
-  disabled: false,
-  emptyStar: 'star-o',
-  emptyStarColor: 'gray',
-  fullStar: 'star',
-  fullStarColor: 'black',
-  halfStar: 'star-half-o',
-  halfStarColor: undefined,
-  halfStarEnabled: false,
-  icoMoonJson: undefined,
-  iconSet: 'FontAwesome',
-  maxStars: 5,
-  rating: 0,
-  reversed: false,
-  starSize: 40,
-  starStyle: {},
-  selectedStar: () => {},
-};
-
 function StarRating(props) {
   const starRef = [];
   const {
@@ -172,8 +111,4 @@ function StarRating(props) {
     </View>
   );
 }
-
-StarRating.propTypes = propTypes;
-StarRating.defaultProps = defaultProps;
-
 export default StarRating;
