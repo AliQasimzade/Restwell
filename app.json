@@ -21,12 +21,13 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.auth.restwell",
+      "buildNumber": "5",
       "config": {
         "googleMapsApiKey": "AIzaSyC4oQcs4T1zOMzpYxRpLT3xmSseW9TBUTc"
       }
     },
     "android": { 
-      "versionCode":4,
+      "versionCode":5,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/images/IconRestwell.png",
         "backgroundColor": "#FFFFFF",

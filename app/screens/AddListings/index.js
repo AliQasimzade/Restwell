@@ -617,7 +617,7 @@ function AddListings({ navigation }) {
                   category.length > 0 &&
                   <Picker
                     selectedValue={selectedCategory}
-                    style={[styles.locationPickerStyle, bgColor]}
+                    style={[styles.locationPickerStyle, bgColor,textColor]}
 
                     onValueChange={(itemValue) => setSelectedCategory(itemValue)}
                   >
@@ -639,7 +639,7 @@ function AddListings({ navigation }) {
                   pricerelationShips.length > 0 &&
                   <Picker
                     selectedValue={selectedPriceRelation}
-                    style={[styles.locationPickerStyle, bgColor]}
+                    style={[styles.locationPickerStyle, bgColor, textColor]}
 
                     onValueChange={(itemValue) => setSelectedPriceRelation(itemValue)}
                   >
