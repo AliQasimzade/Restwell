@@ -5,7 +5,7 @@ import Text from '../Text';
 import Icon from '../Icon';
 import Tag from '../Tag'
 import { BaseColor, useTheme } from '@config';
-import PropTypes from 'prop-types';
+ 
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import {
@@ -289,46 +289,4 @@ export default function ListItem(props) {
   else return renderList();
 }
 
-ListItem.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  image: PropTypes.node.isRequired,
-  loading: PropTypes.bool,
-  list: PropTypes.bool,
-  block: PropTypes.bool,
-  grid: PropTypes.bool,
-  small: PropTypes.bool,
-  favorite: PropTypes.bool,
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  location: PropTypes.string,
-  phone: PropTypes.string,
-  status: PropTypes.string,
-  numReviews: PropTypes.number,
-  enableAction: PropTypes.bool,
-  onPress: PropTypes.func,
-  onPressTag: PropTypes.func,
-  omPressMore: PropTypes.func,
-  locationAddress: PropTypes.string,
-};
 
-ListItem.defaultProps = {
-  style: {},
-  image: '',
-  loading: false,
-  list: true,
-  block: false,
-  grid: false,
-  small: false,
-  favorite: false,
-  title: '',
-  subtitle: '',
-  location: '',
-  phone: '787',
-  status: 'slogan',
-  numReviews: 99,
-  enableAction: false,
-  locationAddress: '',
-  onPress: () => { },
-  onPressTag: () => { },
-  omPressMore: () => { },
-};

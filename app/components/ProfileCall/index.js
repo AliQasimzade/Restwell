@@ -3,7 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import Image from '../Image';
 import Text from '../Text';
 import Icon from '../Icon'
-import PropTypes from 'prop-types';
+ 
 import styles from './styles';
 import {useTheme} from '@config';
 
@@ -40,21 +40,4 @@ function Index(props) {
   );
 }
 
-Index.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  image: PropTypes.string,
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  onPressMessenger: PropTypes.func,
-  onPressPhone: PropTypes.func,
-};
-
-Index.defaultProps = {
-  style: {},
-  image: '',
-  title: '',
-  subtitle: '',
-  onPressMessenger: () => {},
-  onPressPhone: () => {},
-};
 export default Index

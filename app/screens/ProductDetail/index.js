@@ -27,7 +27,7 @@ import {
   Progressive,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import { userInfo, wish, designSelect } from '../../selectors';
+import { userInfo, wish } from '../../selectors';
 import styles from './styles';
 import { addWish, removeWish } from '../../actions/wish';
 import axios from 'axios';
@@ -38,7 +38,6 @@ function ProductDetail({ navigation, route }) {
   const { colors } = useTheme();
   const dispatch = useDispatch();
   const wishlist = useSelector(wish);
-  const design = useSelector(designSelect);
   const item = route?.params.item;
   const user = useSelector(userInfo);
   const deltaY = new Animated.Value(0);
@@ -362,7 +361,7 @@ function ProductDetail({ navigation, route }) {
                   maxStars={5}
                   rating={item?.rating_avg}
                   fullStarColor={BaseColor.yellowColor}
-                  on
+                  
                 />
                 <Text footnote grayColor style={{ marginLeft: 5 }}>
                   {item.rating_avg}
@@ -374,7 +373,6 @@ function ProductDetail({ navigation, route }) {
           <TouchableOpacity
             style={styles.line}
             onPress={() => {
-              const loc2 = `${item.address}`
               const location = `${item?.locationCoords.latitude},${item?.locationCoords.longtitude}`;
               const url = Platform.select({
                 ios: `maps:${item?.locationCoords.latitude},${item?.locationCoords.longtitude}?q=${location}`,

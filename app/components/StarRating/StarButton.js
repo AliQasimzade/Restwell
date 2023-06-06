@@ -1,8 +1,6 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import Image from '../Image'
-import PropTypes from 'prop-types';
 import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import EvilIconsIcons from 'react-native-vector-icons/EvilIcons';
@@ -28,32 +26,6 @@ const iconSets = {
   Octicons: OcticonsIcons,
   Zocial: ZocialIcons,
   SimpleLineIcons: SimpleLineIconsIcons,
-};
-
-const propTypes = {
-  buttonStyle: ViewPropTypes.style,
-  disabled: PropTypes.bool.isRequired,
-  halfStarEnabled: PropTypes.bool.isRequired,
-  icoMoonJson: PropTypes.string,
-  iconSet: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  reversed: PropTypes.bool.isRequired,
-  starColor: PropTypes.string.isRequired,
-  starIconName: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-  ]).isRequired,
-  starSize: PropTypes.number.isRequired,
-  activeOpacity: PropTypes.number.isRequired,
-  starStyle: ViewPropTypes.style,
-  onStarButtonPress: PropTypes.func.isRequired,
-};
-
-const defaultProps = {
-  buttonStyle: {},
-  icoMoonJson: undefined,
-  starStyle: {},
 };
 
 function StarButton(props) {
@@ -139,8 +111,5 @@ function StarButton(props) {
     </TouchableOpacity>
   );
 }
-
-StarButton.propTypes = propTypes;
-StarButton.defaultProps = defaultProps;
 
 export default StarButton;

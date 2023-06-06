@@ -1,7 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, ActivityIndicator} from 'react-native';
 import {BaseColor, useTheme} from '@config';
-import PropTypes from 'prop-types';
 import Text from '../Text';
 import styles from './styles';
 
@@ -54,22 +53,8 @@ function Button(props) {
   );
 }
 
-Button.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  icon: PropTypes.node,
-  outline: PropTypes.bool,
-  full: PropTypes.bool,
-  round: PropTypes.bool,
-  loading: PropTypes.bool,
-};
 
-Button.defaultProps = {
-  style: {},
-  icon: null,
-  outline: false,
-  full: false,
-  round: false,
-  loading: false,
-};
+
+
 
 export default Button

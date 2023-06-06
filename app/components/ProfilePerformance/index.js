@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import Text from '../Text';
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 import {useTranslation} from 'react-i18next';
 
 function ProfilePerformance(props) {
@@ -107,23 +107,4 @@ function ProfilePerformance(props) {
   }
 }
 
-ProfilePerformance.propTypes = {
-  flexDirection: PropTypes.string,
-  type: PropTypes.string,
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  data: PropTypes.array,
-  contentLeft: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  contentCenter: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  contentRight: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-};
-
-ProfilePerformance.defaultProps = {
-  flexDirection: 'row',
-  type: 'medium',
-  style: {},
-  data: [],
-  contentLeft: {},
-  contentCenter: {},
-  contentRight: {},
-};
 export default ProfilePerformance

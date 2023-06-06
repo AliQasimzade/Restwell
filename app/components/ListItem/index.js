@@ -9,7 +9,7 @@ import StarRating from '../../components/StarRating';
 
 
 import { BaseColor, useTheme } from '@config';
-import PropTypes from 'prop-types';
+ 
 import styles from './styles';
 import { useTranslation } from 'react-i18next';
 import {
@@ -41,11 +41,7 @@ function ListItem(props) {
     onPress,
     onPressTag,
     omPressMore,
-    locationAddress,
-    startDate,
-    endDate,
   } = props;
-
   /**
    * Display place item as block
    */

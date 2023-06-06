@@ -5,7 +5,7 @@ import Text from '../Text';
 import Icon from '../Icon';
 import Image from '../Image';
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 import { Placeholder, Progressive, PlaceholderMedia } from 'rn-placeholder';
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -50,26 +50,4 @@ function CategoryFull(props) {
     </TouchableOpacity>
   );
 }
-
-CategoryFull.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  loading: PropTypes.bool,
-  image: PropTypes.node.isRequired,
-  icon: PropTypes.node.isRequired,
-  color: PropTypes.string,
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  onPress: PropTypes.func,
-};
-
-CategoryFull.defaultProps = {
-  style: {},
-  loading: false,
-  image: '',
-  icon: '',
-  color: '',
-  title: '',
-  subtitle: '',
-  onPress: () => { },
-};
 export default CategoryFull

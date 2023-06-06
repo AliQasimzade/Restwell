@@ -5,7 +5,7 @@ import StarRating from '../StarRating'
 
 import Text from '../Text';
 import Image from '../Image'
-import PropTypes from 'prop-types';
+ 
 import styles from './styles';
 
 import { useTranslation } from 'react-i18next';
@@ -58,19 +58,4 @@ function CommentItem(props) {
   );
 }
 
-CommentItem.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  name: PropTypes.string,
-  rate: PropTypes.string,
-  date: PropTypes.string,
-  comment: PropTypes.string,
-};
-
-CommentItem.defaultProps = {
-  style: {},
-  name: '',
-  rate: '0',
-  date: '',
-  comment: '',
-};
 export default CommentItem

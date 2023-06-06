@@ -1,7 +1,5 @@
 import React, {useCallback} from 'react';
 import Slider from 'rn-range-slider';
-import PropTypes from 'prop-types';
-
 import Thumb from './Thumb';
 import Rail from './Rail';
 import RailSelected from './RailSelected';
@@ -47,19 +45,5 @@ function RangeSlider(props) {
   );
 }
 
-RangeSlider.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  color: PropTypes.string,
-  selectionColor: PropTypes.string,
-  onValueChanged: PropTypes.func,
-};
 
-RangeSlider.defaultProps = {
-  style: {},
-  color: '#7f7f7f',
-  selectionColor: '#4499ff',
-  min: 0,
-  max: 1000,
-  onValueChanged: (low, hight) => {},
-};
 export default RangeSlider

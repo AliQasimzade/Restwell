@@ -25,16 +25,15 @@ import { Alert } from 'react-native';
 function Feedback({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
-  const item = route?.params.item.reviews
   const user = useSelector(userInfo);
- 
+ console.log(route?.params?.item?.reviews);
   const offsetKeyboard = Platform.select({
     ios: 0,
     android: 20,
   });
   const [loading, setLoading] = useState(false);
   const [rates, setRates] = useState([5,5,5,5]);
-  const [reviews, setReviews] = useState(['','','','']);
+  const [reviews, setReviews] = useState([' ',' ',' ',' ']);
   const [state] = useState(["according_to_the_service","for_the_price", "general","according_to_the_portion"])
   const [success, setSuccess] = useState({
     title: true,
@@ -77,7 +76,7 @@ function Feedback({ navigation, route }) {
           user_image: user.image,  
           publish_date: new Date().toLocaleDateString()
         }
-        const request = await fetch(`${API_URL}/api/newreview/${item._id}`, {
+        const request = await fetch(`${API_URL}/api/newreview/${route?.params?.item?.reviews._id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -138,6 +137,7 @@ function Feedback({ navigation, route }) {
           style={{ flex: 1 }}>
          {state.map((et, index) => (
            <ScrollView
+           key={index}
            contentContainerStyle={{ alignItems: 'center', padding: 20 }}>
             <Text style={{fontSize:22}}>{t(et)}</Text>
            <View style={{ width: 160 }}>

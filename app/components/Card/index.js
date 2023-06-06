@@ -1,9 +1,8 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import styles from './styles';
-import PropTypes from 'prop-types';
 import Image from '../Image';
-import {Images, useTheme} from '@config';
+import { useTheme} from '@config';
 
 function Card(props) {
   const {colors} = useTheme();
@@ -18,22 +17,5 @@ function Card(props) {
     </TouchableOpacity>
   );
 }
-
-Card.propTypes = {
-  image: PropTypes.node.isRequired,
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  styleContent: PropTypes.object,
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element),
-  ]),
-  onPress: PropTypes.func,
-};
-
-Card.defaultProps = {
-  style: {},
-  styleContent: {},
-  onPress: () => {},
-};
 
 export default Card

@@ -4,7 +4,7 @@ import Image from '../Image';
 import Text from '../Text';
 
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 function ProfileDescription(props) {
   const {style, image, styleThumb, onPress, name, subName, description} = props;
   return (
@@ -32,23 +32,5 @@ function ProfileDescription(props) {
   );
 }
 
-ProfileDescription.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  image: PropTypes.node.isRequired,
-  name: PropTypes.string,
-  subName: PropTypes.string,
-  description: PropTypes.string,
-  styleThumb: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  onPress: PropTypes.func,
-};
 
-ProfileDescription.defaultProps = {
-  image: '',
-  name: '',
-  subName: '',
-  description: '',
-  styleThumb: {},
-  onPress: () => {},
-  style: {},
-};
 export default ProfileDescription

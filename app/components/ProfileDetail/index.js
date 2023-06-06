@@ -6,7 +6,7 @@ import Icon from '../../components/Icon';
 import Text from '../../components/Text';
 
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 import {BaseColor, useTheme} from '@config';
 
 function ProfileDetail(props) {
@@ -55,28 +55,5 @@ function ProfileDetail(props) {
   );
 }
 
-ProfileDetail.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  image: PropTypes.node.isRequired,
-  textFirst: PropTypes.string,
-  textSecond: PropTypes.string,
-  textThird: PropTypes.string,
-  styleLeft: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  styleThumb: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  styleRight: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  icon: PropTypes.bool,
-  onPress: PropTypes.func,
-};
 
-ProfileDetail.defaultProps = {
-  image: '',
-  textFirst: '',
-  textSecond: '',
-  icon: false,
-  style: {},
-  styleLeft: {},
-  styleThumb: {},
-  styleRight: {},
-  onPress: () => {},
-};
 export default ProfileDetail

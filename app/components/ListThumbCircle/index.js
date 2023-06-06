@@ -3,7 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import Image from '../Image';
 import Text from '../Text';
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 import {useTheme} from '@config';
 import {
   Placeholder,
@@ -84,25 +84,5 @@ function ListThumbCircle(props) {
   );
 }
 
-ListThumbCircle.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  loading: PropTypes.bool,
-  imageStyle: PropTypes.object,
-  image: PropTypes.node.isRequired,
-  txtLeftTitle: PropTypes.string,
-  txtContent: PropTypes.string,
-  txtRight: PropTypes.string,
-  onPress: PropTypes.func,
-};
 
-ListThumbCircle.defaultProps = {
-  style: {},
-  loading: false,
-  imageStyle: {},
-  image: '',
-  txtLeftTitle: '',
-  txtContent: '',
-  txtRight: '',
-  onPress: () => {},
-};
 export default ListThumbCircle

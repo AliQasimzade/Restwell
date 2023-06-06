@@ -3,7 +3,7 @@ import Icon from '../Icon';
 import Image from '../Image';
 import Text from '../Text';
 import {useTheme} from '@config';
-import PropTypes from 'prop-types';
+ 
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -54,18 +54,6 @@ const ModalFilter = props => {
       </View>
     </Modal>
   );
-};
-
-ModalFilter.defaultProps = {
-  options: [],
-  onApply: () => {},
-  onSelectFilter: () => {},
-};
-
-ModalFilter.propTypes = {
-  options: PropTypes.array,
-  onApply: PropTypes.func,
-  onSelectFilter: PropTypes.func,
 };
 
 export default ModalFilter;

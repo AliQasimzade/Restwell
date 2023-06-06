@@ -3,7 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import Image from '../Image';
 import Text from '../Text';
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 
 function ProfileGroup(props) {
   const {style, users, onPress, name, detail} = props;
@@ -39,19 +39,4 @@ function ProfileGroup(props) {
   );
 }
 
-ProfileGroup.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  users: PropTypes.array,
-  name: PropTypes.string,
-  detail: PropTypes.string,
-  onPress: PropTypes.func,
-};
-
-ProfileGroup.defaultProps = {
-  style: {},
-  users: [],
-  name: '',
-  detail: '',
-  onPress: () => {},
-};
 export default ProfileGroup

@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import * as Utils from '@utils';
-import { height } from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
 
 export default StyleSheet.create({
   //block css

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import PropTypes from 'prop-types';
+ 
 import Icon from '../Icon';
 import Text from '../Text';
 import {BaseColor, useTheme} from '@config';
@@ -142,19 +142,4 @@ function RateDetail(props) {
   );
 }
 
-RateDetail.propTypes = {
-  style: PropTypes.object,
-  point: PropTypes.number,
-  maxPoint: PropTypes.number,
-  totalRating: PropTypes.number,
-  data: PropTypes.object,
-};
-
-RateDetail.defaultProps = {
-  style: {},
-  point: 0,
-  maxPoint: 5,
-  totalRating: 0,
-  data: {},
-};
 export default RateDetail

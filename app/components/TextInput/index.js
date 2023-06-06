@@ -1,6 +1,6 @@
 import React from 'react';
 import {TextInput, View, I18nManager} from 'react-native';
-import PropTypes from 'prop-types';
+ 
 import {BaseStyle, BaseColor, useTheme, useFont} from '@config';
 
 export default function Index(props) {
@@ -28,15 +28,3 @@ export default function Index(props) {
     </View>
   );
 }
-
-Index.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  success: PropTypes.bool,
-  icon: PropTypes.node,
-};
-
-Index.defaultProps = {
-  style: {},
-  success: true,
-  icon: null,
-};

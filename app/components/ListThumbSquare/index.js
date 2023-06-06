@@ -3,7 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import Image from '../../components/Image';
 import Text from '../../components/Text';
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 import {useTheme} from '@config';
 import {
   Placeholder,
@@ -78,25 +78,5 @@ function ListThumbSquare(props) {
   );
 }
 
-ListThumbSquare.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  loading: PropTypes.bool,
-  imageStyle: PropTypes.object,
-  image: PropTypes.node.isRequired,
-  txtLeftTitle: PropTypes.string,
-  txtContent: PropTypes.string,
-  txtRight: PropTypes.string,
-  onPress: PropTypes.func,
-};
 
-ListThumbSquare.defaultProps = {
-  style: {},
-  loading: false,
-  imageStyle: {},
-  image: '',
-  txtLeftTitle: '',
-  txtContent: '',
-  txtRight: '',
-  onPress: () => {},
-};
 export default ListThumbSquare

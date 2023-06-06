@@ -4,7 +4,7 @@ import {BaseColor} from '@config';
 import Text from '../Text'
 import Icon from '../Icon'
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 import {useTranslation} from 'react-i18next';
 import {
   Placeholder,
@@ -49,23 +49,5 @@ function CategoryIcon(props) {
   );
 }
 
-CategoryIcon.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  loading: PropTypes.bool,
-  icon: PropTypes.node.isRequired,
-  color: PropTypes.string,
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  onPress: PropTypes.func,
-};
 
-CategoryIcon.defaultProps = {
-  style: {},
-  loading: false,
-  icon: '',
-  color: '',
-  title: '',
-  subtitle: '',
-  onPress: () => {},
-};
 export default CategoryIcon

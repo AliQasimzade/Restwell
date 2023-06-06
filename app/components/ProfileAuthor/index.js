@@ -5,7 +5,7 @@ import Text from '../Text';
 
 
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 
 function ProfileAuthor(props) {
   const {
@@ -44,27 +44,5 @@ function ProfileAuthor(props) {
   );
 }
 
-ProfileAuthor.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  image: PropTypes.node.isRequired,
-  name: PropTypes.string,
-  description: PropTypes.string,
-  textRight: PropTypes.string,
-  styleLeft: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  styleThumb: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  styleRight: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  onPress: PropTypes.func,
-};
 
-ProfileAuthor.defaultProps = {
-  image: '',
-  name: '',
-  description: '',
-  textRight: '',
-  styleLeft: {},
-  styleThumb: {},
-  styleRight: {},
-  style: {},
-  onPress: () => {},
-};
 export default ProfileAuthor

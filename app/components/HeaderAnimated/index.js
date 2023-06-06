@@ -1,7 +1,7 @@
 import React from 'react';
 import {Animated, View} from 'react-native';
 import styles from './styles';
-import PropTypes from 'prop-types';
+ 
 
 function HeaderAnimated(props) {
   const {
@@ -90,21 +90,4 @@ function HeaderAnimated(props) {
   );
 }
 
-HeaderAnimated.propTypes = {
-  componentRight: PropTypes.node,
-  componentLeft: PropTypes.node,
-  componentBottom: PropTypes.node,
-  scrollY: PropTypes.number,
-  widthRight: PropTypes.number,
-  heightScroll: PropTypes.number,
-};
-
-HeaderAnimated.defaultProps = {
-  componentRight: <View />,
-  componentLeft: <View />,
-  componentBottom: <View />,
-  scrollY: 0,
-  widthRight: 80,
-  heightScroll: 140,
-};
 export default HeaderAnimated
