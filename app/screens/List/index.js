@@ -27,10 +27,7 @@ import {API_URL} from "@env"
 function List({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const datas = route?.params
-  const dispatch = useDispatch();
   const wishlist = useSelector(wish);
-  const design = useSelector(designSelect);
   const setting = useSelector(settingSelect);
   const user = useSelector(userInfo);
 
@@ -127,13 +124,7 @@ function List({ navigation, route }) {
    * @date 2019-09-01
    */
   const onFilter = () => {
-    navigation.navigate('Filter', {
-      filter,
-      onApply: filter => {
-        setFilter(filter);
-        loadData(filter);
-      },
-    });
+    navigation.navigate('Filter', {filter});
   };
 
   /**
