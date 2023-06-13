@@ -26,7 +26,6 @@ function Feedback({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const user = useSelector(userInfo);
- console.log(route?.params?.item?.reviews);
   const offsetKeyboard = Platform.select({
     ios: 0,
     android: 20,

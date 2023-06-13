@@ -15,7 +15,6 @@ import { API_URL } from "@env"
 
 function Filter({ navigation }) {
   const { colors } = useTheme();
-  console.log(colors);
   const { t } = useTranslation();
   function searchProperties(res, c, l, t, priceBegin, priceEnd, f) {
     return res.filter(property => {
@@ -62,6 +61,8 @@ function Filter({ navigation }) {
     const feat = axios.get(`${API_URL}/api/properties`)
     const tagss = axios.get(`${API_URL}/api/tags`)
 
+
+
     Promise.all([cats, locs, feat, tagss])
       .then(responses => {
         const [response1, response2, response3, response4] = responses;
@@ -81,7 +82,6 @@ function Filter({ navigation }) {
    * on Apply filter
    *
    */
-
 
   const onApply = async () => {
     try {
@@ -277,26 +277,24 @@ function Filter({ navigation }) {
             </Text>
             <View style={styles.contentRange}>
               <Text caption1 grayColor>
-                0
+                {priceBegin}
               </Text>
               <Text caption1 grayColor>
-            100
+                {priceEnd}
               </Text>
             </View>
-            {/* <RangeSlider
+            <RangeSlider
               color={colors.border}
               selectionColor={colors.primary}
-              max={priceEnd}
-              min={priceBegin}
               onValueChanged={(low, high) => {
                 setPriceBegin(low);
                 setPriceEnd(high);
               }}
-            /> */}
+            />
             <View style={styles.contentResultRange}>
               <Text caption1>{t('avg_price')}</Text>
               <Text caption1>
-                0 - 100
+                ${priceBegin} - ${priceEnd}
               </Text>
             </View>
           </View>

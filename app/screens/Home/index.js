@@ -116,7 +116,7 @@ function Home({navigation}) {
             style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('ProductDetail', {
-                item: item,
+                item
               });
             }}
           />

@@ -38,7 +38,7 @@ function ProductDetail({ navigation, route }) {
   const { colors } = useTheme();
   const dispatch = useDispatch();
   const wishlist = useSelector(wish);
-  const item = route?.params.item;
+  const item = route?.params?.item;
   const user = useSelector(userInfo);
   const deltaY = new Animated.Value(0);
 
@@ -51,15 +51,15 @@ function ProductDetail({ navigation, route }) {
 
   const [week] = useState(["mon", "tue", "wed", "thu", "fri", "sat", "sun"])
 
-
+  const getAllListings = async () => {
+    const request = await axios.get(`${API_URL}/api/listings`)
+    const response = request.data  
+    const filterByCategory = response.filter(listing => listing.category == item?.category)
+    setRelated(filterByCategory)
+    setLoading(false)
+  }
   useEffect(() => {
-    const getAllListings = async () => {
-      const request = await axios.get(`${API_URL}/api/listings`)
-      const response = request.data
-      setLoading(false)
-      const filterByCategory = response.filter(listing => listing.category == item?.category)
-      setRelated(filterByCategory)
-    }
+   
     getAllListings()
   }, [])
 
