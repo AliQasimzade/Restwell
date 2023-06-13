@@ -2,7 +2,7 @@
   "expo": {
     "name": "RestWell",
     "slug": "RestWell",
-    "version": "3.0.0",
+    "version": "7.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/images/IconRestwell.png",
     "scheme": "com.auth.restwell",
@@ -21,13 +21,13 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.auth.restwell",
-      "buildNumber": "5",
+      "buildNumber": "7",
       "config": {
         "googleMapsApiKey": "AIzaSyC4oQcs4T1zOMzpYxRpLT3xmSseW9TBUTc"
       }
     },
     "android": { 
-      "versionCode":5,
+      "versionCode":7,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/images/IconRestwell.png",
         "backgroundColor": "#FFFFFF",

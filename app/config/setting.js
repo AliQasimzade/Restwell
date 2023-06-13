@@ -6,7 +6,7 @@ export const BaseSetting = {
     displayName: 'Restwell',
     appVersion: '1.0.0',
     domain: 'restwell.az',
-    protocol: 'http',
+    protocol: 'https',
     defaultLanguage: 'az',
     defaultDesign: 'basic',
     languageSupport: [
