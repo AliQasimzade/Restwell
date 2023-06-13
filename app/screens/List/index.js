@@ -124,7 +124,7 @@ function List({ navigation, route }) {
    * @date 2019-09-01
    */
   const onFilter = () => {
-    navigation.navigate('Filter', {filter});
+    navigation.navigate('Filter');
   };
 
   /**
@@ -220,6 +220,8 @@ function List({ navigation, route }) {
       outputRange: [0, -40],
       extrapolate: 'clamp',
     });
+
+    console.log(navbarTranslate);
     switch (modeView) {
       case 'block':
         return (

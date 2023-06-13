@@ -6,9 +6,7 @@ import RailSelected from './RailSelected';
 import Notch from './Notch';
 import Label from './Label';
 
-import styles from './styles';
-
-function RangeSlider(props) {
+export default function RangeSlider(props) {
   const renderThumb = useCallback(() => <Thumb />, []);
   const renderRail = useCallback(
     () => <Rail color={props.color} />,
@@ -29,7 +27,6 @@ function RangeSlider(props) {
 
   return (
     <Slider
-      style={[styles.slider, props.style]}
       min={props.min}
       max={props.max}
       step={1}
@@ -44,6 +41,3 @@ function RangeSlider(props) {
     />
   );
 }
-
-
-export default RangeSlider
