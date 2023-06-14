@@ -221,7 +221,6 @@ function List({ navigation, route }) {
       extrapolate: 'clamp',
     });
 
-    console.log(navbarTranslate);
     switch (modeView) {
       case 'block':
         return (

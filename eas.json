@@ -9,7 +9,7 @@
     },
     "preview": {
       "distribution": "internal",
-      "extends": "production",
+      "extends": "production"
     },
     "production": {
       "env": {
@@ -24,7 +24,7 @@
         "API_EXPO_CLIENT_ID": "191265911875-9og84otimilhpoe8kb144rca3sdktkkd.apps.googleusercontent.com",
         "API_ANDROID_CLIENT_ID": "191265911875-n13i5n35d5be56o3tguj07o9aqj0avl1.apps.googleusercontent.com",
         "API_IOS_CLIENT_ID": "191265911875-8i5n5fmtndpgub5cd462moj7q3f9ui7n.apps.googleusercontent.com",
-        "API_GOOGLE_AUTH_URL": "https://www.googleapis.com/oauth2/v1/userinfo?access_token=",
+        "API_GOOGLE_AUTH_URL": "https://www.googleapis.com/oauth2/v1/userinfo?access_token="
       }
     }
   },
