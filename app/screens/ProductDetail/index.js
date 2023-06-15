@@ -38,7 +38,7 @@ function ProductDetail({ navigation, route }) {
   const { colors } = useTheme();
   const dispatch = useDispatch();
   const wishlist = useSelector(wish);
-  const item = route?.params.item;
+  const item = route?.params?.item;
   const user = useSelector(userInfo);
   const deltaY = new Animated.Value(0);
 
@@ -51,15 +51,15 @@ function ProductDetail({ navigation, route }) {
 
   const [week] = useState(["mon", "tue", "wed", "thu", "fri", "sat", "sun"])
 
-
+  const getAllListings = async () => {
+    const request = await axios.get(`${API_URL}/api/listings`)
+    const response = request.data  
+    const filterByCategory = response.filter(listing => listing.category == item?.category)
+    setRelated(filterByCategory)
+    setLoading(false)
+  }
   useEffect(() => {
-    const getAllListings = async () => {
-      const request = await axios.get(`${API_URL}/api/listings`)
-      const response = request.data
-      setLoading(false)
-      const filterByCategory = response.filter(listing => listing.category == item?.category)
-      setRelated(filterByCategory)
-    }
+   
     getAllListings()
   }, [])
 
@@ -129,7 +129,7 @@ function ProductDetail({ navigation, route }) {
    * Open action
    * @param {*} item
    */
-  const onOpen = (type, title, link) => {
+  const onOpen = (type, link) => {
     switch (type) {
       case 'web':
         Linking.openURL(link);
@@ -364,7 +364,7 @@ function ProductDetail({ navigation, route }) {
                   
                 />
                 <Text footnote grayColor style={{ marginLeft: 5 }}>
-                  {item.rating_avg}
+                  {item?.rating_avg}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -373,9 +373,9 @@ function ProductDetail({ navigation, route }) {
           <TouchableOpacity
             style={styles.line}
             onPress={() => {
-              const location = `${item?.locationCoords.latitude},${item?.locationCoords.longtitude}`;
+              const location = `${item?.locationCoords?.latitude},${item?.locationCoords?.longtitude}`;
               const url = Platform.select({
-                ios: `maps:${item?.locationCoords.latitude},${item?.locationCoords.longtitude}?q=${location}`,
+                ios: `maps:${item?.locationCoords?.latitude},${item?.locationCoords?.longtitude}?q=${location}`,
                 android: `geo:${location}?center=${location}&q=${location}&z=16`,
               });
               onOpen('address', t('address'), url);
@@ -398,7 +398,7 @@ function ProductDetail({ navigation, route }) {
             </View>
           </TouchableOpacity>
           {/* telefon */}
-          {item.phone && item.phone.length >= 5 && (
+          {item?.phone && item?.phone.length >= 5 && (
             <TouchableOpacity
               style={styles.line}
               onPress={() => {
@@ -413,13 +413,13 @@ function ProductDetail({ navigation, route }) {
                   {t('tel')}
                 </Text>
                 <Text footnote semibold style={{ marginTop: 5 }}>
-                  {item.phone}
+                  {item?.phone}
                 </Text>
               </View>
             </TouchableOpacity>
           )}
           {/* whatsapp */}
-          {item.whatsapp && item.whatsapp.length >= 5 && (
+          {item?.whatsapp && item?.whatsapp.length >= 5 && (
             <TouchableOpacity
               style={styles.line}
               onPress={() => {
@@ -438,13 +438,13 @@ function ProductDetail({ navigation, route }) {
                   {t('Whatsapp')}
                 </Text>
                 <Text footnote semibold style={{ marginTop: 5 }}>
-                  {item.whatsapp}
+                  {item?.whatsapp}
                 </Text>
               </View>
             </TouchableOpacity>
           )}
           {/* email */}
-          {item.email && item.email.length >= 5 && (
+          {item?.email && item?.email.length >= 5 && (
             <TouchableOpacity
               style={styles.line}
               onPress={() => {
@@ -465,7 +465,7 @@ function ProductDetail({ navigation, route }) {
             </TouchableOpacity>
           )}
           {/* vebsayt */}
-          {item.website && item.website.length >= 5 && (
+          {item?.website && item?.website.length >= 5 && (
             <TouchableOpacity
               style={styles.line}
               onPress={() => {
@@ -511,7 +511,7 @@ function ProductDetail({ navigation, route }) {
               height: collapseHour ? 0 : null,
               overflow: 'hidden',
             }}>
-            {item?.timeschedule.map((item, index) => {
+            {item?.timeschedule?.map((item, index) => {
 
               return (
                 <View
@@ -521,7 +521,7 @@ function ProductDetail({ navigation, route }) {
                     {t(`${week[index]}`)}
                   </Text>
                   <Text body1 accentColor semibold>
-                    {`${item.openingTime} - ${item.closingTime}`}
+                    {`${item?.openingTime} - ${item?.closingTime}`}
                   </Text>
                 </View>
               );
@@ -529,7 +529,7 @@ function ProductDetail({ navigation, route }) {
           </View>
         </View>
         <View style={[styles.contentDescription, { borderColor: colors.border }]}>
-          {item.description && item.description.length >= 5 && (
+          {item?.description && item?.description.length >= 5 && (
             <Text body2 style={{ lineHeight: 20 }}>
               {item?.description}
             </Text>
@@ -539,7 +539,7 @@ function ProductDetail({ navigation, route }) {
               <Text caption1 grayColor>
                 {t('date_established')}
               </Text>
-              {item.slogan && item.slogan.length >= 5 && (
+              {item?.slogan && (
                 <Text headline style={{ marginTop: 5 }}>
                   {item?.slogan}
                 </Text>
@@ -588,7 +588,7 @@ function ProductDetail({ navigation, route }) {
           {t('Tags')}
         </Text>
         <View style={[styles.wrapContent, { borderColor: colors.border }]}>
-          {item?.tags.map(item => {
+          {item?.tags?.map(item => {
             return (
               <Tag
                 key={item}
@@ -612,7 +612,7 @@ function ProductDetail({ navigation, route }) {
           {t('Features')}
         </Text>
         <View style={[styles.wrapContent, { borderColor: colors.border }]}>
-          {item?.features.map(item => {
+          {item?.features?.map(item => {
             return (
               <Tag
                 key={item}
@@ -636,18 +636,18 @@ function ProductDetail({ navigation, route }) {
           {t('related')}
         </Text>
         <View style={{ paddingHorizontal: 20 }}>
-          {related.length > 0 && related.map(item => {
+          {related.length > 0 && related.map(it => {
             return (
               <ListItem
-                key={item}
+                key={it}
                 small
-                image={item.profileImage}
-                title={item.listingTitle}
-                subtitle={item.category}
-                rate={item.rating_avg}
-                status={item.priceRelationShip}
+                image={it.profileImage}
+                title={it.listingTitle}
+                subtitle={it.category}
+                rate={it.rating_avg}
+                status={it.priceRelationShip}
                 style={{ marginBottom: 15 }}
-                onPress={() => onProductDetail(item)}
+                onPress={() => onProductDetail(it)}
                 onPressTag={onReview}
               />
             );

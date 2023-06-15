@@ -196,7 +196,7 @@ function Review({ navigation, route }) {
           navigation.goBack();
         }}
         onPressRight={() => {
-          navigation.navigate('Feedback', { item: { reviews, setReviews } });
+          navigation.navigate('Feedback', { item: reviews  });
         }}
       />
       <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'left']}>

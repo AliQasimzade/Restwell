@@ -9,7 +9,8 @@ import Events from '../../components/Events';
 import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Icon from '../../components/Icon';
-import ListItem from '../../components/EventListItem';
+import ListItem from '../../components/ListItem';
+
 import Banners from '../../components/Banners';
 import Categories from '../../components/Categories';
 import Locations from '../../components/Locations';
@@ -103,7 +104,7 @@ function Home({navigation}) {
         </View>
       );
     } else if (popularLocations.length > 0) {
-      return popularLocations.map((item, index) => {
+      return popularLocations.map(item => {
         return (
           <ListItem
             small
@@ -116,7 +117,7 @@ function Home({navigation}) {
             style={{marginBottom: 15}}
             onPress={() => {
               navigation.navigate('ProductDetail', {
-                item: item,
+                item
               });
             }}
           />
