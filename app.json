@@ -19,7 +19,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.auth.restwell",
       "buildNumber": "7",
       "config": {
@@ -30,14 +30,14 @@
       "versionCode":7,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/images/IconRestwell.png",
-        "backgroundColor": "#FFFFFF",
-        "config": {
-          "googleMaps": {
-            "apiKey": "AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU"
-          }
-        }
+        "backgroundColor": "#FFFFFF"
       },
-      "package": "com.auth.restwell"
+      "package": "com.auth.restwell",
+      "config": {
+        "googleMaps": {
+            "apiKey": "AIzaSyCQYSi3nER3Yjmlfkxqx0HnHXlunkyNFfU"
+        }
+      }
     },
     "web": {
       "oauth": {
