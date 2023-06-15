@@ -636,10 +636,10 @@ function ProductDetail({ navigation, route }) {
           {t('related')}
         </Text>
         <View style={{ paddingHorizontal: 20 }}>
-          {related.length > 0 && related.map(it => {
+          {related.length > 0 && related.map((it,index) => {
             return (
               <ListItem
-                key={it}
+                key={index}
                 small
                 image={it.profileImage}
                 title={it.listingTitle}
