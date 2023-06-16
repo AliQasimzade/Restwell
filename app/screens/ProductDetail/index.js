@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import { BaseColor, useTheme, BaseStyle } from '@config';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import Text from '../../components/Text';
@@ -53,13 +53,22 @@ function ProductDetail({ navigation, route }) {
 
   const getAllListings = async () => {
     const request = await axios.get(`${API_URL}/api/listings`)
-    const response = request.data  
-    const filterByCategory = response.filter(listing => listing.category == item?.category)
+    const response = request.data
+    const verifiedListings = response.filter(r => {
+       if(r.verify) {
+         return r
+       }
+    })
+   if(verifiedListings.length > 0) {
+    const filterByCategory = verifiedListings.filter(listing => listing.category == item?.category)
     setRelated(filterByCategory)
+   }else {
+    setRelated([])
+   }
     setLoading(false)
   }
   useEffect(() => {
-   
+
     getAllListings()
   }, [])
 
@@ -361,7 +370,7 @@ function ProductDetail({ navigation, route }) {
                   maxStars={5}
                   rating={item?.rating_avg}
                   fullStarColor={BaseColor.yellowColor}
-                  
+
                 />
                 <Text footnote grayColor style={{ marginLeft: 5 }}>
                   {item?.rating_avg}
@@ -636,7 +645,7 @@ function ProductDetail({ navigation, route }) {
           {t('related')}
         </Text>
         <View style={{ paddingHorizontal: 20 }}>
-          {related.length > 0 && related.map((it,index) => {
+          {related.length > 0 && related.map((it, index) => {
             return (
               <ListItem
                 key={index}
@@ -664,7 +673,9 @@ function ProductDetail({ navigation, route }) {
         title=""
         renderLeft={() => {
           return (
-            <Icon name="arrow-left" size={20} color={colors.primary} />
+            <View style={{ width: 25, height: 25, backgroundColor: colors.primary, borderRadius: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Icon name="arrow-left" size={18} color="#fff" />
+            </View>
           );
         }}
         renderRight={() => {

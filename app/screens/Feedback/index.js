@@ -51,6 +51,7 @@ function Feedback({ navigation, route }) {
           ...success,
           reviews:  false,
         });
+        setLoading(false);
       } else {
         setLoading(true);
         const newReview = {

@@ -12,6 +12,8 @@
   "setting": "Ayar",
   "sign_out": "Oturumu Kapat",
   "category": "Kategori",
+  "are_you_sure":"Emin misiniz ?",
+  "delete_profile":"Hesabı kaldır",
   "categories": "Kategoriler",
   "search": "Aramak",
   "data_not_found": "Veri bulunamadı",

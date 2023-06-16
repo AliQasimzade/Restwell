@@ -1,21 +1,22 @@
-import React, {useEffect} from 'react';
-import {StatusBar, Platform, useColorScheme} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { StatusBar, Platform, useColorScheme } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import {useTheme, BaseSetting} from '@config';
+import { useTheme, BaseSetting } from '@config';
 import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
-import {useSelector} from 'react-redux';
-import {languageSelect, designSelect} from '../selectors';
+import { initReactI18next } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { languageSelect, designSelect } from '../selectors';
 
 /* Main Stack Navigator */
 import Main from 'app/navigation/main';
 import AddListings from '../screens/AddListings';
 /* Modal Screen only affect iOS */
 import Loading from '../screens/Loading';
+import DeleteAccount from '../screens/DeleteAccount';
 import Filter from '../screens/Filter';
 import PickerScreen from '../screens/PickerScreen';
 import SearchHistory from '../screens/SearchHistory';
@@ -34,7 +35,7 @@ export default function Navigator() {
   const language = useSelector(languageSelect);
   const design = useSelector(designSelect);
 
-  const {theme, colors} = useTheme();
+  const { theme, colors } = useTheme();
   const isDarkMode = useColorScheme() === 'dark';
 
   /**
@@ -100,7 +101,7 @@ export default function Navigator() {
         <RootStack.Screen
           name="Loading"
           component={Loading}
-          options={{gestureEnabled: false}}
+          options={{ gestureEnabled: false }}
         />
         <RootStack.Screen name="SignIn" component={SignIn} />
         <RootStack.Screen name="SignUp" component={SignUp} />
@@ -111,7 +112,7 @@ export default function Navigator() {
           options={{
             presentation: 'transparentModal',
             cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
-            cardStyle: {backgroundColor: 'rgba(0, 0, 0, 0.5)'},
+            cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
             gestureEnabled: false,
           }}
         />
@@ -135,7 +136,18 @@ export default function Navigator() {
           options={{
             presentation: 'transparentModal',
             cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
-            cardStyle: {backgroundColor: 'rgba(0, 0, 0, 0.5)'},
+            cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
+          }}
+        />
+
+        <RootStack.Screen
+          name="DeleteAccount"
+          component={DeleteAccount}
+          gestureEnabled={false}
+          options={{
+            presentation: 'transparentModal',
+            cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+            cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
           }}
         />
         <RootStack.Screen
@@ -145,7 +157,7 @@ export default function Navigator() {
           options={{
             presentation: 'transparentModal',
             cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
-            cardStyle: {backgroundColor: 'rgba(0, 0, 0, 0.5)'},
+            cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
           }}
         />
       </RootStack.Navigator>

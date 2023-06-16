@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { BaseStyle, useTheme } from '@config';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ProfileDetail from '../../components/ProfileDetail';
-import  Button  from '../../components/Button';
+import Button from '../../components/Button';
 import Text from '../../components/Text';
 import Icon from '../../components/Icon';
 import Header from '../../components/Header';
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { userInfo } from '../../selectors';
 import { logOutUSer } from '../../actions/user';
+import { removeAllWish } from "../../actions/wish";
 
 function Profile({ navigation }) {
   const { colors } = useTheme();
@@ -28,7 +29,11 @@ function Profile({ navigation }) {
   const onLogout = async () => {
     setLoading(true);
     dispatch(logOutUSer())
-    navigation.navigate('Home')
+    dispatch(removeAllWish())
+    setTimeout(() => {
+      setLoading(false);
+      navigation.navigate('Home')
+    }, 1500)
   };
 
   /**

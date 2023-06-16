@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { View, TouchableOpacity, ScrollView } from 'react-native';
+import Button from '../../components/Button';
 import { BaseStyle, useTheme } from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/Header';
@@ -111,6 +112,11 @@ function Setting({ navigation }) {
               />
             </View>
           </TouchableOpacity>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
+          <Button full onPress={() => navigation.navigate('DeleteAccount')}>
+          {t('delete_profile')}
+          </Button>
+        </View>
         </ScrollView>
       </SafeAreaView>
     </View>
