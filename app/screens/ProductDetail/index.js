@@ -38,7 +38,7 @@ function ProductDetail({ navigation, route }) {
   const { colors } = useTheme();
   const dispatch = useDispatch();
   const wishlist = useSelector(wish);
-  const item = route?.params?.item;
+  const item = route?.params.item;
   const user = useSelector(userInfo);
   const deltaY = new Animated.Value(0);
 
@@ -382,12 +382,12 @@ function ProductDetail({ navigation, route }) {
           <TouchableOpacity
             style={styles.line}
             onPress={() => {
-              const location = `${item?.locationCoords?.latitude},${item?.locationCoords?.longtitude}`;
+              const location = `${item?.locationCoords.latitude},${item?.locationCoords.longtitude}`;
               const url = Platform.select({
-                ios: `maps:${item?.locationCoords?.latitude},${item?.locationCoords?.longtitude}?q=${location}`,
+                ios: `maps:${item?.locationCoords.latitude},${item?.locationCoords.longtitude}?q=${location}`,
                 android: `geo:${location}?center=${location}&q=${location}&z=16`,
               });
-              onOpen('address', t('address'), url);
+              onOpen('address', url);
             }}>
             <View
               style={[styles.contentIcon, { backgroundColor: colors.border }]}>
@@ -411,7 +411,7 @@ function ProductDetail({ navigation, route }) {
             <TouchableOpacity
               style={styles.line}
               onPress={() => {
-                onOpen('phone', t('tel'), item?.phone);
+                onOpen('phone', item?.phone);
               }}>
               <View
                 style={[styles.contentIcon, { backgroundColor: colors.border }]}>
@@ -432,7 +432,7 @@ function ProductDetail({ navigation, route }) {
             <TouchableOpacity
               style={styles.line}
               onPress={() => {
-                onOpen('whatsapp', t('whatsapp'),
+                onOpen('whatsapp',
                   Platform.select({
                     ios: `whatsapp://api.whatsapp.com/send?phone=${item?.whatsapp}`,
                     android: `https://api.whatsapp.com/send?phone=${item?.whatsapp}`,
@@ -457,7 +457,7 @@ function ProductDetail({ navigation, route }) {
             <TouchableOpacity
               style={styles.line}
               onPress={() => {
-                onOpen('email', t('envelope'), item?.email);
+                onOpen('email', item?.email);
               }}>
               <View
                 style={[styles.contentIcon, { backgroundColor: colors.border }]}>
@@ -478,7 +478,7 @@ function ProductDetail({ navigation, route }) {
             <TouchableOpacity
               style={styles.line}
               onPress={() => {
-                onOpen('web', t('website'), item?.website);
+                onOpen('web', item?.website);
               }}>
               <View
                 style={[styles.contentIcon, { backgroundColor: colors.border }]}>
