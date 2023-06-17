@@ -32,10 +32,18 @@ function Filter({ navigation }) {
       if (priceEnd && property.price > priceEnd) {
         return false;
       }
-      if (f && !f.some(it => property.features.includes(it))) {
+      if (f && !f.some(it => property.features.filter(id => {
+         if(id.trim().includes(it)) {
+          return id
+         }
+      }))) {
         return false;
       }
-      if (t && !t.some(it => property.tags.includes(it))) {
+      if (t && !t.some(it => property.tags.filter(id => {
+         if(id.trim().includes(it)) {
+          return id
+         }
+      }))) {
         return false;
       }
 
@@ -55,6 +63,7 @@ function Filter({ navigation }) {
   const [location, setLocation] = useState([]);
   const [locations, setLocations] = useState([])
   const [scrollEnabled, setScrollEnabled] = useState(true);
+
   useEffect(() => {
     const cats = axios.get(`${API_URL}/api/categories`)
     const locs = axios.get(`${API_URL}/api/locations`)

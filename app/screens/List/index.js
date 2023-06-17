@@ -182,23 +182,7 @@ function List({ navigation, route }) {
     });
   };
 
-  /**
-   * on Review action
-   */
-  const onReview = item => {
-    if (user) {
-      navigation.navigate('Review');
-    } else {
-      navigation.navigate({
-        name: 'SignIn',
-        params: {
-          success: () => {
-            navigation.navigate('Review');
-          },
-        },
-      });
-    }
-  };
+
 
   /**
    * check wishlist state
@@ -502,7 +486,7 @@ function List({ navigation, route }) {
                   numReviews={3}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
-                  onPressTag={() => onReview(item)}
+               
                 />
               )}
             />
@@ -576,7 +560,7 @@ function List({ navigation, route }) {
                     marginBottom: 15,
                   }}
                   onPress={() => onProductDetail(item)}
-                  onPressTag={() => onReview(item)}
+              
                 />
               )}
             />
@@ -645,7 +629,7 @@ function List({ navigation, route }) {
                     marginBottom: 15,
                   }}
                   onPress={() => onProductDetail(item)}
-                  onPressTag={() => onReview(item)}
+           
                 />
               )}
             />
@@ -709,7 +693,7 @@ function List({ navigation, route }) {
                   numReviews={3}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
-                  onPressTag={() => onReview(item)}
+            
                 />
               )}
             />
@@ -799,7 +783,6 @@ function List({ navigation, route }) {
                   elevation: 5,
                 }}
                 onPress={() => onProductDetail(item)}
-                onPressTag={() => onReview(item)}
               />
             )}
             sliderWidth={viewportWidth}
