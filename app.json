@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "RestWell",
-    "slug": "restwell",
+    "slug": "RestWell",
     "version": "8.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/images/IconRestwell.png",
@@ -41,19 +41,19 @@
     },
     "web": {
       "oauth": {
-        "redirectUrl": "https://auth.expo.io/@aliqasimzade/com.auth.restwell"
+        "redirectUrl": "https://auth.expo.io/@ilkin944/com.auth.restwell"
       }
     },
     "favicon": "./app/assets/images/IconRestwell.png",
     "extra": {
       "eas": {
-        "projectId": "01955cc9-fb0c-4afb-8861-17916dfc6a50"
+        "projectId": "eac33d5a-d14e-46ad-ae1c-5bbd821ec284"
       }
     }
   },
   "extra": {
     "eas": {
-      "projectId": "01955cc9-fb0c-4afb-8861-17916dfc6a50"
+      "projectId": "eac33d5a-d14e-46ad-ae1c-5bbd821ec284"
     }
   }
 }
