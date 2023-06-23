@@ -55,16 +55,16 @@ function ProductDetail({ navigation, route }) {
     const request = await axios.get(`${API_URL}/api/listings`)
     const response = request.data
     const verifiedListings = response.filter(r => {
-       if(r.verify) {
-         return r
-       }
+      if (r.verify) {
+        return r
+      }
     })
-   if(verifiedListings.length > 0) {
-    const filterByCategory = verifiedListings.filter(listing => listing.category == item?.category)
-    setRelated(filterByCategory)
-   }else {
-    setRelated([])
-   }
+    if (verifiedListings.length > 0) {
+      const filterByCategory = verifiedListings.filter(listing => listing.category == item?.category)
+      setRelated(filterByCategory)
+    } else {
+      setRelated([])
+    }
     setLoading(false)
   }
   useEffect(() => {
@@ -673,13 +673,17 @@ function ProductDetail({ navigation, route }) {
         title=""
         renderLeft={() => {
           return (
-            <View style={{ width: 25, height: 25, backgroundColor: colors.primary, borderRadius: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ width: 30, height: 30, backgroundColor: colors.primary, borderRadius: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Icon name="arrow-left" size={18} color="#fff" />
             </View>
           );
         }}
         renderRight={() => {
-          return <Icon name="images" size={20} color={colors.primary} />;
+          return (
+          <View style={{ width: 30, height: 30, backgroundColor: colors.primary, borderRadius: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="images" size={18} color="#fff" />
+          </View>
+          )
         }}
         onPressLeft={() => {
           navigation.goBack();

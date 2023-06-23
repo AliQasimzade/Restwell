@@ -68,7 +68,7 @@ function Header(props) {
             {renderRightSecond()}
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.contentRight, styleRight]}
+            style={[styles.contentRight]}
             onPress={onPressRight}>
             {renderRight()}
           </TouchableOpacity>
