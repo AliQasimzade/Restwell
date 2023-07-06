@@ -34,6 +34,7 @@ function Home({navigation}) {
   const [featured, setFeatured] = useState([]);
   const [listings, setListings] = useState([]);
 
+  
   // bannerleri tapib yukleme basladi
   const [firstBanner, setFirstBanner] = useState(null);
   const [secondBanner, setSecondBanner] = useState(null);
